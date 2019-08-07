@@ -5,11 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - run:
-      - pushd hazeng-action
-      - npm install
-      - npm run build
-      - popd
+    - run: pushd hazeng-action && npm install && npm run build && popd
     - uses: ./hazeng-action
       with:
         minimum: '10'
