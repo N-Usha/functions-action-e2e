@@ -10,4 +10,4 @@ jobs:
         minimum: '10'
         maximum: '20'
       id: task
-    - run: echo "The random number is ${{ actions.task.outputs.result }}"
+    - run: echo "The random number is ${{ steps.task.outputs.result }}"
