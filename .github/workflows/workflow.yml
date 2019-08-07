@@ -4,6 +4,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@master
     - run: echo Hello World change
     - uses: ./hello-world-action
       with:
