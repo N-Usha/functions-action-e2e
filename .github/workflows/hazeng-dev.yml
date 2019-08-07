@@ -3,7 +3,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    actions:
+    steps:
     - run: echo hazeng-dev
     - uses: ./hazeng-action
       with:
