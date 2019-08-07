@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@actions/core": "0.0.0",
+    "@actions/core": "file:../tmp/toolkit/actions-core-0.0.0.tgz",
     "@types/lodash": "^4.14.136",
     "lodash": "^4.17.15",
     "typescript": "^3.5.3"
