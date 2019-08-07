@@ -1,0 +1,13 @@
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    actions:
+    - run: echo hazeng-dev
+    - uses: ./hazeng-action
+      with:
+        minimum: '10'
+        maximum: '20'
+      id: task
+    - run: echo "The random number is ${{ actions.task.outputs.result }}"

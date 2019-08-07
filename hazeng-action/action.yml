@@ -1,0 +1,20 @@
+name: 'Hazeng Action'
+description: 'Random Number Generator'
+inputs:
+  maximum: # input
+    description: 'maximum the number can be generated'
+    required: true
+    default: '99'
+  minimum: # input
+    description: 'minimum the number can be generated'
+    required: true
+    default: '0'
+outputs:
+  result: # output
+    description: 'the random number'
+branding:
+  color: 'green' # optional, decorates the entry in the GitHub Marketplace
+runs:
+  using: 'node'
+  main: 'dist/index.js'
+
