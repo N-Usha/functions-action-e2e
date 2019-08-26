@@ -17,6 +17,7 @@ function main(): void {
     switch (actionManager.state) {
         case StateConstant.Succeed:
             core.debug("Deployment Succeeded!");
+            core.setOutput("functionapp-url", "https://functions.azure.com");
             return
         case StateConstant.Fail:
             core.setFailed("Deployment Failed!");

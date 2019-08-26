@@ -1,0 +1,16 @@
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - run: echo Hello World change
+    - uses: ./functionapp
+      with:
+        app-name: 'app-name-value',
+        runtime-stack: 'windows',
+        function-runtime: 'dotnet',
+        package: '.',
+      id: 'result'
+    - run: echo "The result is ${{ steps.result.outputs.['functionapp-url'] }}"
