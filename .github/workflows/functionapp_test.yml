@@ -13,4 +13,4 @@ jobs:
         function-runtime: 'dotnet'
         package: '.'
       id: 'result'
-    - run: echo "The result is ${{ steps.result.outputs.['functionapp-url'] }}"
+    - run: echo "The result is ${{ steps.result.outputs.functionapp-url }}"
