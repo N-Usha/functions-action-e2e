@@ -8,9 +8,9 @@ jobs:
     - run: echo Hello World change
     - uses: ./functionapp
       with:
-        app-name: 'app-name-value',
-        runtime-stack: 'windows',
-        function-runtime: 'dotnet',
-        package: '.',
+        app-name: 'app-name-value'
+        runtime-stack: 'windows'
+        function-runtime: 'dotnet'
+        package: '.'
       id: 'result'
     - run: echo "The result is ${{ steps.result.outputs.['functionapp-url'] }}"
