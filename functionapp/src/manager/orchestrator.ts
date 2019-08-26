@@ -24,7 +24,7 @@ export class Orchestrator {
             throw new NotImplementedException(`${this._state} is not implemented`);
         }
 
-        if (this._state === StateConstant.Succeed || this._state === StateConstant.Fail) {
+        if (this.isDone) {
             return;
         }
 
@@ -33,11 +33,13 @@ export class Orchestrator {
         this._state = nextState;
     }
 
-    public get isSucceeded(): boolean {
-        return this._state === StateConstant.Succeed;
+    public get isDone(): boolean {
+        return this._state === StateConstant.Succeed ||
+            this._state === StateConstant.Fail ||
+            this._state === StateConstant.Neutral;
     }
 
-    public get isFailed(): boolean {
-        return this._state === StateConstant.Fail;
+    public get state(): StateConstant {
+        return this._state;
     }
 }

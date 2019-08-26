@@ -1,3 +1,5 @@
+import { StateConstant } from './constants/state';
+
 class BaseException extends Error {
     private _inner_exception: BaseException
 
@@ -16,4 +18,10 @@ class BaseException extends Error {
 }
 
 export class NotImplementedException extends BaseException {
+}
+
+export class UnexpectedExitException extends BaseException {
+    constructor(state: StateConstant = StateConstant.Neutral) {
+        super(StateConstant[state]);
+    }
 }

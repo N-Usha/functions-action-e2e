@@ -1,6 +1,6 @@
 export enum StateConstant {
     // State when initialize Github Action
-    Initialize,
+    Initialize = 1,
 
     // Check the parameter from action.yml
     ValidateParameter,
@@ -21,5 +21,8 @@ export enum StateConstant {
     Succeed,
 
     // End state with failure
-    Fail
+    Fail,
+
+    // End state with neutral
+    Neutral
 }
