@@ -1,2 +1,3 @@
-hazeng-action/node_modules/*
-!hazeng-action/node_modules/@actions
+node_modules
+functionapp/lib
+**/*.js.map
