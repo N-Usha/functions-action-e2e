@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches:
+    - master
     - samples
 
 jobs:
@@ -19,6 +20,6 @@ jobs:
         app-name: 'hazeng-fa-hk-node-ded'
         runtime-stack: 'windows'
         function-runtime: 'node'
-        package: '.'
+        package: './sample_node_functionapp'
         id: 'result'
     - run: echo "The result is ${{ steps.result.outputs.functionapp-url }}"
