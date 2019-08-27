@@ -4,11 +4,27 @@ const state_1 = require("./constants/state");
 class BaseException extends Error {
     constructor(message = undefined, innerException = undefined) {
         super();
-        super.message = message ? message : "";
         this._innerException = innerException ? innerException : undefined;
+        super.message = message ? message : "";
     }
     GetInnerException() {
         return this._innerException;
+    }
+    GetTraceback() {
+        let errorMessages = [this.message];
+        let innerException = this._innerException;
+        while (innerException !== undefined) {
+            errorMessages.push(innerException.message);
+            innerException = innerException._innerException;
+        }
+        return errorMessages;
+    }
+    PrintTraceback(printer) {
+        const traceback = this.GetTraceback();
+        for (let i = 0; i < traceback.length; i++) {
+            const prefix = " ".repeat(i * 2);
+            printer(`${prefix}${traceback[i]}`);
+        }
     }
 }
 class NotImplementedException extends BaseException {
@@ -22,9 +38,9 @@ class UnexpectedExitException extends BaseException {
 exports.UnexpectedExitException = UnexpectedExitException;
 class ExecutionException extends BaseException {
     constructor(state, executionStage, innerException) {
-        let errorMessage = `Execution Exception on ${state_1.StateConstant[state]}`;
+        let errorMessage = `Execution Exception (state: ${state_1.StateConstant[state]})`;
         if (executionStage !== undefined) {
-            errorMessage += ` when ${executionStage}`;
+            errorMessage += ` (step: ${executionStage})`;
         }
         super(errorMessage, innerException);
     }
@@ -48,3 +64,9 @@ class ChangeContextException extends ExecutionException {
     }
 }
 exports.ChangeContextException = ChangeContextException;
+class ValidationError extends BaseException {
+    constructor(state, field, expectation) {
+        super(`At ${state_1.StateConstant[state]}, ${field} : ${expectation}.`);
+    }
+}
+exports.ValidationError = ValidationError;

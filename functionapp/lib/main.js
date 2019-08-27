@@ -10,13 +10,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const orchestrator_1 = require("./manager/orchestrator");
 const state_1 = require("./constants/state");
-const initialize_1 = require("./handlers/initialize");
+const initializer_1 = require("./handlers/initializer");
+const parameterHandler_1 = require("./handlers/parameterHandler");
+const resourceHandler_1 = require("./handlers/resourceHandler");
 const exceptions_1 = require("./exceptions");
 function main() {
     const actionManager = new orchestrator_1.Orchestrator();
-    actionManager.register(state_1.StateConstant.Initialize, new initialize_1.InitializeHandler());
+    actionManager.register(state_1.StateConstant.Initialize, new initializer_1.Initializer());
+    actionManager.register(state_1.StateConstant.ValidateParameter, new parameterHandler_1.ParameterHandler());
+    actionManager.register(state_1.StateConstant.ValidateAzureResource, new resourceHandler_1.ResourceHandler());
     while (!actionManager.isDone) {
-        actionManager.execute();
+        try {
+            actionManager.execute();
+        }
+        catch (expt) {
+            const e = expt;
+            e.PrintTraceback(core.error);
+        }
     }
     switch (actionManager.state) {
         case state_1.StateConstant.Succeed:

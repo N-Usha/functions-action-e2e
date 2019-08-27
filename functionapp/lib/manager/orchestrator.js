@@ -34,7 +34,9 @@ class Orchestrator {
             return handler.invoke(this._state, this._params, this._context);
         }
         catch (expt) {
-            throw new exceptions_1.InvocationException(this._state, expt);
+            const errorState = this._state;
+            this._state = state_1.StateConstant.Fail;
+            throw new exceptions_1.InvocationException(errorState, expt);
         }
     }
     executeChangeParams(handler) {
@@ -43,7 +45,9 @@ class Orchestrator {
                 this._params = handler.changeParams(this._state, this._params, this._context);
             }
             catch (expt) {
-                throw new exceptions_1.ChangeParamsException(this._state, expt);
+                const errorState = this._state;
+                this._state = state_1.StateConstant.Fail;
+                throw new exceptions_1.ChangeParamsException(errorState, expt);
             }
         }
     }
@@ -53,7 +57,9 @@ class Orchestrator {
                 this._context = handler.changeContext(this._state, this._params, this._context);
             }
             catch (expt) {
-                throw new exceptions_1.ChangeContextException(this._state, expt);
+                const errorState = this._state;
+                this._state = state_1.StateConstant.Fail;
+                throw new exceptions_1.ChangeContextException(errorState, expt);
             }
         }
     }

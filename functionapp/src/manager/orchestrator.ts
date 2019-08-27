@@ -51,7 +51,9 @@ export class Orchestrator {
         try {
             return handler.invoke(this._state, this._params, this._context);
         } catch (expt) {
-            throw new InvocationException(this._state, expt);
+            const errorState = this._state;
+            this._state = StateConstant.Fail;
+            throw new InvocationException(errorState, expt);
         }
     }
 
@@ -60,7 +62,9 @@ export class Orchestrator {
             try {
                 this._params = handler.changeParams(this._state, this._params, this._context);
             } catch (expt) {
-                throw new ChangeParamsException(this._state, expt);
+                const errorState = this._state;
+                this._state = StateConstant.Fail;
+                throw new ChangeParamsException(errorState, expt);
             }
         }
     }
@@ -70,7 +74,9 @@ export class Orchestrator {
             try {
                 this._context = handler.changeContext(this._state, this._params, this._context);
             } catch (expt) {
-                throw new ChangeContextException(this._state, expt);
+                const errorState = this._state;
+                this._state = StateConstant.Fail;
+                throw new ChangeContextException(errorState, expt);
             }
         }
     }

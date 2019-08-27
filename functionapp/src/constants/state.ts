@@ -2,10 +2,10 @@ export enum StateConstant {
     // State when initialize Github Action
     Initialize = 1,
 
-    // Check the parameter from action.yml
+    // Get & Check the parameter from action.yml
     ValidateParameter,
 
-    // Check if the resources does exist
+    // Get & Check if the resources does exist
     ValidateAzureResource,
 
     // Validate and zip content

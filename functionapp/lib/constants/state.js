@@ -4,9 +4,9 @@ var StateConstant;
 (function (StateConstant) {
     // State when initialize Github Action
     StateConstant[StateConstant["Initialize"] = 1] = "Initialize";
-    // Check the parameter from action.yml
+    // Get & Check the parameter from action.yml
     StateConstant[StateConstant["ValidateParameter"] = 2] = "ValidateParameter";
-    // Check if the resources does exist
+    // Get & Check if the resources does exist
     StateConstant[StateConstant["ValidateAzureResource"] = 3] = "ValidateAzureResource";
     // Validate and zip content
     StateConstant[StateConstant["PreparePublishContent"] = 4] = "PreparePublishContent";

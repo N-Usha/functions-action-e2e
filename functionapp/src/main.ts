@@ -2,16 +2,25 @@ import * as core from '@actions/core';
 
 import { Orchestrator } from './manager/orchestrator';
 import { StateConstant } from './constants/state';
-import { InitializeHandler } from './handlers/initialize';
-import { UnexpectedExitException } from './exceptions';
+import { Initializer } from './handlers/initializer';
+import { ParameterHandler } from './handlers/parameterHandler';
+import { ResourceHandler } from './handlers/resourceHandler';
+import { UnexpectedExitException, ExecutionException } from './exceptions';
 
 
 function main(): void {
     const actionManager = new Orchestrator();
-    actionManager.register(StateConstant.Initialize, new InitializeHandler());
+    actionManager.register(StateConstant.Initialize, new Initializer());
+    actionManager.register(StateConstant.ValidateParameter, new ParameterHandler());
+    actionManager.register(StateConstant.ValidateAzureResource, new ResourceHandler());
 
     while (!actionManager.isDone) {
-        actionManager.execute();
+        try {
+            actionManager.execute();
+        } catch (expt) {
+            const e: ExecutionException = expt as ExecutionException
+            e.PrintTraceback(core.error);
+        }
     }
 
     switch (actionManager.state) {
