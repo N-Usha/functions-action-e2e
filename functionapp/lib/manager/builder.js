@@ -6,13 +6,16 @@ class Builder {
     static GetDefaultActionParameters() {
         return {
             appName: undefined,
-            functionRuntime: function_runtime_1.FunctionRuntimeConstants.Dotnet,
-            runtimeStack: runtime_stack_1.RuntimeStackConstants.Windows,
+            functionRuntime: function_runtime_1.FunctionRuntimeConstant.Dotnet,
+            runtimeStack: runtime_stack_1.RuntimeStackConstant.Windows,
             package: undefined
         };
     }
     static GetDefaultActionContext() {
         return {
+            azureHttpUserAgent: undefined,
+            isLinux: false,
+            kind: undefined,
             resourceGroupName: undefined
         };
     }

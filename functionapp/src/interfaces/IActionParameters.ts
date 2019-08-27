@@ -1,9 +1,9 @@
-import { FunctionRuntimeConstants } from '../constants/function_runtime';
-import { RuntimeStackConstants } from '../constants/runtime_stack';
+import { FunctionRuntimeConstant } from '../constants/function_runtime';
+import { RuntimeStackConstant } from '../constants/runtime_stack';
 
 export interface IActionParameters {
     appName: string;
-    runtimeStack: RuntimeStackConstants;
-    functionRuntime: FunctionRuntimeConstants;
+    runtimeStack: RuntimeStackConstant;
+    functionRuntime: FunctionRuntimeConstant;
     package: string;
 }

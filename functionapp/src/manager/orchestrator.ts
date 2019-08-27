@@ -27,7 +27,7 @@ export class Orchestrator {
         this._handlers[stateName] = handler;
     }
 
-    public execute(): void {
+    public async execute(): Promise<void> {
         if (this._state === undefined || this._handlers[this._state] === undefined) {
             throw new NotImplementedException(`${this._state} is not implemented`);
         }
@@ -37,19 +37,21 @@ export class Orchestrator {
         }
 
         const handler: IOrchestratable = this._handlers[this._state];
-        let nextState: StateConstant = this.executeInvocation(handler);
-        this.executeChangeParams(handler);
-        this.executeChangeContext(handler);
+        let nextState: StateConstant = await this.executeInvocation(handler);
+        this._params = await this.executeChangeParams(handler);
+        this._context = await this.executeChangeContext(handler);
         this._state = nextState;
     }
 
-    private executeInvocation(handler: IOrchestratable): StateConstant {
+    private async executeInvocation(handler: IOrchestratable): Promise<StateConstant> {
         if (handler.invoke === undefined) {
             throw new NotImplementedException(`Handler ${this._state} does not implement invoke()`);
         }
 
         try {
-            return handler.invoke(this._state, this._params, this._context);
+            const readonlyParams: IActionParameters = { ...this._params };
+            const readonlyContext: IActionContext = { ...this._context };
+            return await handler.invoke(this._state, readonlyParams, readonlyContext);
         } catch (expt) {
             const errorState = this._state;
             this._state = StateConstant.Fail;
@@ -57,10 +59,12 @@ export class Orchestrator {
         }
     }
 
-    private executeChangeParams(handler: IOrchestratable): void {
+    private async executeChangeParams(handler: IOrchestratable): Promise<IActionParameters> {
         if (handler.changeParams !== undefined) {
             try {
-                this._params = handler.changeParams(this._state, this._params, this._context);
+                const readonlyParams: IActionParameters = { ...this._params };
+                const readonlyContext: IActionContext = { ...this._context };
+                return await handler.changeParams(this._state, readonlyParams, readonlyContext);
             } catch (expt) {
                 const errorState = this._state;
                 this._state = StateConstant.Fail;
@@ -69,10 +73,12 @@ export class Orchestrator {
         }
     }
 
-    private executeChangeContext(handler: IOrchestratable): void {
+    private async executeChangeContext(handler: IOrchestratable): Promise<IActionContext> {
         if (handler.changeContext !== undefined) {
             try {
-                this._context = handler.changeContext(this._state, this._params, this._context);
+                const readonlyParams: IActionParameters = { ...this._params };
+                const readonlyContext: IActionContext = { ...this._context };
+                return await handler.changeContext(this._state, readonlyParams, readonlyContext);
             } catch (expt) {
                 const errorState = this._state;
                 this._state = StateConstant.Fail;

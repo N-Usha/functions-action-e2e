@@ -8,7 +8,7 @@ import { ResourceHandler } from './handlers/resourceHandler';
 import { UnexpectedExitException, ExecutionException } from './exceptions';
 
 
-function main(): void {
+async function main(): Promise<void> {
     const actionManager = new Orchestrator();
     actionManager.register(StateConstant.Initialize, new Initializer());
     actionManager.register(StateConstant.ValidateParameter, new ParameterHandler());
@@ -16,7 +16,7 @@ function main(): void {
 
     while (!actionManager.isDone) {
         try {
-            actionManager.execute();
+            await actionManager.execute();
         } catch (expt) {
             const e: ExecutionException = expt as ExecutionException
             e.PrintTraceback(core.error);

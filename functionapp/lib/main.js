@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -15,34 +23,36 @@ const parameterHandler_1 = require("./handlers/parameterHandler");
 const resourceHandler_1 = require("./handlers/resourceHandler");
 const exceptions_1 = require("./exceptions");
 function main() {
-    const actionManager = new orchestrator_1.Orchestrator();
-    actionManager.register(state_1.StateConstant.Initialize, new initializer_1.Initializer());
-    actionManager.register(state_1.StateConstant.ValidateParameter, new parameterHandler_1.ParameterHandler());
-    actionManager.register(state_1.StateConstant.ValidateAzureResource, new resourceHandler_1.ResourceHandler());
-    while (!actionManager.isDone) {
-        try {
-            actionManager.execute();
+    return __awaiter(this, void 0, void 0, function* () {
+        const actionManager = new orchestrator_1.Orchestrator();
+        actionManager.register(state_1.StateConstant.Initialize, new initializer_1.Initializer());
+        actionManager.register(state_1.StateConstant.ValidateParameter, new parameterHandler_1.ParameterHandler());
+        actionManager.register(state_1.StateConstant.ValidateAzureResource, new resourceHandler_1.ResourceHandler());
+        while (!actionManager.isDone) {
+            try {
+                yield actionManager.execute();
+            }
+            catch (expt) {
+                const e = expt;
+                e.PrintTraceback(core.error);
+            }
         }
-        catch (expt) {
-            const e = expt;
-            e.PrintTraceback(core.error);
+        switch (actionManager.state) {
+            case state_1.StateConstant.Succeed:
+                core.debug("Deployment Succeeded!");
+                core.setOutput("functionapp-url", "https://functions.azure.com");
+                return;
+            case state_1.StateConstant.Fail:
+                core.setFailed("Deployment Failed!");
+                return;
+            case state_1.StateConstant.Neutral:
+                core.debug("Deployment Ends Neuturally!");
+                return;
+            default:
+                const expt = new exceptions_1.UnexpectedExitException(actionManager.state);
+                core.setFailed(expt.message);
+                throw expt;
         }
-    }
-    switch (actionManager.state) {
-        case state_1.StateConstant.Succeed:
-            core.debug("Deployment Succeeded!");
-            core.setOutput("functionapp-url", "https://functions.azure.com");
-            return;
-        case state_1.StateConstant.Fail:
-            core.setFailed("Deployment Failed!");
-            return;
-        case state_1.StateConstant.Neutral:
-            core.debug("Deployment Ends Neuturally!");
-            return;
-        default:
-            const expt = new exceptions_1.UnexpectedExitException(actionManager.state);
-            core.setFailed(expt.message);
-            throw expt;
-    }
+    });
 }
 main();

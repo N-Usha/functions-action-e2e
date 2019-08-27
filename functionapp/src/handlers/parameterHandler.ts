@@ -2,6 +2,7 @@ import * as core from '@actions/core';
 import { exist } from 'pipelines-appservice-lib/lib/Utilities/packageUtility'
 import { IOrchestratable } from '../interfaces/IOrchestratable';
 import { StateConstant } from '../constants/state';
+import { IActionContext } from '../interfaces/IActionContext';
 import { IActionParameters } from '../interfaces/IActionParameters';
 import { ValidationError } from '../exceptions';
 import { RuntimeStackUtil } from '../constants/runtime_stack';
@@ -13,7 +14,7 @@ export class ParameterHandler implements IOrchestratable {
     private _functionRuntime: string;
     private _package: string;
 
-    public invoke(): StateConstant {
+    public async invoke(): Promise<StateConstant> {
         this._appName = core.getInput("app-name");
         this._runtimeStack = core.getInput("runtime-stack");
         this._functionRuntime = core.getInput("function-runtime");
@@ -21,15 +22,13 @@ export class ParameterHandler implements IOrchestratable {
         return StateConstant.ValidateAzureResource;
     }
 
-    public changeParams(state: StateConstant): IActionParameters {
+    public async changeParams(state: StateConstant, params: IActionParameters): Promise<IActionParameters> {
         this.performValidation(state);
-        const result: IActionParameters = {
-            appName: this._appName,
-            runtimeStack: RuntimeStackUtil.FromString(this._runtimeStack),
-            functionRuntime: FunctionRuntimeUtil.FromString(this._functionRuntime),
-            package: this._package
-        };
-        return result;
+        params.appName = this._appName;
+        params.runtimeStack = RuntimeStackUtil.FromString(this._runtimeStack);
+        params.functionRuntime = FunctionRuntimeUtil.FromString(this._functionRuntime);
+        params.package = this._package;
+        return params;
     }
 
     private performValidation(state: StateConstant): void {

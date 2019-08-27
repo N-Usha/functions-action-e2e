@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -15,21 +23,23 @@ const runtime_stack_1 = require("../constants/runtime_stack");
 const function_runtime_1 = require("../constants/function_runtime");
 class ParameterHandler {
     invoke() {
-        this._appName = core.getInput("app-name");
-        this._runtimeStack = core.getInput("runtime-stack");
-        this._functionRuntime = core.getInput("function-runtime");
-        this._package = core.getInput("package");
-        return state_1.StateConstant.ValidateAzureResource;
+        return __awaiter(this, void 0, void 0, function* () {
+            this._appName = core.getInput("app-name");
+            this._runtimeStack = core.getInput("runtime-stack");
+            this._functionRuntime = core.getInput("function-runtime");
+            this._package = core.getInput("package");
+            return state_1.StateConstant.ValidateAzureResource;
+        });
     }
-    changeParams(state) {
-        this.performValidation(state);
-        const result = {
-            appName: this._appName,
-            runtimeStack: runtime_stack_1.RuntimeStackUtil.FromString(this._runtimeStack),
-            functionRuntime: function_runtime_1.FunctionRuntimeUtil.FromString(this._functionRuntime),
-            package: this._package
-        };
-        return result;
+    changeParams(state, params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.performValidation(state);
+            params.appName = this._appName;
+            params.runtimeStack = runtime_stack_1.RuntimeStackUtil.FromString(this._runtimeStack);
+            params.functionRuntime = function_runtime_1.FunctionRuntimeUtil.FromString(this._functionRuntime);
+            params.package = this._package;
+            return params;
+        });
     }
     performValidation(state) {
         // app-name

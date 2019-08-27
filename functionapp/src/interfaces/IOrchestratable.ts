@@ -13,13 +13,13 @@ export interface IOrchestratable {
 }
 
 export interface IOrchestratableInvoke {
-    (currentState: StateConstant, params: IActionParameters, context: IActionContext): StateConstant;
+    (state: StateConstant, params: IActionParameters, context: IActionContext): Promise<StateConstant>;
 }
 
 export interface IOrchestratableChangeParams {
-    (currentState: StateConstant, params: IActionParameters, context: IActionContext): IActionParameters;
+    (state: StateConstant, params: IActionParameters, context: IActionContext): Promise<IActionParameters>;
 }
 
 export interface IOrchestratableChangeContext {
-    (currentState: StateConstant, params: IActionParameters, context: IActionContext): IActionContext;
+    (state: StateConstant, params: IActionParameters, context: IActionContext): Promise<IActionContext>;
 }

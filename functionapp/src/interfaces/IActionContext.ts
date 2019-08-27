@@ -1,3 +1,6 @@
 export interface IActionContext {
-    resourceGroupName: string
+    azureHttpUserAgent: string,
+    resourceGroupName: string,
+    kind: string,
+    isLinux: boolean
 }
