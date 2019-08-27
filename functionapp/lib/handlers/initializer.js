@@ -50,3 +50,4 @@ class Initializer {
     }
 }
 exports.Initializer = Initializer;
+//# sourceMappingURL=initializer.js.map

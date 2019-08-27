@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - node_win_ded
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+    - uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - run: az functionapp list
+    - uses: ./functionapp
+      with:
+        app-name: 'hazeng-fa-hk-node-ded'
+        runtime-stack: 'windows'
+        function-runtime: 'node'
+        package: '.'
+        id: 'result'
+    - run: echo "The result is ${{ steps.result.outputs.functionapp-url }}"
