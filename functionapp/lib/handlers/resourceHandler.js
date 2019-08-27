@@ -33,4 +33,3 @@ class ResourceHandler {
     }
 }
 exports.ResourceHandler = ResourceHandler;
-//# sourceMappingURL=resourceHandler.js.map

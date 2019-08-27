@@ -15,4 +15,3 @@ class FunctionRuntimeUtil {
     }
 }
 exports.FunctionRuntimeUtil = FunctionRuntimeUtil;
-//# sourceMappingURL=function_runtime.js.map
