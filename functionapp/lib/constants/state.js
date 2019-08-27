@@ -21,4 +21,3 @@ var StateConstant;
     // End state with neutral
     StateConstant[StateConstant["Neutral"] = 9] = "Neutral";
 })(StateConstant = exports.StateConstant || (exports.StateConstant = {}));
-//# sourceMappingURL=state.js.map

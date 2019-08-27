@@ -1,18 +1,26 @@
 import { StateConstant } from '../constants/state';
+import { IActionContext } from '../interfaces/IActionContext';
+import { IActionParameters } from '../interfaces/IActionParameters';
 import { IOrchestratable } from '../interfaces/IOrchestratable';
-import { NotImplementedException } from '../exceptions';
+import {
+    NotImplementedException,
+    InvocationException,
+    ChangeParamsException,
+    ChangeContextException
+} from '../exceptions';
+import { Builder } from './builder';
 
 export class Orchestrator {
     private _state : StateConstant;
     private _handlers: { [state: string]: IOrchestratable };
-    private _params: { [param: string]: string };
-    private _context: { [key: string]: string }
+    private _params: IActionParameters;
+    private _context: IActionContext;
 
     constructor() {
         this._state = StateConstant.Initialize;
         this._handlers = {};
-        this._params = {};
-        this._context = {};
+        this._params = Builder.GetDefaultActionParameters();
+        this._context = Builder.GetDefaultActionContext();
     }
 
     public register(stateName: StateConstant, handler: IOrchestratable): void {
@@ -29,8 +37,42 @@ export class Orchestrator {
         }
 
         const handler: IOrchestratable = this._handlers[this._state];
-        const nextState: StateConstant = handler.invoke(this._state, this._params, this._context);
+        let nextState: StateConstant = this.executeInvocation(handler);
+        this.executeChangeParams(handler);
+        this.executeChangeContext(handler);
         this._state = nextState;
+    }
+
+    private executeInvocation(handler: IOrchestratable): StateConstant {
+        if (handler.invoke === undefined) {
+            throw new NotImplementedException(`Handler ${this._state} does not implement invoke()`);
+        }
+
+        try {
+            return handler.invoke(this._state, this._params, this._context);
+        } catch (expt) {
+            throw new InvocationException(this._state, expt);
+        }
+    }
+
+    private executeChangeParams(handler: IOrchestratable): void {
+        if (handler.changeParams !== undefined) {
+            try {
+                this._params = handler.changeParams(this._state, this._params, this._context);
+            } catch (expt) {
+                throw new ChangeParamsException(this._state, expt);
+            }
+        }
+    }
+
+    private executeChangeContext(handler: IOrchestratable): void {
+        if (handler.changeContext !== undefined) {
+            try {
+                this._context = handler.changeContext(this._state, this._params, this._context);
+            } catch (expt) {
+                throw new ChangeContextException(this._state, expt);
+            }
+        }
     }
 
     public get isDone(): boolean {

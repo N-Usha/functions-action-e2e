@@ -21,6 +21,7 @@ function main() {
     switch (actionManager.state) {
         case state_1.StateConstant.Succeed:
             core.debug("Deployment Succeeded!");
+            core.setOutput("functionapp-url", "https://functions.azure.com");
             return;
         case state_1.StateConstant.Fail:
             core.setFailed("Deployment Failed!");
@@ -35,4 +36,3 @@ function main() {
     }
 }
 main();
-//# sourceMappingURL=main.js.map

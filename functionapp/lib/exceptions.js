@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const state_1 = require("./constants/state");
 class BaseException extends Error {
-    constructor(message = undefined, inner_exception = undefined) {
+    constructor(message = undefined, innerException = undefined) {
         super();
         super.message = message ? message : "";
-        this._inner_exception = inner_exception ? inner_exception : null;
+        this._innerException = innerException ? innerException : undefined;
     }
     GetInnerException() {
-        return this._inner_exception;
+        return this._innerException;
     }
 }
 class NotImplementedException extends BaseException {
@@ -20,4 +20,31 @@ class UnexpectedExitException extends BaseException {
     }
 }
 exports.UnexpectedExitException = UnexpectedExitException;
-//# sourceMappingURL=exceptions.js.map
+class ExecutionException extends BaseException {
+    constructor(state, executionStage, innerException) {
+        let errorMessage = `Execution Exception on ${state_1.StateConstant[state]}`;
+        if (executionStage !== undefined) {
+            errorMessage += ` when ${executionStage}`;
+        }
+        super(errorMessage, innerException);
+    }
+}
+exports.ExecutionException = ExecutionException;
+class InvocationException extends ExecutionException {
+    constructor(state, innerException) {
+        super(state, "Invocation", innerException);
+    }
+}
+exports.InvocationException = InvocationException;
+class ChangeParamsException extends ExecutionException {
+    constructor(state, innerException) {
+        super(state, "ChangeParams", innerException);
+    }
+}
+exports.ChangeParamsException = ChangeParamsException;
+class ChangeContextException extends ExecutionException {
+    constructor(state, innerException) {
+        super(state, "ChangeContext", innerException);
+    }
+}
+exports.ChangeContextException = ChangeContextException;
