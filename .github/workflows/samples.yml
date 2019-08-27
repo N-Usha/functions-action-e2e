@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-    - node_win_ded
+    - samples
 
 jobs:
   build-and-deploy:
