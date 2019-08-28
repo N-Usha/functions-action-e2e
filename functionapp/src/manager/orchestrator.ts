@@ -82,6 +82,8 @@ export class Orchestrator {
                 this._state = StateConstant.Fail;
                 throw new ChangeParamsException(errorState, expt);
             }
+        } else {
+            return this._params;
         }
     }
 
@@ -96,6 +98,8 @@ export class Orchestrator {
                 this._state = StateConstant.Fail;
                 throw new ChangeContextException(errorState, expt);
             }
+        } else {
+            return this._context;
         }
     }
 

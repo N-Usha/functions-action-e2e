@@ -84,6 +84,9 @@ class Orchestrator {
                     throw new exceptions_1.ChangeParamsException(errorState, expt);
                 }
             }
+            else {
+                return this._params;
+            }
         });
     }
     executeChangeContext(handler) {
@@ -99,6 +102,9 @@ class Orchestrator {
                     this._state = state_1.StateConstant.Fail;
                     throw new exceptions_1.ChangeContextException(errorState, expt);
                 }
+            }
+            else {
+                return this._context;
             }
         });
     }
