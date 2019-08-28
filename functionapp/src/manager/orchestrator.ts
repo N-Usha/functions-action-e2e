@@ -39,14 +39,14 @@ export class Orchestrator {
 
         const handler: IOrchestratable = this._handlers[this._state];
 
-        core.debug(`Execution current state [${StateConstant[this._state]}]`);
-        core.debug(`Execution current params [${StateConstant[this._state]}]`);
+        core.warning(`Execution current state [${StateConstant[this._state]}]`);
+        core.warning(`Execution current params [${StateConstant[this._state]}]`);
         for (let key in this._params) {
-            core.debug(`  ${key} = ${this._params[key as keyof IActionParameters]}`);
+            core.warning(`  ${key} = ${this._params[key as keyof IActionParameters]}`);
         }
-        core.debug(`Execution next context [${StateConstant[this._state]}]`);
+        core.warning(`Execution next context [${StateConstant[this._state]}]`);
         for (let key in this._context) {
-            core.debug(`  ${key} = ${this._context[key as keyof IActionContext]}`);
+            core.warning(`  ${key} = ${this._context[key as keyof IActionContext]}`);
         }
 
         let nextState: StateConstant = await this.executeInvocation(handler);
