@@ -8,16 +8,18 @@ var StateConstant;
     StateConstant[StateConstant["ValidateParameter"] = 2] = "ValidateParameter";
     // Get & Check if the resources does exist
     StateConstant[StateConstant["ValidateAzureResource"] = 3] = "ValidateAzureResource";
-    // Validate and zip content
-    StateConstant[StateConstant["PreparePublishContent"] = 4] = "PreparePublishContent";
+    // Check if the Github project matches Azure's os-type and language
+    StateConstant[StateConstant["ValidateFunctionappSettings"] = 4] = "ValidateFunctionappSettings";
+    // Zip content and choose the proper deployment method
+    StateConstant[StateConstant["PreparePublishContent"] = 5] = "PreparePublishContent";
     // Publish content to Azure Functionapps
-    StateConstant[StateConstant["PublishContent"] = 5] = "PublishContent";
+    StateConstant[StateConstant["PublishContent"] = 6] = "PublishContent";
     // Validate if the content has been published successfully
-    StateConstant[StateConstant["ValidatePublishedContent"] = 6] = "ValidatePublishedContent";
+    StateConstant[StateConstant["ValidatePublishedContent"] = 7] = "ValidatePublishedContent";
     // End state with success
-    StateConstant[StateConstant["Succeed"] = 7] = "Succeed";
+    StateConstant[StateConstant["Succeed"] = 8] = "Succeed";
     // End state with failure
-    StateConstant[StateConstant["Fail"] = 8] = "Fail";
+    StateConstant[StateConstant["Fail"] = 9] = "Fail";
     // End state with neutral
-    StateConstant[StateConstant["Neutral"] = 9] = "Neutral";
+    StateConstant[StateConstant["Neutral"] = 10] = "Neutral";
 })(StateConstant = exports.StateConstant || (exports.StateConstant = {}));

@@ -27,7 +27,7 @@ class ParameterHandler {
             this._appName = core.getInput("app-name");
             this._runtimeStack = core.getInput("runtime-stack");
             this._functionRuntime = core.getInput("function-runtime");
-            this._package = core.getInput("package");
+            this._packagePath = core.getInput("package");
             return state_1.StateConstant.ValidateAzureResource;
         });
     }
@@ -37,8 +37,14 @@ class ParameterHandler {
             params.appName = this._appName;
             params.runtimeStack = runtime_stack_1.RuntimeStackUtil.FromString(this._runtimeStack);
             params.functionRuntime = function_runtime_1.FunctionRuntimeUtil.FromString(this._functionRuntime);
-            params.package = this._package;
+            params.packagePath = this._packagePath;
             return params;
+        });
+    }
+    changeContext(_0, _1, context) {
+        return __awaiter(this, void 0, void 0, function* () {
+            context.package = new packageUtility_1.Package(this._packagePath);
+            return context;
         });
     }
     performValidation(state) {
@@ -61,10 +67,10 @@ class ParameterHandler {
             throw new exceptions_1.ValidationError(state, "function-runtime", "can only be 'dotnet', 'powershell', 'java', 'python' or 'node'");
         }
         // package
-        if (this._package === undefined || this._package.trim() === "") {
+        if (this._packagePath === undefined || this._packagePath.trim() === "") {
             throw new exceptions_1.ValidationError(state, "package", "should not be empty");
         }
-        if (!packageUtility_1.exist(this._package)) {
+        if (!packageUtility_1.exist(this._packagePath)) {
             throw new exceptions_1.ValidationError(state, "package", "needs to be in the project");
         }
     }

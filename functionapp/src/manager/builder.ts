@@ -9,7 +9,7 @@ export class Builder {
             appName: undefined,
             functionRuntime: FunctionRuntimeConstant.Dotnet,
             runtimeStack: RuntimeStackConstant.Windows,
-            package: undefined
+            packagePath: undefined
         }
     }
 
@@ -18,7 +18,17 @@ export class Builder {
             azureHttpUserAgent: undefined,
             isLinux: false,
             kind: undefined,
-            resourceGroupName: undefined
+            resourceGroupName: undefined,
+            appService: undefined,
+            appServiceUtil: undefined,
+            deploymentId: undefined,
+            endpoint: undefined,
+            kuduService: undefined,
+            kuduServiceUtil: undefined,
+            package: undefined,
+            packageType: undefined,
+            publishContentPath: undefined,
+            publishMethod: undefined
         }
     }
 }

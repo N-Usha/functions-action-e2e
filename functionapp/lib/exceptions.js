@@ -70,3 +70,15 @@ class ValidationError extends BaseException {
     }
 }
 exports.ValidationError = ValidationError;
+class FileIOError extends BaseException {
+    constructor(state, action, message) {
+        super(`When performing file operation at ${state_1.StateConstant[state]}, ${action} : ${message}`);
+    }
+}
+exports.FileIOError = FileIOError;
+class AzureResourceError extends BaseException {
+    constructor(state, action, message) {
+        super(`When request Azure resource at ${state_1.StateConstant[state]}, ${action} : ${message}`);
+    }
+}
+exports.AzureResourceError = AzureResourceError;

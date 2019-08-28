@@ -8,7 +8,7 @@ class Builder {
             appName: undefined,
             functionRuntime: function_runtime_1.FunctionRuntimeConstant.Dotnet,
             runtimeStack: runtime_stack_1.RuntimeStackConstant.Windows,
-            package: undefined
+            packagePath: undefined
         };
     }
     static GetDefaultActionContext() {
@@ -16,7 +16,17 @@ class Builder {
             azureHttpUserAgent: undefined,
             isLinux: false,
             kind: undefined,
-            resourceGroupName: undefined
+            resourceGroupName: undefined,
+            appService: undefined,
+            appServiceUtil: undefined,
+            deploymentId: undefined,
+            endpoint: undefined,
+            kuduService: undefined,
+            kuduServiceUtil: undefined,
+            package: undefined,
+            packageType: undefined,
+            publishContentPath: undefined,
+            publishMethod: undefined
         };
     }
 }

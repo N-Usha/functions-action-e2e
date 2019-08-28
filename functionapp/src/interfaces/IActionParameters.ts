@@ -5,5 +5,5 @@ export interface IActionParameters {
     appName: string;
     runtimeStack: RuntimeStackConstant;
     functionRuntime: FunctionRuntimeConstant;
-    package: string;
+    packagePath: string;
 }

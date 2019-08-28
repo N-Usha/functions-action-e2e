@@ -79,3 +79,15 @@ export class ValidationError extends BaseException {
         super(`At ${StateConstant[state]}, ${field} : ${expectation}.`);
     }
 }
+
+export class FileIOError extends BaseException {
+    constructor(state: StateConstant, action: string, message: string) {
+        super(`When performing file operation at ${StateConstant[state]}, ${action} : ${message}`);
+    }
+}
+
+export class AzureResourceError extends BaseException {
+    constructor(state: StateConstant, action: string, message: string) {
+        super(`When request Azure resource at ${StateConstant[state]}, ${action} : ${message}`);
+    }
+}

@@ -17,7 +17,16 @@ class ResourceHandler {
         return __awaiter(this, void 0, void 0, function* () {
             const endpoint = AuthorizationHandlerFactory_1.getHandler();
             yield this.getResourceDetails(state, endpoint, params.appName);
-            return state_1.StateConstant.Succeed;
+            return state_1.StateConstant.ValidateFunctionappSettings;
+        });
+    }
+    changeContext(_0, _1, context) {
+        return __awaiter(this, void 0, void 0, function* () {
+            context.isLinux = this._isLinux;
+            context.kind = this._kind;
+            context.resourceGroupName = this._resourceGroupName;
+            context.endpoint = this._endpoint;
+            return context;
         });
     }
     getResourceDetails(state, endpoint, appName) {
