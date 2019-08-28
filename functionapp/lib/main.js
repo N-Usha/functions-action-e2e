@@ -43,6 +43,7 @@ function main() {
             catch (expt) {
                 const e = expt;
                 e.PrintTraceback(core.error);
+                console.trace();
             }
         }
         switch (actionManager.state) {

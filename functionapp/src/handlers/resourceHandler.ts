@@ -14,8 +14,8 @@ export class ResourceHandler implements IOrchestratable {
     private _endpoint: IAuthorizationHandler;
 
     public async invoke(state: StateConstant, params: IActionParameters): Promise<StateConstant> {
-        const endpoint: IAuthorizationHandler = getHandler();
-        await this.getResourceDetails(state, endpoint, params.appName);
+        this._endpoint = getHandler();
+        await this.getResourceDetails(state, this._endpoint, params.appName);
         return StateConstant.ValidateFunctionappSettings;
     }
 

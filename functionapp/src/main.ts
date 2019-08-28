@@ -28,6 +28,7 @@ async function main(): Promise<void> {
         } catch (expt) {
             const e: ExecutionException = expt as ExecutionException
             e.PrintTraceback(core.error);
+            console.trace();
         }
     }
 

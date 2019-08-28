@@ -15,8 +15,8 @@ const exceptions_1 = require("../exceptions");
 class ResourceHandler {
     invoke(state, params) {
         return __awaiter(this, void 0, void 0, function* () {
-            const endpoint = AuthorizationHandlerFactory_1.getHandler();
-            yield this.getResourceDetails(state, endpoint, params.appName);
+            this._endpoint = AuthorizationHandlerFactory_1.getHandler();
+            yield this.getResourceDetails(state, this._endpoint, params.appName);
             return state_1.StateConstant.ValidateFunctionappSettings;
         });
     }
