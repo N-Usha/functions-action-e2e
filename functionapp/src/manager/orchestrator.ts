@@ -37,6 +37,7 @@ export class Orchestrator {
             return;
         }
 
+        Logger.PrintCurrentState(this._state);
         Logger.PrintStateParameters(this._state, this._params);
         Logger.PrintStateContext(this._state, this._context);
 

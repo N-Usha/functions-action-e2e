@@ -10,6 +10,13 @@ export class Logger {
         be.PrintTraceback(printer);
     }
 
+    public static PrintCurrentState(
+        state: StateConstant,
+        printer: IPrinter = console.log
+    ): void {
+        printer(`[${StateConstant[state]}]`);
+    }
+
     public static PrintStateParameters(
         state: StateConstant,
         params: IActionParameters,
