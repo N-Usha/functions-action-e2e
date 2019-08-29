@@ -24,7 +24,9 @@ jobs:
       run: |
         pushd ./sample_node_functionapp
         npm install
-        npm run build
+        npm run build --if-present
+        npm run test --if-present
+        popd
     - name: 'Run Azure Functions Action'
       uses: ./functionapp
       with:
