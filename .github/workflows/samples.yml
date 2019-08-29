@@ -30,7 +30,7 @@ jobs:
     - name: 'Run Azure Functions Action'
       uses: ./functionapp
       with:
-        app-name: 'hazeng-fa-github-node-win-premium'
+        app-name: 'hazeng-fa-github-win-pre-node'
         runtime-stack: 'windows'
         function-runtime: 'node'
         package: './sample_node_functionapp'
