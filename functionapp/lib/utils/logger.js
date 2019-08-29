@@ -13,6 +13,9 @@ class Logger {
     static PrintTraceback(be, printer = core.error) {
         be.PrintTraceback(printer);
     }
+    static PrintCurrentState(state, printer = console.log) {
+        printer(`[${state_1.StateConstant[state]}]`);
+    }
     static PrintStateParameters(state, params, printer = core.debug) {
         printer(`[${state_1.StateConstant[state]}] params`);
         for (let key in params) {

@@ -30,6 +30,7 @@ class Orchestrator {
             if (this.isDone) {
                 return;
             }
+            logger_1.Logger.PrintCurrentState(this._state);
             logger_1.Logger.PrintStateParameters(this._state, this._params);
             logger_1.Logger.PrintStateContext(this._state, this._context);
             const handler = this._handlers[this._state];
