@@ -17,11 +17,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const state_1 = require("../constants/state");
+const configuration_1 = require("../constants/configuration");
+const exceptions_1 = require("../exceptions");
 class ContentValidator {
-    invoke(_0, _1, context) {
+    invoke(state, params, context) {
         return __awaiter(this, void 0, void 0, function* () {
-            const appUrl = yield context.appServiceUtil.getApplicationURL();
-            core.setOutput('functionapp-url', appUrl);
+            try {
+                yield context.appServiceUtil.pingApplication();
+            }
+            catch (expt) {
+                throw new exceptions_1.AzureResourceError(state, "pingApplication", `Failed to ping functino app ${params.appName}`, expt);
+            }
+            core.setOutput(configuration_1.ConfigurationConstant.ParamOutputResultName, `https://${params.appName}.azurewebsites.net`);
             return state_1.StateConstant.Succeed;
         });
     }

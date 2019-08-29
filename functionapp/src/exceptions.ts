@@ -1,8 +1,7 @@
-import * as os from 'os';
 import { StateConstant } from './constants/state';
-import { ITracebackPrinter } from './interfaces/ITracebackPrinter';
+import { IPrinter } from './interfaces/IPrinter';
 
-class BaseException extends Error {
+export class BaseException extends Error {
     private _innerException: BaseException
 
     constructor(
@@ -28,7 +27,7 @@ class BaseException extends Error {
         return errorMessages;
     }
 
-    public PrintTraceback(printer: ITracebackPrinter): void {
+    public PrintTraceback(printer: IPrinter): void {
         const traceback: Array<string> = this.GetTraceback();
         for (let i = 0; i < traceback.length; i++) {
             const prefix: string = " ".repeat(i * 2);
@@ -75,19 +74,19 @@ export class ChangeContextException extends ExecutionException {
 }
 
 export class ValidationError extends BaseException {
-    constructor(state: StateConstant, field: string, expectation: string) {
-        super(`At ${StateConstant[state]}, ${field} : ${expectation}.`);
+    constructor(state: StateConstant, field: string, expectation: string, innerException?: BaseException) {
+        super(`At ${StateConstant[state]}, ${field} : ${expectation}.`, innerException);
     }
 }
 
 export class FileIOError extends BaseException {
-    constructor(state: StateConstant, action: string, message: string) {
-        super(`When performing file operation at ${StateConstant[state]}, ${action} : ${message}`);
+    constructor(state: StateConstant, action: string, message: string, innerException?: BaseException) {
+        super(`When performing file operation at ${StateConstant[state]}, ${action} : ${message}`, innerException);
     }
 }
 
 export class AzureResourceError extends BaseException {
-    constructor(state: StateConstant, action: string, message: string) {
-        super(`When request Azure resource at ${StateConstant[state]}, ${action} : ${message}`);
+    constructor(state: StateConstant, action: string, message: string, innerException?: BaseException) {
+        super(`When request Azure resource at ${StateConstant[state]}, ${action} : ${message}`, innerException);
     }
 }

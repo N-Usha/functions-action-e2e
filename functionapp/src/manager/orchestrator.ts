@@ -1,4 +1,3 @@
-import * as core from '@actions/core';
 import { StateConstant } from '../constants/state';
 import { IActionContext } from '../interfaces/IActionContext';
 import { IActionParameters } from '../interfaces/IActionParameters';
@@ -9,6 +8,7 @@ import {
     ChangeParamsException,
     ChangeContextException
 } from '../exceptions';
+import { Logger } from '../utils/logger';
 import { Builder } from './builder';
 
 export class Orchestrator {
@@ -37,18 +37,10 @@ export class Orchestrator {
             return;
         }
 
+        Logger.PrintStateParameters(this._state, this._params);
+        Logger.PrintStateContext(this._state, this._context);
+
         const handler: IOrchestratable = this._handlers[this._state];
-
-        core.warning(`Execution current state [${StateConstant[this._state]}]`);
-        core.warning(`Execution current params [${StateConstant[this._state]}]`);
-        for (let key in this._params) {
-            core.warning(`  ${key} = ${this._params[key as keyof IActionParameters]}`);
-        }
-        core.warning(`Execution next context [${StateConstant[this._state]}]`);
-        for (let key in this._context) {
-            core.warning(`  ${key} = ${this._context[key as keyof IActionContext]}`);
-        }
-
         let nextState: StateConstant = await this.executeInvocation(handler);
         this._params = await this.executeChangeParams(handler);
         this._context = await this.executeChangeContext(handler);

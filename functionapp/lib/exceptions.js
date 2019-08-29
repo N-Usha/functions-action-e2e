@@ -27,6 +27,7 @@ class BaseException extends Error {
         }
     }
 }
+exports.BaseException = BaseException;
 class NotImplementedException extends BaseException {
 }
 exports.NotImplementedException = NotImplementedException;
@@ -65,20 +66,20 @@ class ChangeContextException extends ExecutionException {
 }
 exports.ChangeContextException = ChangeContextException;
 class ValidationError extends BaseException {
-    constructor(state, field, expectation) {
-        super(`At ${state_1.StateConstant[state]}, ${field} : ${expectation}.`);
+    constructor(state, field, expectation, innerException) {
+        super(`At ${state_1.StateConstant[state]}, ${field} : ${expectation}.`, innerException);
     }
 }
 exports.ValidationError = ValidationError;
 class FileIOError extends BaseException {
-    constructor(state, action, message) {
-        super(`When performing file operation at ${state_1.StateConstant[state]}, ${action} : ${message}`);
+    constructor(state, action, message, innerException) {
+        super(`When performing file operation at ${state_1.StateConstant[state]}, ${action} : ${message}`, innerException);
     }
 }
 exports.FileIOError = FileIOError;
 class AzureResourceError extends BaseException {
-    constructor(state, action, message) {
-        super(`When request Azure resource at ${state_1.StateConstant[state]}, ${action} : ${message}`);
+    constructor(state, action, message, innerException) {
+        super(`When request Azure resource at ${state_1.StateConstant[state]}, ${action} : ${message}`, innerException);
     }
 }
 exports.AzureResourceError = AzureResourceError;

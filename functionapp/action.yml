@@ -12,14 +12,14 @@ inputs:
     description: 'The language that the function will use (dotnet, powershell, java, python, node)'
     required: true
   package:
-    description: 'Path to package or folder. *.zip, *.war, *.jar or a folder to deploy'
+    description: 'Path to package or folder. *.zip or a folder to deploy'
     required: false
     default: '.'
 outputs:
   functionapp-url:
     description: 'URL that the function app gets deployed to'
 branding:
-  icon: 'webapp.svg'
+  icon: 'functionapp.svg'
 runs:
   using: 'node12'
   main: 'lib/main.js'

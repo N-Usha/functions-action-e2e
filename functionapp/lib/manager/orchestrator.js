@@ -7,17 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const core = __importStar(require("@actions/core"));
 const state_1 = require("../constants/state");
 const exceptions_1 = require("../exceptions");
+const logger_1 = require("../utils/logger");
 const builder_1 = require("./builder");
 class Orchestrator {
     constructor() {
@@ -37,16 +30,9 @@ class Orchestrator {
             if (this.isDone) {
                 return;
             }
+            logger_1.Logger.PrintStateParameters(this._state, this._params);
+            logger_1.Logger.PrintStateContext(this._state, this._context);
             const handler = this._handlers[this._state];
-            core.warning(`Execution current state [${state_1.StateConstant[this._state]}]`);
-            core.warning(`Execution current params [${state_1.StateConstant[this._state]}]`);
-            for (let key in this._params) {
-                core.warning(`  ${key} = ${this._params[key]}`);
-            }
-            core.warning(`Execution next context [${state_1.StateConstant[this._state]}]`);
-            for (let key in this._context) {
-                core.warning(`  ${key} = ${this._context[key]}`);
-            }
             let nextState = yield this.executeInvocation(handler);
             this._params = yield this.executeChangeParams(handler);
             this._context = yield this.executeChangeContext(handler);
