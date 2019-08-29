@@ -8,13 +8,8 @@ import { AzureResourceError } from '../exceptions';
 
 export class ContentValidator implements IOrchestratable {
     public async invoke(state: StateConstant, params: IActionParameters, context: IActionContext): Promise<StateConstant> {
-        try {
-            await context.appServiceUtil.pingApplication();
-        } catch (expt) {
-            throw new AzureResourceError(state,"pingApplication", `Failed to ping functino app ${params.appName}`, expt);
-        }
-
-        core.setOutput(ConfigurationConstant.ParamOutputResultName, `https://${params.appName}.azurewebsites.net`);
+        const url: string = await context.appServiceUtil.getApplicationURL();
+        core.setOutput(ConfigurationConstant.ParamOutputResultName, url);
         return StateConstant.Succeed;
     }
 }

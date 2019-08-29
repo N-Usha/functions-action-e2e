@@ -29,11 +29,11 @@ jobs:
         popd
     - name: 'Run Azure Functions Action'
       uses: ./functionapp
+      id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-node'
         runtime-stack: 'windows'
         function-runtime: 'node'
         package: './sample_node_functionapp'
-        id: 'functionapp'
     - name: 'Report Result'
-      run: echo "result = ${{ steps.functionapp.outputs.functionapp-url }}"
+      run: echo "FunctionApp URL ${{ steps.fa.outputs.functionapp-url }}"
