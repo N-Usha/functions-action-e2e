@@ -12,24 +12,19 @@ jobs:
     # macOS-latest or macOS-10.14
     runs-on: ubuntu-18.04
     steps:
-
     - name: 'Checkout Github Action'
       uses: actions/checkout@master
-
     - name: 'Login via Azure CLI'
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     - name: 'Check Azure CLI Subscription Id'
       run: az account show --query id
-
     - name: 'NPM (install, build)'
       run: |
         pushd ./sample_node_functionapp
         npm install
         npm run build
-
     - name: 'Run Azure Functions Action'
       uses: ./functionapp
       with:
@@ -38,6 +33,5 @@ jobs:
         function-runtime: 'node'
         package: './sample_node_functionapp'
         id: 'functionapp'
-
     - name: 'Report Result'
-      run: echo "Result: ${{ steps.functionapp.outputs.functionapp-url }}"
+      run: echo "result = ${{ steps.functionapp.outputs.functionapp-url }}"
