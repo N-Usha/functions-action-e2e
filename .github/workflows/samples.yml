@@ -31,7 +31,7 @@ jobs:
       uses: ./functionapp
       id: fa
       with:
-        app-name: 'hazeng-fa-github-win-pre-node'
+        app-name: 'hazeng-fa-github-win-con-node'
         runtime-stack: 'windows'
         function-runtime: 'node'
         package: './sample_node_functionapp'
