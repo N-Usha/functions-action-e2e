@@ -23,13 +23,13 @@ jobs:
     - name: 'Login via Kubernetes Docker'
       uses: azure/container-actions/docker-login@master
       with:
-        login-server: docker.io
+        login-server: hub.docker.com
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - name: 'Compose Customized DockerImage'
       run: |
-        docker build ./sample_node_container_functionapp -t "rogerxman/test:${{ github.sha }}"
-        docker push "rogerxman/test:${{ github.sha }}"
+        docker build ./sample_node_container_functionapp -t rogerxman/test:${{ github.sha }}
+        docker push rogerxman/test:${{ github.sha }}
     - name: 'Run Azure Functions Action'
       uses: ./functionapp-container
       id: fa
