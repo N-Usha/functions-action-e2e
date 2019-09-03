@@ -20,22 +20,16 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Check Azure CLI Subscription Id'
       run: az account show --query id
-    - name: 'Login via Kubernetes Docker'
-      uses: azure/container-actions/docker-login@master
-      with:
-        login-server: docker.io
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
     - name: 'Compose Customized DockerImage'
       run: |
-        docker build ./sample_node_container_functionapp -t docker.io/rogerxman/test:serious2
-        docker login
-        docker push docker.io/rogerxman/test:serious2
+        docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+        docker build ./sample_node_container_functionapp -t docker.io/rogerxman/test:serious3
+        docker push docker.io/rogerxman/test:serious3
     - name: 'Run Azure Functions Action'
       uses: ./functionapp-container
       id: fa
       with:
         app-name: 'hazeng-fa-github-container-node'
-        image: "docker.io/rogerxman/test:serious2"
+        image: "docker.io/rogerxman/test:serious3"
     - name: 'Report Result'
       run: echo "FunctionApp URL ${{ steps.fa.outputs.app-url }}"
