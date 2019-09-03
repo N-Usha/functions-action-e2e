@@ -21,7 +21,7 @@ jobs:
     - name: 'Check Azure CLI Subscription Id'
       run: az account show --query id
     - name: 'Login via Kubernetes Docker'
-      uses: azure/k8s-actions/docker-login@master
+      uses: azure/container-actions/docker-login@master
       with:
         login-server: docker.io
         username: ${{ secrets.REGISTRY_USERNAME }}
