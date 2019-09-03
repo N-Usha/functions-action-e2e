@@ -37,6 +37,12 @@ class UnexpectedExitException extends BaseException {
     }
 }
 exports.UnexpectedExitException = UnexpectedExitException;
+class UnexpectedConversion extends BaseException {
+    constructor(constantField, value) {
+        super(`Failed to convert ${value} to ${constantField}`);
+    }
+}
+exports.UnexpectedConversion = UnexpectedConversion;
 class ExecutionException extends BaseException {
     constructor(state, executionStage, innerException) {
         let errorMessage = `Execution Exception (state: ${state_1.StateConstant[state]})`;

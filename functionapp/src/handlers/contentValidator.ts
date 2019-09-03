@@ -7,7 +7,7 @@ import { ConfigurationConstant } from '../constants/configuration';
 import { AzureResourceError } from '../exceptions';
 
 export class ContentValidator implements IOrchestratable {
-    public async invoke(state: StateConstant, params: IActionParameters, context: IActionContext): Promise<StateConstant> {
+    public async invoke(_0: StateConstant, _1: IActionParameters, context: IActionContext): Promise<StateConstant> {
         const url: string = await context.appServiceUtil.getApplicationURL();
         core.setOutput(ConfigurationConstant.ParamOutputResultName, url);
         return StateConstant.Succeed;
