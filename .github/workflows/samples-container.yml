@@ -28,13 +28,14 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - name: 'Compose Customized DockerImage'
       run: |
-        docker build ./sample_node_container_functionapp -t docker.io/rogerxman/test:serious
-        docker push docker.io/rogerxman/test:serious
+        docker build ./sample_node_container_functionapp -t docker.io/rogerxman/test:serious2
+        docker login
+        docker push docker.io/rogerxman/test:serious2
     - name: 'Run Azure Functions Action'
       uses: ./functionapp-container
       id: fa
       with:
         app-name: 'hazeng-fa-github-container-node'
-        image: "docker.io/rogerxman/test:serious"
+        image: "docker.io/rogerxman/test:serious2"
     - name: 'Report Result'
       run: echo "FunctionApp URL ${{ steps.fa.outputs.app-url }}"
