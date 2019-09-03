@@ -1,4 +1,4 @@
-name: SamplesCI
+name: SamplesContainerCI
 
 on:
   push:
@@ -20,20 +20,21 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Check Azure CLI Subscription Id'
       run: az account show --query id
-    - name: 'NPM (install, build)'
+    - name: 'Login via Kubernetes Docker'
+      uses: azure/k8s-actions/docker-login@master
+      with:
+        login-server: docker.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: 'Compose Customized DockerImage'
       run: |
-        pushd ./sample_node_functionapp
-        npm install
-        npm run build --if-present
-        npm run test --if-present
-        popd
+        docker build ./sample_node_container_functionapp -t "rogerxman/test:${{ github.sha }}"
+        docker push "rogerxman/test:${{ github.sha }}"
     - name: 'Run Azure Functions Action'
-      uses: ./functionapp
+      uses: ./functionapp-container
       id: fa
       with:
-        app-name: 'hazeng-fa-github-lin-ded-node'
-        runtime-stack: 'linux'
-        function-runtime: 'node'
-        package: './sample_node_functionapp'
+        app-name: 'hazeng-fa-github-container-node'
+        image: "rogerxman/test:${{ github.sha }}"
     - name: 'Report Result'
       run: echo "FunctionApp URL ${{ steps.fa.outputs.app-url }}"
