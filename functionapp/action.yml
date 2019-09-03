@@ -16,8 +16,8 @@ inputs:
     required: false
     default: '.'
 outputs:
-  functionapp-url:
-    description: 'URL that the function app gets deployed to'
+  app-url:
+    description: 'URL to work with your function app'
 branding:
   icon: 'functionapp.svg'
 runs:
