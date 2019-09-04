@@ -28,7 +28,7 @@ class WebsiteRunFromPackageDeploy {
             const blobName = this.createBlobName();
             const blobUrl = yield this.uploadBlobFromFile(state, containerUrl, blobName, context.publishContentPath);
             const blobSasParams = this.getBlobSasQueryParams(blobName, blobServiceCredential);
-            yield this.publishToFunctionapp(state, context.appService, `${blobUrl.url}${blobSasParams}`);
+            yield this.publishToFunctionapp(state, context.appService, `${blobUrl.url}?${blobSasParams}`);
         });
     }
     static findStorageAccount(state, appService) {

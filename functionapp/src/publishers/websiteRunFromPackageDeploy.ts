@@ -27,7 +27,7 @@ export class WebsiteRunFromPackageDeploy {
         const blobName: string = this.createBlobName();
         const blobUrl: BlobURL = await this.uploadBlobFromFile(state, containerUrl, blobName, context.publishContentPath);
         const blobSasParams: string = this.getBlobSasQueryParams(blobName, blobServiceCredential);
-        await this.publishToFunctionapp(state, context.appService, `${blobUrl.url}${blobSasParams}`);
+        await this.publishToFunctionapp(state, context.appService, `${blobUrl.url}?${blobSasParams}`);
     }
 
     private static async findStorageAccount(state: StateConstant, appService: AzureAppService): Promise<IStorageAccount> {
