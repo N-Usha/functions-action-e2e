@@ -8,7 +8,7 @@ import { ResourceHandler } from './handlers/resourceHandler';
 import { AppsettingsHandler } from './handlers/appsettingsHandler';
 import { ContentPreparer } from './handlers/contentPreparer';
 import { ContentPublisher } from './handlers/contentPublisher';
-import { ContentValidator } from './handlers/contentValidator';
+import { PublishValidator } from './handlers/publishValidator';
 import { UnexpectedExitException, ExecutionException } from './exceptions';
 
 
@@ -20,15 +20,19 @@ async function main(): Promise<void> {
     actionManager.register(StateConstant.ValidateFunctionappSettings, new AppsettingsHandler());
     actionManager.register(StateConstant.PreparePublishContent, new ContentPreparer());
     actionManager.register(StateConstant.PublishContent, new ContentPublisher());
-    actionManager.register(StateConstant.ValidatePublishedContent, new ContentValidator());
+    actionManager.register(StateConstant.ValidatePublishedContent, new PublishValidator());
 
     while (!actionManager.isDone) {
         try {
             await actionManager.execute();
         } catch (expt) {
-            const e: ExecutionException = expt as ExecutionException
-            e.PrintTraceback(core.error);
-            console.trace();
+            if (expt instanceof ExecutionException) {
+                expt.PrintTraceback(core.error);
+            } else if (expt instanceof Error) {
+                core.error(expt.message);
+                core.error(expt.stack);
+            }
+            break;
         }
     }
 
@@ -38,9 +42,6 @@ async function main(): Promise<void> {
             return
         case StateConstant.Fail:
             core.setFailed("Deployment Failed!");
-            return
-        case StateConstant.Neutral:
-            core.debug("Deployment Ends Neuturally!");
             return
         default:
             const expt = new UnexpectedExitException(actionManager.state);

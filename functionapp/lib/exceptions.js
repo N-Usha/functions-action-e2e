@@ -17,10 +17,11 @@ class BaseException extends Error {
             errorMessages.push(innerException.message);
             innerException = innerException._innerException;
         }
-        if (innerException instanceof Error) {
+        if (innerException !== undefined && innerException instanceof Error) {
             errorMessages.push(innerException.message);
+            errorMessages.push(innerException.stack);
         }
-        else {
+        else if (innerException !== undefined) {
             errorMessages.push(String(innerException));
         }
         return errorMessages;

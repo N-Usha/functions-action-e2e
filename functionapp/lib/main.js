@@ -24,7 +24,7 @@ const resourceHandler_1 = require("./handlers/resourceHandler");
 const appsettingsHandler_1 = require("./handlers/appsettingsHandler");
 const contentPreparer_1 = require("./handlers/contentPreparer");
 const contentPublisher_1 = require("./handlers/contentPublisher");
-const contentValidator_1 = require("./handlers/contentValidator");
+const publishValidator_1 = require("./handlers/publishValidator");
 const exceptions_1 = require("./exceptions");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -35,15 +35,20 @@ function main() {
         actionManager.register(state_1.StateConstant.ValidateFunctionappSettings, new appsettingsHandler_1.AppsettingsHandler());
         actionManager.register(state_1.StateConstant.PreparePublishContent, new contentPreparer_1.ContentPreparer());
         actionManager.register(state_1.StateConstant.PublishContent, new contentPublisher_1.ContentPublisher());
-        actionManager.register(state_1.StateConstant.ValidatePublishedContent, new contentValidator_1.ContentValidator());
+        actionManager.register(state_1.StateConstant.ValidatePublishedContent, new publishValidator_1.PublishValidator());
         while (!actionManager.isDone) {
             try {
                 yield actionManager.execute();
             }
             catch (expt) {
-                const e = expt;
-                e.PrintTraceback(core.error);
-                console.trace();
+                if (expt instanceof exceptions_1.ExecutionException) {
+                    expt.PrintTraceback(core.error);
+                }
+                else if (expt instanceof Error) {
+                    core.error(expt.message);
+                    core.error(expt.stack);
+                }
+                break;
             }
         }
         switch (actionManager.state) {
@@ -52,9 +57,6 @@ function main() {
                 return;
             case state_1.StateConstant.Fail:
                 core.setFailed("Deployment Failed!");
-                return;
-            case state_1.StateConstant.Neutral:
-                core.debug("Deployment Ends Neuturally!");
                 return;
             default:
                 const expt = new exceptions_1.UnexpectedExitException(actionManager.state);
