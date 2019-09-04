@@ -24,7 +24,6 @@ export class ParameterHandler implements IOrchestratable {
         this._functionRuntime = core.getInput(ConfigurationConstant.ParamInFunctionRuntime);
         this._packagePath = core.getInput(ConfigurationConstant.ParamInPackagePath);
         this._functionSku = core.getInput(ConfigurationConstant.ParamInFunctionSku);
-        this.fillEmptyFields();
         this.validateFields(state);
         return StateConstant.ValidateAzureResource;
     }
@@ -43,16 +42,6 @@ export class ParameterHandler implements IOrchestratable {
     public async changeContext(_0: StateConstant, _1: IActionParameters, context: IActionContext): Promise<IActionContext> {
         context.package = new Package(this._packagePath);
         return context;
-    }
-
-    private fillEmptyFields(): void {
-        if (this._functionSku === undefined || this._functionSku.trim() === "") {
-            this._functionSku = ConfigurationConstant.DefaultFunctionSku;
-        }
-
-        if (this._packagePath === undefined || this._packagePath.trim() === "") {
-            this._packagePath = ConfigurationConstant.DefaultPackagePath;
-        }
     }
 
     private validateFields(state: StateConstant): void {

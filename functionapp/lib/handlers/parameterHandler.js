@@ -31,7 +31,6 @@ class ParameterHandler {
             this._functionRuntime = core.getInput(configuration_1.ConfigurationConstant.ParamInFunctionRuntime);
             this._packagePath = core.getInput(configuration_1.ConfigurationConstant.ParamInPackagePath);
             this._functionSku = core.getInput(configuration_1.ConfigurationConstant.ParamInFunctionSku);
-            this.fillEmptyFields();
             this.validateFields(state);
             return state_1.StateConstant.ValidateAzureResource;
         });
@@ -53,14 +52,6 @@ class ParameterHandler {
             context.package = new packageUtility_1.Package(this._packagePath);
             return context;
         });
-    }
-    fillEmptyFields() {
-        if (this._functionSku === undefined || this._functionSku.trim() === "") {
-            this._functionSku = configuration_1.ConfigurationConstant.DefaultFunctionSku;
-        }
-        if (this._packagePath === undefined || this._packagePath.trim() === "") {
-            this._packagePath = configuration_1.ConfigurationConstant.DefaultPackagePath;
-        }
     }
     validateFields(state) {
         // app-name

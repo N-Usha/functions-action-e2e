@@ -8,12 +8,13 @@ inputs:
   runtime-stack:
     description: 'The operating system that the function will run on (windows, linux)'
     required: true
-  sku:
-    description: 'The function app sku (consumption, dedicated, elasticpremium), default: dedicated'
-    required: true
   function-runtime:
     description: 'The language that the function will use (dotnet, powershell, java, python, node)'
     required: true
+  sku:
+    description: 'The function app sku (consumption, dedicated, elasticpremium), default: dedicated'
+    required: false
+    default: 'dedicated'
   package:
     description: 'Path to package or folder. *.zip or a folder to deploy'
     required: false
