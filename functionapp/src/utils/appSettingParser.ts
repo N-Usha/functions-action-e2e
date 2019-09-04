@@ -7,7 +7,7 @@ export class AppSettingParser {
         azureWebjobsStorage.trim().split(';').map(entry => {
             const keyValue: Array<string> = entry.trim().split('=');
             if (keyValue.length !== 2) {
-                throw new UnexpectedConversion('AzureWebjobsStorage', azureWebjobsStorage);
+                throw new UnexpectedConversion('AzureWebjobsStorage', entry);
             }
             result[keyValue[0]] = keyValue[1];
         });

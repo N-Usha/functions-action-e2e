@@ -37,7 +37,7 @@ class WebsiteRunFromPackageDeploy {
                     dictionary = appSettingParser_1.AppSettingParser.getAzureWebjobsStorage(appSettings.properties.AzureWebJobsStorage);
                 }
                 catch (expt) {
-                    throw new exceptions_1.ValidationError(state, 'AzureWebjobsStorage', 'Failed to convert by semicolon delimeter');
+                    throw new exceptions_1.ValidationError(state, 'AzureWebjobsStorage', 'Failed to convert by semicolon delimeter', expt);
                 }
                 storageData = {
                     AccountKey: dictionary["AccountKey"],
