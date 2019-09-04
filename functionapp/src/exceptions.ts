@@ -24,7 +24,10 @@ export class BaseException extends Error {
             errorMessages.push(innerException.message);
             innerException = innerException._innerException;
         }
+
         if (innerException instanceof Error) {
+            errorMessages.push(innerException.message);
+        } else {
             errorMessages.push(String(innerException));
         }
         return errorMessages;

@@ -18,6 +18,9 @@ class BaseException extends Error {
             innerException = innerException._innerException;
         }
         if (innerException instanceof Error) {
+            errorMessages.push(innerException.message);
+        }
+        else {
             errorMessages.push(String(innerException));
         }
         return errorMessages;

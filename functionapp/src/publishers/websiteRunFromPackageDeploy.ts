@@ -59,14 +59,13 @@ export class WebsiteRunFromPackageDeploy {
     private static async createBlobContainerIfNotExists(state: StateConstant, blobServiceUrl: ServiceURL): Promise<ContainerURL> {
         const containerName: string = ConfigurationConstant.BlobContainerName;
         const containerURL = ContainerURL.fromServiceURL(blobServiceUrl, containerName);
-        let response: ContainerCreateResponse;
         try {
-            response = await containerURL.create(Aborter.timeout(ConfigurationConstant.BlobServiceTimeoutMs));
+            await containerURL.create(Aborter.timeout(ConfigurationConstant.BlobServiceTimeoutMs));
         } catch (expt) {
+            if (expt instanceof Error && expt.message.indexOf('ContainerAlreadyExists') >= 0) {
+                return containerURL;
+            }
             throw new AzureResourceError(state, "Create Blob Container", `Failed to create container ${containerName}`, expt);
-        }
-        if (response && response.errorCode) {
-            throw new AzureResourceError(state, "Create Blob Container", `Failed with ${response.errorCode} requestId: ${response.requestId}`);
         }
         return containerURL;
     }
@@ -111,19 +110,15 @@ export class WebsiteRunFromPackageDeploy {
 
     private static async publishToFunctionapp(state: StateConstant, appService: AzureAppService, blobSasUrl: string) {
         try {
-            await appService.patchApplicationSettings({
-                'WEBSITE_RUN_FROM_PACKAGE': blobSasUrl
-            });
+            await appService.patchApplicationSettings({ 'WEBSITE_RUN_FROM_PACKAGE': blobSasUrl });
         } catch (expt) {
-            throw new AzureResourceError(state, "Patch Application Settings",
-                `Failed to set WEBSITE_RUN_FROM_PACKAGE with ${blobSasUrl}`);
+            throw new AzureResourceError(state, "Patch Application Settings", `Failed to set WEBSITE_RUN_FROM_PACKAGE with ${blobSasUrl}`);
         }
 
         try {
             await appService.syncFunctionTriggers();
         } catch (expt) {
-            throw new AzureResourceError(state, "Sync Trigger Functionapp",
-                `Failed to perform sync trigger on function app`);
+            throw new AzureResourceError(state, "Sync Trigger Functionapp", `Failed to perform sync trigger on function app`);
         }
     }
 }

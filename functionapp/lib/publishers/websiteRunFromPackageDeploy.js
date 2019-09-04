@@ -61,15 +61,14 @@ class WebsiteRunFromPackageDeploy {
         return __awaiter(this, void 0, void 0, function* () {
             const containerName = configuration_1.ConfigurationConstant.BlobContainerName;
             const containerURL = storage_blob_2.ContainerURL.fromServiceURL(blobServiceUrl, containerName);
-            let response;
             try {
-                response = yield containerURL.create(storage_blob_2.Aborter.timeout(configuration_1.ConfigurationConstant.BlobServiceTimeoutMs));
+                yield containerURL.create(storage_blob_2.Aborter.timeout(configuration_1.ConfigurationConstant.BlobServiceTimeoutMs));
             }
             catch (expt) {
+                if (expt instanceof Error && expt.message.indexOf('ContainerAlreadyExists') >= 0) {
+                    return containerURL;
+                }
                 throw new exceptions_1.AzureResourceError(state, "Create Blob Container", `Failed to create container ${containerName}`, expt);
-            }
-            if (response && response.errorCode) {
-                throw new exceptions_1.AzureResourceError(state, "Create Blob Container", `Failed with ${response.errorCode} requestId: ${response.requestId}`);
             }
             return containerURL;
         });
@@ -114,9 +113,7 @@ class WebsiteRunFromPackageDeploy {
     static publishToFunctionapp(state, appService, blobSasUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield appService.patchApplicationSettings({
-                    'WEBSITE_RUN_FROM_PACKAGE': blobSasUrl
-                });
+                yield appService.patchApplicationSettings({ 'WEBSITE_RUN_FROM_PACKAGE': blobSasUrl });
             }
             catch (expt) {
                 throw new exceptions_1.AzureResourceError(state, "Patch Application Settings", `Failed to set WEBSITE_RUN_FROM_PACKAGE with ${blobSasUrl}`);
