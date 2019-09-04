@@ -7,10 +7,10 @@
     "start": "node lib/main.js",
     "build": "tsc --project tsconfig.prod.json"
   },
-  "contributors": [
-    "Hanzhang Zeng <Hanzhang.Zeng@microsoft.com> ()",
-    "Sumiran Aggarwal <Sumiran.Aggarwal@microsoft.com> ()"
-  ],
+  "author": {
+    "name": "Hanzhang Zeng",
+    "email": "Hanzhang.Zeng@microsoft.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^12.6.8",

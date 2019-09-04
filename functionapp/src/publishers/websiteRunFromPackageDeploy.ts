@@ -115,7 +115,7 @@ export class WebsiteRunFromPackageDeploy {
         }
 
         try {
-            await appService.syncFunctionTriggers();
+            await appService.syncFunctionTriggersViaHostruntime();
         } catch (expt) {
             throw new AzureResourceError(state, "Sync Trigger Functionapp", `Failed to perform sync trigger on function app`);
         }

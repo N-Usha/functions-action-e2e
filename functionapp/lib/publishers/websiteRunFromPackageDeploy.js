@@ -119,7 +119,7 @@ class WebsiteRunFromPackageDeploy {
                 throw new exceptions_1.AzureResourceError(state, "Patch Application Settings", `Failed to set WEBSITE_RUN_FROM_PACKAGE with ${blobSasUrl}`);
             }
             try {
-                yield appService.syncFunctionTriggers();
+                yield appService.syncFunctionTriggersViaHostruntime();
             }
             catch (expt) {
                 throw new exceptions_1.AzureResourceError(state, "Sync Trigger Functionapp", `Failed to perform sync trigger on function app`);
