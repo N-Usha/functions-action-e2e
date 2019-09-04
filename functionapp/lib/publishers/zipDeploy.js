@@ -13,12 +13,12 @@ class ZipDeploy {
     static execute(state, context) {
         return __awaiter(this, void 0, void 0, function* () {
             const kuduServiceUtility = context.kuduServiceUtil;
-            const filePath = context.package.getPath();
+            const filePath = context.publishContentPath;
             try {
                 return yield kuduServiceUtility.deployUsingZipDeploy(filePath);
             }
             catch (expt) {
-                throw new exceptions_1.AzureResourceError(state, "zipDeploy", expt);
+                throw new exceptions_1.AzureResourceError(state, "zipDeploy", `Failed to use ${filePath} as ZipDeploy content`, expt);
             }
         });
     }

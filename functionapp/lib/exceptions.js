@@ -13,9 +13,12 @@ class BaseException extends Error {
     GetTraceback() {
         let errorMessages = [this.message];
         let innerException = this._innerException;
-        while (innerException !== undefined) {
+        while (innerException !== undefined && innerException instanceof BaseException) {
             errorMessages.push(innerException.message);
             innerException = innerException._innerException;
+        }
+        if (innerException instanceof Error) {
+            errorMessages.push(String(innerException));
         }
         return errorMessages;
     }

@@ -19,10 +19,13 @@ export class BaseException extends Error {
 
     public GetTraceback(): Array<string> {
         let errorMessages: Array<string> = [this.message];
-        let innerException: BaseException  = this._innerException;
-        while (innerException !== undefined) {
+        let innerException: BaseException | Error = this._innerException;
+        while (innerException !== undefined && innerException instanceof BaseException) {
             errorMessages.push(innerException.message);
             innerException = innerException._innerException;
+        }
+        if (innerException instanceof Error) {
+            errorMessages.push(String(innerException));
         }
         return errorMessages;
     }
