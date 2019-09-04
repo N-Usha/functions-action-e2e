@@ -7,7 +7,6 @@ import { IStorageAccount } from '../interfaces/IStorageAccount';
 import { AppSettingParser } from '../utils/appSettingParser';
 import { ConfigurationConstant } from '../constants/configuration';
 import { ValidationError, AzureResourceError } from '../exceptions';
-import { ContainerCreateResponse } from '@azure/storage-blob/typings/src/generated/src/models';
 
 
 export class WebsiteRunFromPackageDeploy {

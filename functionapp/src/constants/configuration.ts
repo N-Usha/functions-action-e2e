@@ -4,7 +4,7 @@ export class ConfigurationConstant {
     public static readonly ParamInFunctionRuntime: string = 'function-runtime';
     public static readonly ParamInPackagePath: string = 'package';
     public static readonly ParamInFunctionSku: string = 'sku';
-    public static readonly ParamOutResultName: string = 'functionapp-url';
+    public static readonly ParamOutResultName: string = 'app-url';
 
     public static readonly DefaultFunctionSku: string = 'dedicated';
     public static readonly DefaultPackagePath: string = '.';
