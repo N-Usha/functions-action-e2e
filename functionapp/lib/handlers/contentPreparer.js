@@ -17,6 +17,8 @@ const KuduServiceUtility_1 = require("pipelines-appservice-lib/lib/RestUtilities
 const state_1 = require("../constants/state");
 const exceptions_1 = require("../exceptions");
 const publish_method_1 = require("../constants/publish_method");
+const function_sku_1 = require("../constants/function_sku");
+const runtime_stack_1 = require("../constants/runtime_stack");
 class ContentPreparer {
     invoke(state, params, context) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -27,7 +29,7 @@ class ContentPreparer {
             this._kuduServiceUtil = new KuduServiceUtility_1.KuduServiceUtility(this._kuduService);
             this._packageType = context.package.getPackageType();
             this._publishContentPath = yield this.generatePublishContent(state, params.packagePath, this._packageType);
-            this._publishMethod = this.derivePublishMethod(state, this._packageType);
+            this._publishMethod = this.derivePublishMethod(state, this._packageType, params.runtimeStack, params.sku);
             try {
                 this._kuduServiceUtil.warmpUp();
             }
@@ -77,7 +79,12 @@ class ContentPreparer {
             }
         });
     }
-    derivePublishMethod(state, packageType) {
+    derivePublishMethod(state, packageType, osType, sku) {
+        // Linux Consumption sets WEBSITE_RUN_FROM_PACKAGE app settings
+        if (osType === runtime_stack_1.RuntimeStackConstant.Linux && sku === function_sku_1.FunctionSkuConstant.Consumption) {
+            return publish_method_1.PublishMethodConstant.WebsiteRunFromPackageDeploy;
+        }
+        // Rest Skus which support api/zipdeploy endpoint
         switch (packageType) {
             case packageUtility_1.PackageType.zip:
             case packageUtility_1.PackageType.folder:

@@ -1,14 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const function_runtime_1 = require("../constants/function_runtime");
-const runtime_stack_1 = require("../constants/runtime_stack");
 class Builder {
     static GetDefaultActionParameters() {
         return {
             appName: undefined,
-            functionRuntime: function_runtime_1.FunctionRuntimeConstant.Dotnet,
-            runtimeStack: runtime_stack_1.RuntimeStackConstant.Windows,
-            packagePath: undefined
+            functionRuntime: undefined,
+            runtimeStack: undefined,
+            packagePath: undefined,
+            sku: undefined
         };
     }
     static GetDefaultActionContext() {

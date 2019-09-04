@@ -11,15 +11,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const state_1 = require("../constants/state");
 const publish_method_1 = require("../constants/publish_method");
 const exceptions_1 = require("../exceptions");
+const publishers_1 = require("../publishers");
 class ContentPublisher {
     invoke(state, _1, context) {
         return __awaiter(this, void 0, void 0, function* () {
             switch (context.publishMethod) {
                 case publish_method_1.PublishMethodConstant.ZipDeploy:
-                    this._deploymentId = yield this.zipDeploy(state, context.kuduServiceUtil, context.publishContentPath);
+                    this._deploymentId = yield publishers_1.ZipDeploy.execute(state, context);
+                    break;
+                case publish_method_1.PublishMethodConstant.WebsiteRunFromPackageDeploy:
+                    yield publishers_1.WebsiteRunFromPackageDeploy.execute(state, context);
                     break;
                 default:
-                    throw new exceptions_1.ValidationError(state, "content publish", "only accepts ZipDeploy publish method");
+                    throw new exceptions_1.ValidationError(state, "publisher", "can only performs ZipDeploy and WebsiteRunFromPackageDeploy");
             }
             return state_1.StateConstant.ValidatePublishedContent;
         });
@@ -28,16 +32,6 @@ class ContentPublisher {
         return __awaiter(this, void 0, void 0, function* () {
             context.deploymentId = this._deploymentId;
             return context;
-        });
-    }
-    zipDeploy(state, kuduServiceUtility, filePath) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield kuduServiceUtility.deployUsingZipDeploy(filePath);
-            }
-            catch (expt) {
-                throw new exceptions_1.AzureResourceError(state, "zipDeploy", expt);
-            }
         });
     }
 }

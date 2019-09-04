@@ -7,7 +7,6 @@ import { IActionContext } from '../interfaces/IActionContext';
 import { IActionParameters } from '../interfaces/IActionParameters';
 
 export class Initializer implements IOrchestratable {
-    private readonly _github: string;
     private _userAgentPrefix: string;
     private _userAgentActionName: string;
     private _userAgentRepo: string;

@@ -2,14 +2,16 @@ import { IActionParameters } from "../interfaces/IActionParameters";
 import { FunctionRuntimeConstant } from "../constants/function_runtime";
 import { RuntimeStackConstant } from "../constants/runtime_stack";
 import { IActionContext } from "../interfaces/IActionContext";
+import { FunctionSkuConstant } from "../constants/function_sku";
 
 export class Builder {
     public static GetDefaultActionParameters(): IActionParameters {
         return {
             appName: undefined,
-            functionRuntime: FunctionRuntimeConstant.Dotnet,
-            runtimeStack: RuntimeStackConstant.Windows,
-            packagePath: undefined
+            functionRuntime: undefined,
+            runtimeStack: undefined,
+            packagePath: undefined,
+            sku: undefined
         }
     }
 

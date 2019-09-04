@@ -22,7 +22,7 @@ class ContentValidator {
     invoke(_0, _1, context) {
         return __awaiter(this, void 0, void 0, function* () {
             const url = yield context.appServiceUtil.getApplicationURL();
-            core.setOutput(configuration_1.ConfigurationConstant.ParamOutputResultName, url);
+            core.setOutput(configuration_1.ConfigurationConstant.ParamOutResultName, url);
             return state_1.StateConstant.Succeed;
         });
     }

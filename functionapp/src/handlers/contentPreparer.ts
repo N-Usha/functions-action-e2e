@@ -11,6 +11,8 @@ import { IActionContext } from "../interfaces/IActionContext";
 import { IActionParameters } from "../interfaces/IActionParameters";
 import { ValidationError, FileIOError, AzureResourceError } from "../exceptions";
 import { PublishMethodConstant } from "../constants/publish_method";
+import { FunctionSkuConstant } from "../constants/function_sku";
+import { RuntimeStackConstant } from "../constants/runtime_stack";
 
 export class ContentPreparer implements IOrchestratable {
     private _appService: AzureAppService;
@@ -29,7 +31,7 @@ export class ContentPreparer implements IOrchestratable {
         this._kuduServiceUtil = new KuduServiceUtility(this._kuduService);
         this._packageType = context.package.getPackageType();
         this._publishContentPath = await this.generatePublishContent(state, params.packagePath, this._packageType);
-        this._publishMethod = this.derivePublishMethod(state, this._packageType);
+        this._publishMethod = this.derivePublishMethod(state, this._packageType, params.runtimeStack, params.sku);
 
         try {
             this._kuduServiceUtil.warmpUp();
@@ -78,7 +80,13 @@ export class ContentPreparer implements IOrchestratable {
         }
     }
 
-    private derivePublishMethod(state: StateConstant, packageType: PackageType): PublishMethodConstant {
+    private derivePublishMethod(state: StateConstant, packageType: PackageType, osType: RuntimeStackConstant, sku: FunctionSkuConstant): PublishMethodConstant {
+        // Linux Consumption sets WEBSITE_RUN_FROM_PACKAGE app settings
+        if (osType === RuntimeStackConstant.Linux && sku === FunctionSkuConstant.Consumption) {
+            return PublishMethodConstant.WebsiteRunFromPackageDeploy;
+        }
+
+        // Rest Skus which support api/zipdeploy endpoint
         switch(packageType) {
             case PackageType.zip:
             case PackageType.folder:

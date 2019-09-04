@@ -3,5 +3,5 @@ export enum PublishMethodConstant {
     ZipDeploy = 1,
 
     // Setting WEBSITE_RUN_FROM_PACKAGE app setting
-    WebsiteRunFromPackage
+    WebsiteRunFromPackageDeploy
 }
