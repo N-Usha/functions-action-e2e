@@ -36,7 +36,7 @@ export class ContentPreparer implements IOrchestratable {
         try {
             this._kuduServiceUtil.warmpUp();
         } catch (expt) {
-            throw new AzureResourceError(state, "warmup", expt as string);
+            throw new AzureResourceError(state, "Warmup", `Failed to warmup ${params.appName}`, expt);
         }
 
         return StateConstant.PublishContent;
@@ -73,10 +73,10 @@ export class ContentPreparer implements IOrchestratable {
                 try {
                     return await archiveFolder(packagePath, "", tempoaryFilePath) as string;
                 } catch (expt) {
-                    throw new FileIOError(state, `archiving ${packagePath}`, expt as string);
+                    throw new FileIOError(state, "Generate Publish Content", `Failed to archive ${packagePath}`, expt);
                 }
             default:
-                throw new ValidationError(state, "generatePublishContent", "only accepts zip or folder");
+                throw new ValidationError(state, "Generate Publish Content", "only accepts zip or folder");
         }
     }
 
@@ -92,7 +92,7 @@ export class ContentPreparer implements IOrchestratable {
             case PackageType.folder:
                 return PublishMethodConstant.ZipDeploy;
             default:
-                throw new ValidationError(state, "derivePublishMethod", "only accepts zip or folder");
+                throw new ValidationError(state, "Derive Publish Method", "only accepts zip or folder");
         }
     }
 }

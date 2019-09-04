@@ -13,7 +13,11 @@ export class WebsiteRunFromPackageDeploy {
     public static async execute(state: StateConstant, context: IActionContext) {
         const storage: IStorageAccount = await this.findStorageAccount(state, context.appService);
         const blobServiceCredential: SharedKeyCredential = new SharedKeyCredential(storage.AccountName, storage.AccountKey);
-        const blobServicePipeline: Pipeline = StorageURL.newPipeline(blobServiceCredential);
+        const blobServicePipeline: Pipeline = StorageURL.newPipeline(blobServiceCredential, {
+            retryOptions: {
+                maxTries: 3
+            }
+        });
         const blobServiceUrl: ServiceURL = new ServiceURL(
             `https://${storage.AccountName}.blob.core.windows.net`,
             blobServicePipeline

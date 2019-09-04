@@ -34,7 +34,7 @@ class ContentPreparer {
                 this._kuduServiceUtil.warmpUp();
             }
             catch (expt) {
-                throw new exceptions_1.AzureResourceError(state, "warmup", expt);
+                throw new exceptions_1.AzureResourceError(state, "Warmup", `Failed to warmup ${params.appName}`, expt);
             }
             return state_1.StateConstant.PublishContent;
         });
@@ -72,10 +72,10 @@ class ContentPreparer {
                         return yield ziputility_js_1.archiveFolder(packagePath, "", tempoaryFilePath);
                     }
                     catch (expt) {
-                        throw new exceptions_1.FileIOError(state, `archiving ${packagePath}`, expt);
+                        throw new exceptions_1.FileIOError(state, "Generate Publish Content", `Failed to archive ${packagePath}`, expt);
                     }
                 default:
-                    throw new exceptions_1.ValidationError(state, "generatePublishContent", "only accepts zip or folder");
+                    throw new exceptions_1.ValidationError(state, "Generate Publish Content", "only accepts zip or folder");
             }
         });
     }
@@ -90,7 +90,7 @@ class ContentPreparer {
             case packageUtility_1.PackageType.folder:
                 return publish_method_1.PublishMethodConstant.ZipDeploy;
             default:
-                throw new exceptions_1.ValidationError(state, "derivePublishMethod", "only accepts zip or folder");
+                throw new exceptions_1.ValidationError(state, "Derive Publish Method", "only accepts zip or folder");
         }
     }
 }

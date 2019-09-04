@@ -18,7 +18,11 @@ class WebsiteRunFromPackageDeploy {
         return __awaiter(this, void 0, void 0, function* () {
             const storage = yield this.findStorageAccount(state, context.appService);
             const blobServiceCredential = new storage_blob_2.SharedKeyCredential(storage.AccountName, storage.AccountKey);
-            const blobServicePipeline = storage_blob_2.StorageURL.newPipeline(blobServiceCredential);
+            const blobServicePipeline = storage_blob_2.StorageURL.newPipeline(blobServiceCredential, {
+                retryOptions: {
+                    maxTries: 3
+                }
+            });
             const blobServiceUrl = new storage_blob_2.ServiceURL(`https://${storage.AccountName}.blob.core.windows.net`, blobServicePipeline);
             const containerUrl = yield this.createBlobContainerIfNotExists(state, blobServiceUrl);
             const blobName = this.createBlobName();
