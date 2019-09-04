@@ -7,6 +7,7 @@ import { IStorageAccount } from '../interfaces/IStorageAccount';
 import { AppSettingParser } from '../utils/appSettingParser';
 import { ConfigurationConstant } from '../constants/configuration';
 import { ValidationError, AzureResourceError } from '../exceptions';
+import { ContainerCreateResponse } from '@azure/storage-blob/typings/src/generated/src/models';
 
 
 export class WebsiteRunFromPackageDeploy {
@@ -56,12 +57,15 @@ export class WebsiteRunFromPackageDeploy {
     }
 
     private static async createBlobContainerIfNotExists(state: StateConstant, blobServiceUrl: ServiceURL): Promise<ContainerURL> {
-        const containerURL = ContainerURL.fromServiceURL(blobServiceUrl, ConfigurationConstant.BlobContainerName);
-        let response = await containerURL.getProperties(Aborter.timeout(ConfigurationConstant.BlobServiceTimeoutMs));
-        if (response.errorCode === "404") {
+        const containerName: string = ConfigurationConstant.BlobContainerName;
+        const containerURL = ContainerURL.fromServiceURL(blobServiceUrl, containerName);
+        let response: ContainerCreateResponse;
+        try {
             response = await containerURL.create(Aborter.timeout(ConfigurationConstant.BlobServiceTimeoutMs));
+        } catch (expt) {
+            throw new AzureResourceError(state, "Create Blob Container", `Failed to create container ${containerName}`, expt);
         }
-        if (response.errorCode) {
+        if (response && response.errorCode) {
             throw new AzureResourceError(state, "Create Blob Container", `Failed with ${response.errorCode} requestId: ${response.requestId}`);
         }
         return containerURL;
