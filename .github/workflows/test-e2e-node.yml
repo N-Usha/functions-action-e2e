@@ -19,6 +19,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
+      shell: pwsh
       run: |
         pushd ./tests/node
         npm install
@@ -32,6 +33,7 @@ jobs:
         app-name: 'hazeng-fa-github-win-con-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
+      shell: pwsh
       run: |
         sleep 10
         $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
@@ -50,6 +52,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
+      shell: pwsh
       run: |
         pushd ./tests/node
         npm install
@@ -63,6 +66,7 @@ jobs:
         app-name: 'hazeng-fa-github-win-ded-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
+      shell: pwsh
       run: |
         sleep 10
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
@@ -81,6 +85,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
+      shell: pwsh
       run: |
         pushd ./tests/node
         npm install
@@ -94,6 +99,7 @@ jobs:
         app-name: 'hazeng-fa-github-win-pre-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
+      shell: pwsh
       run: |
         sleep 10
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
@@ -112,6 +118,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
+      shell: bash
       run: |
         pushd ./tests/node
         npm install
@@ -125,6 +132,7 @@ jobs:
         app-name: 'hazeng-fa-github-lin-con-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
+      shell: bash
       run: |
         sleep 10
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
@@ -142,6 +150,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
+      shell: bash
       run: |
         pushd ./tests/node
         npm install
@@ -155,6 +164,7 @@ jobs:
         app-name: 'hazeng-fa-github-lin-ded-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
+      shell: bash
       run: |
         sleep 10
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
@@ -172,6 +182,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Compose Customized DockerImage'
+      shell: bash
       run: |
         docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
         docker build ./tests/node -t docker.io/rogerxman/github-action-e2e:github_node
@@ -183,6 +194,7 @@ jobs:
         app-name: 'hazeng-fa-github-container-node'
         image: "docker.io/rogerxman/github-action-e2e:github_node"
     - name: 'Report HttpTrigger Result'
+      shell: bash
       run: |
         sleep 10
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
