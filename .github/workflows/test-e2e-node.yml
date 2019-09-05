@@ -33,10 +33,11 @@ jobs:
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
       run: |
-        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == OK ]; then
+        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = $RESPONSE.Content -eq "OK"
+        if ($RESULT) {
           exit 0
-        fi
+        }
         exit 1
   win-ded-node:
     runs-on: windows-latest
@@ -62,10 +63,11 @@ jobs:
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
       run: |
-        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == OK ]; then
+        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = $RESPONSE.Content -eq "OK"
+        if ($RESULT) {
           exit 0
-        fi
+        }
         exit 1
   win-pre-node:
     runs-on: windows-latest
@@ -91,10 +93,11 @@ jobs:
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
       run: |
-        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == OK ]; then
+        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = $RESPONSE.Content -eq "OK"
+        if ($RESULT) {
           exit 0
-        fi
+        }
         exit 1
   lin-con-node:
     runs-on: ubuntu-latest
