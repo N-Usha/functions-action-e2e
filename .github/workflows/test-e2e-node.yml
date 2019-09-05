@@ -20,7 +20,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
       run: |
-        pushd ./samples/node
+        pushd ./tests/node
         npm install
         npm run build --if-present
         npm run test --if-present
@@ -32,7 +32,12 @@ jobs:
         app-name: 'hazeng-fa-github-win-con-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
-      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+      run: |
+        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        if [ $RESPONSE == OK ]; then
+          exit 0
+        fi
+        exit 1
   win-ded-node:
     runs-on: windows-latest
     steps:
@@ -44,7 +49,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
       run: |
-        pushd ./samples/node
+        pushd ./tests/node
         npm install
         npm run build --if-present
         npm run test --if-present
@@ -56,7 +61,12 @@ jobs:
         app-name: 'hazeng-fa-github-win-ded-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
-      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+      run: |
+        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        if [ $RESPONSE == OK ]; then
+          exit 0
+        fi
+        exit 1
   win-pre-node:
     runs-on: windows-latest
     steps:
@@ -68,7 +78,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
       run: |
-        pushd ./samples/node
+        pushd ./tests/node
         npm install
         npm run build --if-present
         npm run test --if-present
@@ -80,7 +90,12 @@ jobs:
         app-name: 'hazeng-fa-github-win-pre-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
-      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+      run: |
+        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        if [ $RESPONSE == OK ]; then
+          exit 0
+        fi
+        exit 1
   lin-con-node:
     runs-on: ubuntu-latest
     steps:
@@ -104,7 +119,12 @@ jobs:
         app-name: 'hazeng-fa-github-lin-con-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
-      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+      run: |
+        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        if [ $RESPONSE == OK ]; then
+          exit 0
+        fi
+        exit 1
   lin-ded-node:
     runs-on: ubuntu-latest
     steps:
@@ -128,7 +148,12 @@ jobs:
         app-name: 'hazeng-fa-github-lin-ded-node'
         package: './tests/node'
     - name: 'Report HttpTrigger Result'
-      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+      run: |
+        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        if [ $RESPONSE == OK ]; then
+          exit 0
+        fi
+        exit 1
   container-node:
     runs-on: ubuntu-latest
     steps:
@@ -141,13 +166,18 @@ jobs:
     - name: 'Compose Customized DockerImage'
       run: |
         docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
-        docker build ./sample_node_container_functionapp -t docker.io/rogerxman/test:github_node
-        docker push docker.io/rogerxman/test:github_node
+        docker build ./tests/node -t docker.io/rogerxman/github-action-e2e:github_node
+        docker push docker.io/rogerxman/github-action-e2e:github_node
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-container-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-container-node'
-        image: "docker.io/rogerxman/test:github_node"
+        image: "docker.io/rogerxman/github-action-e2e:github_node"
     - name: 'Report HttpTrigger Result'
-      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+      run: |
+        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        if [ $RESPONSE == OK ]; then
+          exit 0
+        fi
+        exit 1
