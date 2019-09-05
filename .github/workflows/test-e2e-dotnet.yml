@@ -18,6 +18,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Dotnet 2.2.300
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.300'
     - name: 'dotnet restore, dotnet build'
       shell: pwsh
       run: |
@@ -49,6 +53,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Dotnet 2.2.300
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.300'
     - name: 'dotnet restore, dotnet build'
       shell: pwsh
       run: |
@@ -80,6 +88,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Dotnet 2.2.300
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.300'
     - name: 'dotnet restore, dotnet build'
       shell: pwsh
       run: |
@@ -111,6 +123,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Dotnet 2.2.300
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.300'
     - name: 'dotnet restore, dotnet build'
       shell: bash
       run: |
@@ -141,6 +157,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Dotnet 2.2.300
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.300'
     - name: 'dotnet restore, dotnet build'
       shell: bash
       run: |

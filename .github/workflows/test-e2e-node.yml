@@ -18,6 +18,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
     - name: 'npm install, npm build, npm test'
       shell: pwsh
       run: |
@@ -51,6 +55,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
     - name: 'npm install, npm build, npm test'
       shell: pwsh
       run: |
@@ -84,6 +92,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
     - name: 'npm install, npm build, npm test'
       shell: pwsh
       run: |
@@ -117,6 +129,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
     - name: 'npm install, npm build, npm test'
       shell: bash
       run: |
@@ -149,6 +165,10 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
     - name: 'npm install, npm build, npm test'
       shell: bash
       run: |
