@@ -1,4 +1,4 @@
-name: Test_E2E_dotnet
+name: Test_E2E_Dotnet
 
 on:
   push:
@@ -18,18 +18,18 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'npm install, npm build, npm test'
+    - name: 'dotnet restore, dotnet build'
       shell: pwsh
       run: |
         pushd ./tests/dotnet
-        dotnet build -r win-x64 -o ./bin --configuration Release
+        dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-dotnet'
-        package: './tests/dotnet'
+        package: './tests/dotnet/output'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
@@ -49,18 +49,18 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'npm install, npm build, npm test'
+    - name: 'dotnet restore, dotnet build'
       shell: pwsh
       run: |
         pushd ./tests/dotnet
-        dotnet build -r win-x64 -o ./bin --configuration Release
+        dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-ded-dotnet'
-        package: './tests/dotnet'
+        package: './tests/dotnet/output'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
@@ -80,18 +80,18 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'npm install, npm build, npm test'
+    - name: 'dotnet restore, dotnet build'
       shell: pwsh
       run: |
         pushd ./tests/dotnet
-        dotnet build -r win-x64 -o ./bin --configuration Release
+        dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-dotnet'
-        package: './tests/dotnet'
+        package: './tests/dotnet/output'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
@@ -111,18 +111,18 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'npm install, npm build, npm test'
+    - name: 'dotnet restore, dotnet build'
       shell: bash
       run: |
         pushd ./tests/dotnet
-        dotnet build -r linux-x64 -o ./bin --configuration Release
+        dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-con-dotnet'
-        package: './tests/dotnet'
+        package: './tests/dotnet/output'
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
@@ -141,18 +141,18 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'npm install, npm build, npm test'
+    - name: 'dotnet restore, dotnet build'
       shell: bash
       run: |
         pushd ./tests/dotnet
-        dotnet build -r linux-x64 -o ./bin --configuration Release
+        dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-ded-dotnet'
-        package: './tests/dotnet'
+        package: './tests/dotnet/output'
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
