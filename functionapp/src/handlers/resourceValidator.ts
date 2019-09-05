@@ -15,6 +15,7 @@ import { IAppSettings } from '../interfaces/IAppSettings';
 import { ConfigurationConstant } from '../constants/configuration';
 import { RuntimeStackConstant } from '../constants/runtime_stack';
 import { FunctionRuntimeConstant, FunctionRuntimeUtil } from '../constants/function_runtime';
+import { Logger } from '../utils';
 
 export class ResourceValidator implements IOrchestratable {
     private _resourceGroupName: string;
@@ -88,6 +89,11 @@ export class ResourceValidator implements IOrchestratable {
             throw new AzureResourceError(state, 'Get Function App SKU', 'Function app sku should not be empty');
         }
 
+        Logger.Log('Acquired site configs from function app');
+        for (const key in configSettings.properties) {
+            Logger.Log(`- ${key} = ${configSettings.properties[key]}`);
+        }
+
         return FunctionSkuUtil.FromString(configSettings.properties.sku);
     }
 
@@ -105,6 +111,11 @@ export class ResourceValidator implements IOrchestratable {
 
         if (!appSettings.properties['AzureWebJobsStorage']) {
             throw new AzureResourceError(state, 'Get Function App Settings', 'AzureWebJobsStorage cannot be empty');
+        }
+
+        Logger.Log('Acquired app settings from function app');
+        for (const key in appSettings.properties) {
+            Logger.Log(`- ${key} = ${appSettings.properties[key]}`);
         }
 
         const result: IAppSettings = {

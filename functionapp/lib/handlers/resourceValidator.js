@@ -19,6 +19,7 @@ const function_sku_1 = require("../constants/function_sku");
 const configuration_1 = require("../constants/configuration");
 const runtime_stack_1 = require("../constants/runtime_stack");
 const function_runtime_1 = require("../constants/function_runtime");
+const utils_1 = require("../utils");
 class ResourceValidator {
     invoke(state, params) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -75,6 +76,10 @@ class ResourceValidator {
             if (configSettings === undefined || configSettings.properties === undefined) {
                 throw new exceptions_1.AzureResourceError(state, 'Get Function App SKU', 'Function app sku should not be empty');
             }
+            utils_1.Logger.Log('Acquired site configs from function app');
+            for (const key in configSettings.properties) {
+                utils_1.Logger.Log(`- ${key} = ${configSettings.properties[key]}`);
+            }
             return function_sku_1.FunctionSkuUtil.FromString(configSettings.properties.sku);
         });
     }
@@ -92,6 +97,10 @@ class ResourceValidator {
             }
             if (!appSettings.properties['AzureWebJobsStorage']) {
                 throw new exceptions_1.AzureResourceError(state, 'Get Function App Settings', 'AzureWebJobsStorage cannot be empty');
+            }
+            utils_1.Logger.Log('Acquired app settings from function app');
+            for (const key in appSettings.properties) {
+                utils_1.Logger.Log(`- ${key} = ${appSettings.properties[key]}`);
             }
             const result = {
                 AzureWebJobsStorage: appSettings.properties['AzureWebJobsStorage'],

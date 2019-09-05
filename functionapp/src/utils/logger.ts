@@ -6,12 +6,20 @@ import { IActionContext } from "../interfaces/IActionContext";
 import { StateConstant } from "../constants/state";
 
 export class Logger {
-    public static PrintTraceback(be: BaseException, printer: IPrinter = core.error): void {
-        be.PrintTraceback(printer);
+    public static Log(message: string) {
+        console.log(message);
     }
 
-    public static Print(message: string) {
-        console.log(message);
+    public static Warn(message: string) {
+        core.warning(message);
+    }
+
+    public static Error(message: string) {
+        core.error(message);
+    }
+
+    public static PrintTraceback(be: BaseException, printer: IPrinter = core.error): void {
+        be.PrintTraceback(printer);
     }
 
     public static PrintCurrentState(

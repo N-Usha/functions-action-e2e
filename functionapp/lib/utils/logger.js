@@ -10,11 +10,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const state_1 = require("../constants/state");
 class Logger {
+    static Log(message) {
+        console.log(message);
+    }
+    static Warn(message) {
+        core.warning(message);
+    }
+    static Error(message) {
+        core.error(message);
+    }
     static PrintTraceback(be, printer = core.error) {
         be.PrintTraceback(printer);
-    }
-    static Print(message) {
-        console.log(message);
     }
     static PrintCurrentState(state, printer = console.log) {
         printer(`##[${state_1.StateConstant[state]}]`);
