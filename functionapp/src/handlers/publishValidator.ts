@@ -9,6 +9,6 @@ export class PublishValidator implements IOrchestratable {
     public async invoke(_0: StateConstant, _1: IActionParameters, context: IActionContext): Promise<StateConstant> {
         const url: string = await context.appServiceUtil.getApplicationURL();
         core.setOutput(ConfigurationConstant.ParamOutResultName, url);
-        return StateConstant.Succeed;
+        return StateConstant.Succeeded;
     }
 }

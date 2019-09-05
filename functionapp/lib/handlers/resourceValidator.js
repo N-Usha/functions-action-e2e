@@ -32,7 +32,7 @@ class ResourceValidator {
             this._sku = yield this.getFunctionappSku(state, this._appService);
             this._appSettings = yield this.getFunctionappSettings(state, this._appService);
             this._language = yield this.getFunctionappLanguage(this._appSettings);
-            return state_1.StateConstant.ValidateFunctionappSettings;
+            return state_1.StateConstant.PreparePublishContent;
         });
     }
     changeContext(state, _1, context) {

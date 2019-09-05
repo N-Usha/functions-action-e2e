@@ -50,10 +50,10 @@ function main() {
             }
         }
         switch (actionManager.state) {
-            case state_1.StateConstant.Succeed:
+            case state_1.StateConstant.Succeeded:
                 core.debug("Deployment Succeeded!");
                 return;
-            case state_1.StateConstant.Fail:
+            case state_1.StateConstant.Failed:
                 core.setFailed("Deployment Failed!");
                 return;
             default:

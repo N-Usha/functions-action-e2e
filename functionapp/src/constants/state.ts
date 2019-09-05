@@ -8,9 +8,6 @@ export enum StateConstant {
     // Get & Check if the resources does exist
     ValidateAzureResource,
 
-    // Check if the Github project matches Azure's os-type and language
-    ValidateFunctionappSettings,
-
     // Zip content and choose the proper deployment method
     PreparePublishContent,
 
@@ -21,11 +18,8 @@ export enum StateConstant {
     ValidatePublishedContent,
 
     // End state with success
-    Succeed,
+    Succeeded,
 
     // End state with failure
-    Fail,
-
-    // End state with neutral
-    Neutral
+    Failed
 }

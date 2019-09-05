@@ -47,7 +47,7 @@ export class NotImplementedException extends BaseException {
 }
 
 export class UnexpectedExitException extends BaseException {
-    constructor(state: StateConstant = StateConstant.Neutral) {
+    constructor(state: StateConstant = StateConstant.Failed) {
         super(StateConstant[state]);
     }
 }

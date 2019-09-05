@@ -44,7 +44,7 @@ export class ResourceValidator implements IOrchestratable {
         this._appSettings = await this.getFunctionappSettings(state, this._appService);
         this._language = await this.getFunctionappLanguage(this._appSettings);
 
-        return StateConstant.ValidateFunctionappSettings;
+        return StateConstant.PreparePublishContent;
     }
 
     public async changeContext(state: StateConstant, _1: IActionParameters, context: IActionContext): Promise<IActionContext> {

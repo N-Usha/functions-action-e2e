@@ -23,7 +23,7 @@ class PublishValidator {
         return __awaiter(this, void 0, void 0, function* () {
             const url = yield context.appServiceUtil.getApplicationURL();
             core.setOutput(configuration_1.ConfigurationConstant.ParamOutResultName, url);
-            return state_1.StateConstant.Succeed;
+            return state_1.StateConstant.Succeeded;
         });
     }
 }

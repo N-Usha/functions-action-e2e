@@ -35,10 +35,10 @@ async function main(): Promise<void> {
     }
 
     switch (actionManager.state) {
-        case StateConstant.Succeed:
+        case StateConstant.Succeeded:
             core.debug("Deployment Succeeded!");
             return
-        case StateConstant.Fail:
+        case StateConstant.Failed:
             core.setFailed("Deployment Failed!");
             return
         default:

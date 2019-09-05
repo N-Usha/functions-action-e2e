@@ -30,7 +30,7 @@ export class Orchestrator {
 
     public async execute(): Promise<void> {
         if (this._state === undefined || this._handlers[this._state] === undefined) {
-            throw new NotImplementedException(`${this._state} is not implemented`);
+            throw new NotImplementedException(`${StateConstant[this._state]} is not implemented`);
         }
 
         if (this.isDone) {
@@ -50,7 +50,7 @@ export class Orchestrator {
 
     private async executeInvocation(handler: IOrchestratable): Promise<StateConstant> {
         if (handler.invoke === undefined) {
-            throw new NotImplementedException(`Handler ${this._state} does not implement invoke()`);
+            throw new NotImplementedException(`Handler ${StateConstant[this._state]} has not implemented invoke()`);
         }
 
         try {
@@ -59,7 +59,7 @@ export class Orchestrator {
             return await handler.invoke(this._state, readonlyParams, readonlyContext);
         } catch (expt) {
             const errorState = this._state;
-            this._state = StateConstant.Fail;
+            this._state = StateConstant.Failed;
             throw new InvocationException(errorState, expt);
         }
     }
@@ -72,7 +72,7 @@ export class Orchestrator {
                 return await handler.changeParams(this._state, readonlyParams, readonlyContext);
             } catch (expt) {
                 const errorState = this._state;
-                this._state = StateConstant.Fail;
+                this._state = StateConstant.Failed;
                 throw new ChangeParamsException(errorState, expt);
             }
         } else {
@@ -88,7 +88,7 @@ export class Orchestrator {
                 return await handler.changeContext(this._state, readonlyParams, readonlyContext);
             } catch (expt) {
                 const errorState = this._state;
-                this._state = StateConstant.Fail;
+                this._state = StateConstant.Failed;
                 throw new ChangeContextException(errorState, expt);
             }
         } else {
@@ -97,9 +97,7 @@ export class Orchestrator {
     }
 
     public get isDone(): boolean {
-        return this._state === StateConstant.Succeed ||
-            this._state === StateConstant.Fail ||
-            this._state === StateConstant.Neutral;
+        return this._state === StateConstant.Succeeded || this._state === StateConstant.Failed;
     }
 
     public get state(): StateConstant {

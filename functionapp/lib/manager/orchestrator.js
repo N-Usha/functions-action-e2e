@@ -25,7 +25,7 @@ class Orchestrator {
     execute() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this._state === undefined || this._handlers[this._state] === undefined) {
-                throw new exceptions_1.NotImplementedException(`${this._state} is not implemented`);
+                throw new exceptions_1.NotImplementedException(`${state_1.StateConstant[this._state]} is not implemented`);
             }
             if (this.isDone) {
                 return;
@@ -43,7 +43,7 @@ class Orchestrator {
     executeInvocation(handler) {
         return __awaiter(this, void 0, void 0, function* () {
             if (handler.invoke === undefined) {
-                throw new exceptions_1.NotImplementedException(`Handler ${this._state} does not implement invoke()`);
+                throw new exceptions_1.NotImplementedException(`Handler ${state_1.StateConstant[this._state]} has not implemented invoke()`);
             }
             try {
                 const readonlyParams = Object.assign({}, this._params);
@@ -52,7 +52,7 @@ class Orchestrator {
             }
             catch (expt) {
                 const errorState = this._state;
-                this._state = state_1.StateConstant.Fail;
+                this._state = state_1.StateConstant.Failed;
                 throw new exceptions_1.InvocationException(errorState, expt);
             }
         });
@@ -67,7 +67,7 @@ class Orchestrator {
                 }
                 catch (expt) {
                     const errorState = this._state;
-                    this._state = state_1.StateConstant.Fail;
+                    this._state = state_1.StateConstant.Failed;
                     throw new exceptions_1.ChangeParamsException(errorState, expt);
                 }
             }
@@ -86,7 +86,7 @@ class Orchestrator {
                 }
                 catch (expt) {
                     const errorState = this._state;
-                    this._state = state_1.StateConstant.Fail;
+                    this._state = state_1.StateConstant.Failed;
                     throw new exceptions_1.ChangeContextException(errorState, expt);
                 }
             }
@@ -96,9 +96,7 @@ class Orchestrator {
         });
     }
     get isDone() {
-        return this._state === state_1.StateConstant.Succeed ||
-            this._state === state_1.StateConstant.Fail ||
-            this._state === state_1.StateConstant.Neutral;
+        return this._state === state_1.StateConstant.Succeeded || this._state === state_1.StateConstant.Failed;
     }
     get state() {
         return this._state;
