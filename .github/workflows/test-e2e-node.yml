@@ -9,7 +9,7 @@ on:
 # windows-latest, windows-2019, or windows-2016
 # macOS-latest or macOS-10.14
 jobs:
-  hazeng-fa-github-win-con-node:
+  win-con-node:
     runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
@@ -31,9 +31,9 @@ jobs:
       with:
         app-name: 'hazeng-fa-github-win-con-node'
         package: './tests/node'
-    - name: 'Report Functionapp Location'
-      run: echo "${{ steps.fa.outputs.app-url }}"
-  hazeng-fa-github-win-ded-node:
+    - name: 'Report HttpTrigger Result'
+      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+  win-ded-node:
     runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
@@ -55,9 +55,9 @@ jobs:
       with:
         app-name: 'hazeng-fa-github-win-ded-node'
         package: './tests/node'
-    - name: 'Report Functionapp Location'
-      run: echo "${{ steps.fa.outputs.app-url }}"
-  hazeng-fa-github-win-pre-node:
+    - name: 'Report HttpTrigger Result'
+      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+  win-pre-node:
     runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
@@ -79,9 +79,9 @@ jobs:
       with:
         app-name: 'hazeng-fa-github-win-pre-node'
         package: './tests/node'
-    - name: 'Report Functionapp Location'
-      run: echo "${{ steps.fa.outputs.app-url }}"
-  hazeng-fa-github-lin-con-node:
+    - name: 'Report HttpTrigger Result'
+      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+  lin-con-node:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout Github Action'
@@ -92,7 +92,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
       run: |
-        pushd ./samples/node
+        pushd ./tests/node
         npm install
         npm run build --if-present
         npm run test --if-present
@@ -103,9 +103,9 @@ jobs:
       with:
         app-name: 'hazeng-fa-github-lin-con-node'
         package: './tests/node'
-    - name: 'Report Functionapp Location'
-      run: echo "${{ steps.fa.outputs.app-url }}"
-  hazeng-fa-github-lin-ded-node:
+    - name: 'Report HttpTrigger Result'
+      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+  lin-ded-node:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout Github Action'
@@ -116,7 +116,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'npm install, npm build, npm test'
       run: |
-        pushd ./samples/node
+        pushd ./tests/node
         npm install
         npm run build --if-present
         npm run test --if-present
@@ -127,5 +127,27 @@ jobs:
       with:
         app-name: 'hazeng-fa-github-lin-ded-node'
         package: './tests/node'
-    - name: 'Report Functionapp Location'
-      run: echo "${{ steps.fa.outputs.app-url }}"
+    - name: 'Report HttpTrigger Result'
+      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
+  container-node:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Compose Customized DockerImage'
+      run: |
+        docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+        docker build ./sample_node_container_functionapp -t docker.io/rogerxman/test:github_node
+        docker push docker.io/rogerxman/test:github_node
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-container-action@master
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-container-node'
+        image: "docker.io/rogerxman/test:github_node"
+    - name: 'Report HttpTrigger Result'
+      run: curl "${{ steps.fa.outputs.app-url }}/HttpTrigger"
