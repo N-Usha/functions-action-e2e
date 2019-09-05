@@ -10,7 +10,7 @@ class Builder {
     static GetDefaultActionContext() {
         return {
             azureHttpUserAgent: undefined,
-            isLinux: false,
+            isLinux: undefined,
             kind: undefined,
             resourceGroupName: undefined,
             appService: undefined,

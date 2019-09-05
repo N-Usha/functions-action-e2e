@@ -12,7 +12,7 @@ export class Builder {
     public static GetDefaultActionContext(): IActionContext {
         return {
             azureHttpUserAgent: undefined,
-            isLinux: false,
+            isLinux: undefined,
             kind: undefined,
             resourceGroupName: undefined,
             appService: undefined,

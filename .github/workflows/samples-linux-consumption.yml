@@ -32,9 +32,6 @@ jobs:
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-con-node'
-        runtime-stack: 'linux'
-        function-runtime: 'node'
-        sku: 'consumption'
         package: './sample_node_functionapp'
     - name: 'Report Result'
       run: echo "FunctionApp URL ${{ steps.fa.outputs.app-url }}"

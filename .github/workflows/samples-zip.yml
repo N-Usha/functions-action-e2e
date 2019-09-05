@@ -1,0 +1,30 @@
+name: SamplesZipCI
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-and-deploy:
+    # ubuntu-latest, ubuntu-18.04, or ubuntu-16.04
+    # windows-latest, windows-2019, or windows-2016
+    # macOS-latest or macOS-10.14
+    runs-on: ubuntu-18.04
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Check Azure CLI Subscription Id'
+      run: az account show --query id
+    - name: 'Run Azure Functions Action'
+      uses: ./functionapp
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-lin-zip-node'
+        package: 'sample_node_zip_functionapp\SampleNodeZipFunctionapp.zip'
+    - name: 'Report Result'
+      run: echo "FunctionApp URL ${{ steps.fa.outputs.app-url }}"
