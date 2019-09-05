@@ -25,6 +25,6 @@ jobs:
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-zip-node'
-        package: 'sample_node_zip_functionapp\SampleNodeZipFunctionapp.zip'
+        package: 'sample_node_zip_functionapp/SampleNodeZipFunctionapp.zip'
     - name: 'Report Result'
       run: echo "FunctionApp URL ${{ steps.fa.outputs.app-url }}"
