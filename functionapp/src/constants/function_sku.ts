@@ -8,14 +8,13 @@ export enum FunctionSkuConstant {
 
 export class FunctionSkuUtil {
     public static FromString(sku: string) : FunctionSkuConstant {
-        const skuLowercasedString: string = sku.toLowerCase();
-        switch (skuLowercasedString) {
-            case "consumption":
-                return FunctionSkuConstant.Consumption;
-            case "elasticpremium":
-                return FunctionSkuConstant.ElasticPremium;
-            default:
-                return FunctionSkuConstant.Dedicated;
+        const skuLowercasedString: string = sku.trim().toLowerCase();
+        if (skuLowercasedString.startsWith('dynamic')) {
+            return FunctionSkuConstant.Consumption;
         }
+        if (skuLowercasedString.startsWith('elasticpremium')) {
+            return FunctionSkuConstant.ElasticPremium;
+        }
+        return FunctionSkuConstant.Dedicated;
     }
 }

@@ -11,10 +11,14 @@ export enum FunctionRuntimeConstant {
 
 export class FunctionRuntimeUtil {
     public static FromString(language: string) : FunctionRuntimeConstant {
+        if (language === undefined) {
+            return FunctionRuntimeConstant.None;
+        }
+
         const key: string = language.charAt(0).toUpperCase() + language.toLowerCase().slice(1);
         const result: FunctionRuntimeConstant = FunctionRuntimeConstant[key as keyof typeof FunctionRuntimeConstant];
         if (result === undefined) {
-            return FunctionRuntimeConstant.None
+            throw new UnexpectedConversion('FunctionRuntimeConstant', language);
         }
         return result;
     }

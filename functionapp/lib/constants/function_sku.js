@@ -8,15 +8,14 @@ var FunctionSkuConstant;
 })(FunctionSkuConstant = exports.FunctionSkuConstant || (exports.FunctionSkuConstant = {}));
 class FunctionSkuUtil {
     static FromString(sku) {
-        const skuLowercasedString = sku.toLowerCase();
-        switch (skuLowercasedString) {
-            case "consumption":
-                return FunctionSkuConstant.Consumption;
-            case "elasticpremium":
-                return FunctionSkuConstant.ElasticPremium;
-            default:
-                return FunctionSkuConstant.Dedicated;
+        const skuLowercasedString = sku.trim().toLowerCase();
+        if (skuLowercasedString.startsWith('dynamic')) {
+            return FunctionSkuConstant.Consumption;
         }
+        if (skuLowercasedString.startsWith('elasticpremium')) {
+            return FunctionSkuConstant.ElasticPremium;
+        }
+        return FunctionSkuConstant.Dedicated;
     }
 }
 exports.FunctionSkuUtil = FunctionSkuUtil;
