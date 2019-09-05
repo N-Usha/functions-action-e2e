@@ -12,6 +12,8 @@ jobs:
     # macOS-latest or macOS-10.14
     runs-on: ubuntu-18.04
     steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
     - name: 'Login via Azure CLI'
       uses: Azure/actions/login@master
       with:
