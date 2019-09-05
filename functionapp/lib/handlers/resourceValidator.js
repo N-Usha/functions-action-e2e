@@ -88,7 +88,10 @@ class ResourceValidator {
                 throw new exceptions_1.AzureResourceError(state, 'Get Function App Settings', 'Failed to acquire app settings', expt);
             }
             if (appSettings === undefined || appSettings.properties === undefined) {
-                throw new exceptions_1.AzureResourceError(state, 'Get Function App Settings', 'Function app settings shoud not be empty');
+                throw new exceptions_1.AzureResourceError(state, 'Get Function App Settings', 'Function app settings should not be empty');
+            }
+            if (!appSettings.properties['AzureWebJobsStorage']) {
+                throw new exceptions_1.AzureResourceError(state, 'Get Function App Settings', 'AzureWebJobsStorage cannot be empty');
             }
             const result = {
                 AzureWebJobsStorage: appSettings.properties['AzureWebJobsStorage'],

@@ -12,18 +12,10 @@ export class FunctionSkuUtil {
         switch (skuLowercasedString) {
             case "consumption":
                 return FunctionSkuConstant.Consumption;
-            case "dynamic":
-                return FunctionSkuConstant.Consumption;
-            case "dedicated":
-                return FunctionSkuConstant.Dedicated;
-            case "standard":
-                return FunctionSkuConstant.Dedicated;
-            case "premium":
-                return FunctionSkuConstant.ElasticPremium;
             case "elasticpremium":
                 return FunctionSkuConstant.ElasticPremium;
             default:
-                throw new UnexpectedConversion("FunctionSkuConstant", sku);
+                return FunctionSkuConstant.Dedicated;
         }
     }
 }

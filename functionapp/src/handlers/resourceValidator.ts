@@ -100,7 +100,11 @@ export class ResourceValidator implements IOrchestratable {
         }
 
         if (appSettings === undefined || appSettings.properties === undefined) {
-            throw new AzureResourceError(state, 'Get Function App Settings', 'Function app settings shoud not be empty');
+            throw new AzureResourceError(state, 'Get Function App Settings', 'Function app settings should not be empty');
+        }
+
+        if (!appSettings.properties['AzureWebJobsStorage']) {
+            throw new AzureResourceError(state, 'Get Function App Settings', 'AzureWebJobsStorage cannot be empty');
         }
 
         const result: IAppSettings = {
