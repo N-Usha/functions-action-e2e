@@ -4,10 +4,7 @@ class Builder {
     static GetDefaultActionParameters() {
         return {
             appName: undefined,
-            functionRuntime: undefined,
-            runtimeStack: undefined,
-            packagePath: undefined,
-            sku: undefined
+            packagePath: undefined
         };
     }
     static GetDefaultActionContext() {
@@ -25,7 +22,11 @@ class Builder {
             package: undefined,
             packageType: undefined,
             publishContentPath: undefined,
-            publishMethod: undefined
+            publishMethod: undefined,
+            appSettings: undefined,
+            language: undefined,
+            os: undefined,
+            sku: undefined
         };
     }
 }

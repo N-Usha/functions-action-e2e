@@ -16,7 +16,7 @@ const exceptions_1 = require("../exceptions");
 class WebsiteRunFromPackageDeploy {
     static execute(state, context) {
         return __awaiter(this, void 0, void 0, function* () {
-            const storage = yield this.findStorageAccount(state, context.appService);
+            const storage = yield this.getStorageCredential(state, context.appSettings.AzureWebJobsStorage);
             const blobServiceCredential = new storage_blob_2.SharedKeyCredential(storage.AccountName, storage.AccountKey);
             const blobServicePipeline = storage_blob_2.StorageURL.newPipeline(blobServiceCredential, {
                 retryOptions: {
@@ -31,26 +31,20 @@ class WebsiteRunFromPackageDeploy {
             yield this.publishToFunctionapp(state, context.appService, `${blobUrl.url}?${blobSasParams}`);
         });
     }
-    static findStorageAccount(state, appService) {
+    static getStorageCredential(state, storageString) {
         return __awaiter(this, void 0, void 0, function* () {
-            const appSettings = yield appService.getApplicationSettings();
             let storageData;
-            if (appSettings && appSettings.properties && appSettings.properties.AzureWebJobsStorage) {
-                let dictionary;
-                try {
-                    dictionary = appSettingParser_1.AppSettingParser.getAzureWebjobsStorage(appSettings.properties.AzureWebJobsStorage);
-                }
-                catch (expt) {
-                    throw new exceptions_1.ValidationError(state, 'AzureWebjobsStorage', 'Failed to convert by semicolon delimeter', expt);
-                }
-                storageData = {
-                    AccountKey: dictionary["AccountKey"],
-                    AccountName: dictionary["AccountName"]
-                };
+            let dictionary;
+            try {
+                dictionary = appSettingParser_1.AppSettingParser.getAzureWebjobsStorage(storageString);
             }
-            else {
-                throw new exceptions_1.ValidationError(state, 'AzureWebjobsStorage', 'it is required by function app');
+            catch (expt) {
+                throw new exceptions_1.ValidationError(state, 'AzureWebjobsStorage', 'Failed to convert by semicolon delimeter', expt);
             }
+            storageData = {
+                AccountKey: dictionary["AccountKey"],
+                AccountName: dictionary["AccountName"]
+            };
             if (!storageData.AccountKey || !storageData.AccountName) {
                 throw new exceptions_1.ValidationError(state, 'AzureWebjobsStorage', 'Failed to fetch AccountKey or AccountName');
             }

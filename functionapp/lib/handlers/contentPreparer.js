@@ -8,12 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const azure_app_service_1 = require("pipelines-appservice-lib/lib/ArmRest/azure-app-service");
 const utility_js_1 = require("pipelines-appservice-lib/lib/Utilities/utility.js");
 const ziputility_js_1 = require("pipelines-appservice-lib/lib/Utilities/ziputility.js");
 const packageUtility_1 = require("pipelines-appservice-lib/lib/Utilities/packageUtility");
-const AzureAppServiceUtility_1 = require("pipelines-appservice-lib/lib/RestUtilities/AzureAppServiceUtility");
-const KuduServiceUtility_1 = require("pipelines-appservice-lib/lib/RestUtilities/KuduServiceUtility");
 const state_1 = require("../constants/state");
 const exceptions_1 = require("../exceptions");
 const publish_method_1 = require("../constants/publish_method");
@@ -23,15 +20,11 @@ class ContentPreparer {
     invoke(state, params, context) {
         return __awaiter(this, void 0, void 0, function* () {
             this.validatePackageType(state, context.package);
-            this._appService = new azure_app_service_1.AzureAppService(context.endpoint, context.resourceGroupName, params.appName);
-            this._appServiceUtil = new AzureAppServiceUtility_1.AzureAppServiceUtility(this._appService);
-            this._kuduService = yield this._appServiceUtil.getKuduService();
-            this._kuduServiceUtil = new KuduServiceUtility_1.KuduServiceUtility(this._kuduService);
             this._packageType = context.package.getPackageType();
             this._publishContentPath = yield this.generatePublishContent(state, params.packagePath, this._packageType);
-            this._publishMethod = this.derivePublishMethod(state, this._packageType, params.runtimeStack, params.sku);
+            this._publishMethod = this.derivePublishMethod(state, this._packageType, context.os, context.sku);
             try {
-                this._kuduServiceUtil.warmpUp();
+                context.kuduServiceUtil.warmpUp();
             }
             catch (expt) {
                 throw new exceptions_1.AzureResourceError(state, "Warmup", `Failed to warmup ${params.appName}`, expt);
@@ -41,10 +34,6 @@ class ContentPreparer {
     }
     changeContext(_0, _1, context) {
         return __awaiter(this, void 0, void 0, function* () {
-            context.appService = this._appService;
-            context.appServiceUtil = this._appServiceUtil;
-            context.kuduService = this._kuduService;
-            context.kuduServiceUtil = this._kuduServiceUtil;
             context.packageType = this._packageType;
             context.publishContentPath = this._publishContentPath;
             context.publishMethod = this._publishMethod;

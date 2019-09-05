@@ -19,8 +19,8 @@ const core = __importStar(require("@actions/core"));
 const orchestrator_1 = require("./manager/orchestrator");
 const state_1 = require("./constants/state");
 const initializer_1 = require("./handlers/initializer");
-const parameterHandler_1 = require("./handlers/parameterHandler");
-const resourceHandler_1 = require("./handlers/resourceHandler");
+const parameterValidator_1 = require("./handlers/parameterValidator");
+const resourceValidator_1 = require("./handlers/resourceValidator");
 const appsettingsHandler_1 = require("./handlers/appsettingsHandler");
 const contentPreparer_1 = require("./handlers/contentPreparer");
 const contentPublisher_1 = require("./handlers/contentPublisher");
@@ -30,8 +30,8 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const actionManager = new orchestrator_1.Orchestrator();
         actionManager.register(state_1.StateConstant.Initialize, new initializer_1.Initializer());
-        actionManager.register(state_1.StateConstant.ValidateParameter, new parameterHandler_1.ParameterHandler());
-        actionManager.register(state_1.StateConstant.ValidateAzureResource, new resourceHandler_1.ResourceHandler());
+        actionManager.register(state_1.StateConstant.ValidateParameter, new parameterValidator_1.ParameterValidator());
+        actionManager.register(state_1.StateConstant.ValidateAzureResource, new resourceValidator_1.ResourceValidator());
         actionManager.register(state_1.StateConstant.ValidateFunctionappSettings, new appsettingsHandler_1.AppsettingsHandler());
         actionManager.register(state_1.StateConstant.PreparePublishContent, new contentPreparer_1.ContentPreparer());
         actionManager.register(state_1.StateConstant.PublishContent, new contentPublisher_1.ContentPublisher());

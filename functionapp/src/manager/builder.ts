@@ -1,17 +1,11 @@
 import { IActionParameters } from "../interfaces/IActionParameters";
-import { FunctionRuntimeConstant } from "../constants/function_runtime";
-import { RuntimeStackConstant } from "../constants/runtime_stack";
 import { IActionContext } from "../interfaces/IActionContext";
-import { FunctionSkuConstant } from "../constants/function_sku";
 
 export class Builder {
     public static GetDefaultActionParameters(): IActionParameters {
         return {
             appName: undefined,
-            functionRuntime: undefined,
-            runtimeStack: undefined,
-            packagePath: undefined,
-            sku: undefined
+            packagePath: undefined
         }
     }
 
@@ -30,7 +24,11 @@ export class Builder {
             package: undefined,
             packageType: undefined,
             publishContentPath: undefined,
-            publishMethod: undefined
+            publishMethod: undefined,
+            appSettings: undefined,
+            language: undefined,
+            os: undefined,
+            sku: undefined
         }
     }
 }
