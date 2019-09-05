@@ -1,4 +1,4 @@
-name: SamplesLinuxConsumptionCI
+name: SamplesOfficialCI
 
 on:
   push:
