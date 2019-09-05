@@ -1,4 +1,4 @@
-name: Test_E2E_Node
+name: Test_E2E_dotnet
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 # windows-latest, windows-2019, or windows-2016
 # macOS-latest or macOS-10.14
 jobs:
-  win-con-node:
+  win-con-dotnet:
     runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
@@ -21,17 +21,15 @@ jobs:
     - name: 'npm install, npm build, npm test'
       shell: pwsh
       run: |
-        pushd ./tests/node
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        pushd ./tests/dotnet
+        dotnet build -r win-x64 -o ./bin --configuration Release
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
-        app-name: 'hazeng-fa-github-win-con-node'
-        package: './tests/node'
+        app-name: 'hazeng-fa-github-win-con-dotnet'
+        package: './tests/dotnet'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
@@ -42,7 +40,7 @@ jobs:
           exit 0
         }
         exit 1
-  win-ded-node:
+  win-ded-dotnet:
     runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
@@ -54,17 +52,15 @@ jobs:
     - name: 'npm install, npm build, npm test'
       shell: pwsh
       run: |
-        pushd ./tests/node
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        pushd ./tests/dotnet
+        dotnet build -r win-x64 -o ./bin --configuration Release
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
-        app-name: 'hazeng-fa-github-win-ded-node'
-        package: './tests/node'
+        app-name: 'hazeng-fa-github-win-ded-dotnet'
+        package: './tests/dotnet'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
@@ -75,7 +71,7 @@ jobs:
           exit 0
         }
         exit 1
-  win-pre-node:
+  win-pre-dotnet:
     runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
@@ -87,17 +83,15 @@ jobs:
     - name: 'npm install, npm build, npm test'
       shell: pwsh
       run: |
-        pushd ./tests/node
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        pushd ./tests/dotnet
+        dotnet build -r win-x64 -o ./bin --configuration Release
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
-        app-name: 'hazeng-fa-github-win-pre-node'
-        package: './tests/node'
+        app-name: 'hazeng-fa-github-win-pre-dotnet'
+        package: './tests/dotnet'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
@@ -108,7 +102,7 @@ jobs:
           exit 0
         }
         exit 1
-  lin-con-node:
+  lin-con-dotnet:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout Github Action'
@@ -120,17 +114,15 @@ jobs:
     - name: 'npm install, npm build, npm test'
       shell: bash
       run: |
-        pushd ./tests/node
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        pushd ./tests/dotnet
+        dotnet build -r linux-x64 -o ./bin --configuration Release
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
-        app-name: 'hazeng-fa-github-lin-con-node'
-        package: './tests/node'
+        app-name: 'hazeng-fa-github-lin-con-dotnet'
+        package: './tests/dotnet'
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
@@ -140,7 +132,7 @@ jobs:
           exit 0
         fi
         exit 1
-  lin-ded-node:
+  lin-ded-dotnet:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout Github Action'
@@ -152,17 +144,15 @@ jobs:
     - name: 'npm install, npm build, npm test'
       shell: bash
       run: |
-        pushd ./tests/node
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        pushd ./tests/dotnet
+        dotnet build -r linux-x64 -o ./bin --configuration Release
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
-        app-name: 'hazeng-fa-github-lin-ded-node'
-        package: './tests/node'
+        app-name: 'hazeng-fa-github-lin-ded-dotnet'
+        package: './tests/dotnet'
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
@@ -172,7 +162,7 @@ jobs:
           exit 0
         fi
         exit 1
-  container-node:
+  container-dotnet:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout Github Action'
@@ -185,14 +175,14 @@ jobs:
       shell: bash
       run: |
         docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
-        docker build ./tests/node -t docker.io/rogerxman/github-action-e2e:node
-        docker push docker.io/rogerxman/github-action-e2e:node
+        docker build ./tests/dotnet -t docker.io/rogerxman/github-action-e2e:dotnet
+        docker push docker.io/rogerxman/github-action-e2e:dotnet
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-container-action@master
       id: fa
       with:
-        app-name: 'hazeng-fa-github-container-node'
-        image: "docker.io/rogerxman/github-action-e2e:node"
+        app-name: 'hazeng-fa-github-container-dotnet'
+        image: "docker.io/rogerxman/github-action-e2e:dotnet"
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
