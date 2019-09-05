@@ -31,6 +31,7 @@ class ResourceValidator {
             this._kuduServiceUtil = new KuduServiceUtility_1.KuduServiceUtility(this._kuduService);
             this._sku = yield this.getFunctionappSku(state, this._appService);
             this._appSettings = yield this.getFunctionappSettings(state, this._appService);
+            this._language = yield this.getFunctionappLanguage(this._appSettings);
             return state_1.StateConstant.ValidateFunctionappSettings;
         });
     }
@@ -47,7 +48,7 @@ class ResourceValidator {
             context.appSettings = this._appSettings;
             context.os = this._isLinux ? runtime_stack_1.RuntimeStackConstant.Linux : runtime_stack_1.RuntimeStackConstant.Windows;
             context.sku = this._sku;
-            context.language = function_runtime_1.FunctionRuntimeUtil.FromString(this._appSettings.FUNCTIONS_WORKER_RUNTIME);
+            context.language = this._language;
             this.validateRuntimeSku(state, context);
             this.validateLanguage(state, context);
             return context;
@@ -57,7 +58,7 @@ class ResourceValidator {
         return __awaiter(this, void 0, void 0, function* () {
             const appDetails = yield AzureResourceFilterUtility_1.AzureResourceFilterUtility.getAppDetails(endpoint, appName);
             if (appDetails === undefined) {
-                throw new exceptions_1.ValidationError(state, "app-name", "function app should exist");
+                throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInAppName, "function app should exist");
             }
             this._resourceGroupName = appDetails["resourceGroupName"];
             this._kind = appDetails["kind"];
@@ -76,11 +77,13 @@ class ResourceValidator {
             if (configSettings === undefined || configSettings.properties === undefined) {
                 throw new exceptions_1.AzureResourceError(state, 'Get Function App SKU', 'Function app sku should not be empty');
             }
-            utils_1.Logger.Log('Acquired site configs from function app');
+            utils_1.Logger.Log('Sucessfully acquired site configs from function app!');
             for (const key in configSettings.properties) {
-                utils_1.Logger.Log(`- ${key} = ${configSettings.properties[key]}`);
+                utils_1.Logger.Debug(`- ${key} = ${configSettings.properties[key]}`);
             }
-            return function_sku_1.FunctionSkuUtil.FromString(configSettings.properties.sku);
+            const result = function_sku_1.FunctionSkuUtil.FromString(configSettings.properties.sku);
+            utils_1.Logger.Log(`Detected function app sku: ${function_sku_1.FunctionSkuConstant[result]}`);
+            return result;
         });
     }
     getFunctionappSettings(state, appService) {
@@ -98,9 +101,9 @@ class ResourceValidator {
             if (!appSettings.properties['AzureWebJobsStorage']) {
                 throw new exceptions_1.AzureResourceError(state, 'Get Function App Settings', 'AzureWebJobsStorage cannot be empty');
             }
-            utils_1.Logger.Log('Acquired app settings from function app');
+            utils_1.Logger.Log('Sucessfully acquired app settings from function app!');
             for (const key in appSettings.properties) {
-                utils_1.Logger.Log(`- ${key} = ${appSettings.properties[key]}`);
+                utils_1.Logger.Debug(`- ${key} = ${appSettings.properties[key]}`);
             }
             const result = {
                 AzureWebJobsStorage: appSettings.properties['AzureWebJobsStorage'],
@@ -109,26 +112,36 @@ class ResourceValidator {
             return result;
         });
     }
+    getFunctionappLanguage(appSettings) {
+        const result = function_runtime_1.FunctionRuntimeUtil.FromString(appSettings.FUNCTIONS_WORKER_RUNTIME);
+        if (result === function_runtime_1.FunctionRuntimeConstant.None) {
+            utils_1.Logger.Log('Detected function app language: None (V1 function app)');
+        }
+        else {
+            utils_1.Logger.Log(`Detected function app language: ${function_runtime_1.FunctionRuntimeConstant[result]}`);
+        }
+        return result;
+    }
     validateRuntimeSku(state, context) {
         // Linux Elastic Premium is not supported
         if (context.os === runtime_stack_1.RuntimeStackConstant.Linux && context.sku === function_sku_1.FunctionSkuConstant.ElasticPremium) {
-            throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInFunctionSku, "Linux ElasticPremium plan is not yet supported");
+            throw new exceptions_1.ValidationError(state, 'Function Runtime', "Linux ElasticPremium plan is not yet supported");
         }
     }
     validateLanguage(state, context) {
         // Windows Python is not supported
         if (context.os === runtime_stack_1.RuntimeStackConstant.Windows) {
             if (context.language === function_runtime_1.FunctionRuntimeConstant.Python) {
-                throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInFunctionRuntime, "Python Function App on Windows is not yet supported");
+                throw new exceptions_1.ValidationError(state, 'Function Runtime', "Python Function App on Windows is not yet supported");
             }
         }
         // Linux Java and Linux Powershell is not supported
         if (context.os === runtime_stack_1.RuntimeStackConstant.Linux) {
             if (context.language === function_runtime_1.FunctionRuntimeConstant.Java) {
-                throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInFunctionRuntime, "Java Function App on Linux is not yet supported");
+                throw new exceptions_1.ValidationError(state, 'Function Runtime', "Java Function App on Linux is not yet supported");
             }
             if (context.language === function_runtime_1.FunctionRuntimeConstant.Powershell) {
-                throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInFunctionRuntime, "PowerShell Function App on Windows is not yet supported");
+                throw new exceptions_1.ValidationError(state, 'Function Runtime', "PowerShell Function App on Windows is not yet supported");
             }
         }
     }

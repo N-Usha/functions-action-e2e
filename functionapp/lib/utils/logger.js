@@ -9,7 +9,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const state_1 = require("../constants/state");
+const parser_1 = require("./parser");
 class Logger {
+    static Debug(message) {
+        if (parser_1.Parser.IsTrueLike(process.env.GITHUB_ACTION_DEBUG)) {
+            console.log(`##[debug] ${message}`);
+        }
+    }
     static Log(message) {
         console.log(message);
     }

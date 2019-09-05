@@ -23,6 +23,7 @@ export class ResourceValidator implements IOrchestratable {
     private _kind: string;
     private _endpoint: IAuthorizationHandler;
     private _sku: FunctionSkuConstant;
+    private _language: FunctionRuntimeConstant;
     private _appSettings: IAppSettings;
 
     private _appService: AzureAppService;
@@ -41,6 +42,7 @@ export class ResourceValidator implements IOrchestratable {
 
         this._sku = await this.getFunctionappSku(state, this._appService);
         this._appSettings = await this.getFunctionappSettings(state, this._appService);
+        this._language = await this.getFunctionappLanguage(this._appSettings);
 
         return StateConstant.ValidateFunctionappSettings;
     }
@@ -59,7 +61,7 @@ export class ResourceValidator implements IOrchestratable {
         context.appSettings = this._appSettings;
         context.os = this._isLinux ? RuntimeStackConstant.Linux : RuntimeStackConstant.Windows;
         context.sku = this._sku;
-        context.language = FunctionRuntimeUtil.FromString(this._appSettings.FUNCTIONS_WORKER_RUNTIME);
+        context.language = this._language;
 
         this.validateRuntimeSku(state, context);
         this.validateLanguage(state, context);
@@ -69,7 +71,7 @@ export class ResourceValidator implements IOrchestratable {
     private async getResourceDetails(state: StateConstant, endpoint: IAuthorizationHandler, appName: string) {
         const appDetails = await AzureResourceFilterUtility.getAppDetails(endpoint, appName);
         if (appDetails === undefined) {
-            throw new ValidationError(state, "app-name", "function app should exist");
+            throw new ValidationError(state, ConfigurationConstant.ParamInAppName, "function app should exist");
         }
 
         this._resourceGroupName = appDetails["resourceGroupName"];
@@ -89,12 +91,14 @@ export class ResourceValidator implements IOrchestratable {
             throw new AzureResourceError(state, 'Get Function App SKU', 'Function app sku should not be empty');
         }
 
-        Logger.Log('Acquired site configs from function app');
+        Logger.Log('Sucessfully acquired site configs from function app!');
         for (const key in configSettings.properties) {
-            Logger.Log(`- ${key} = ${configSettings.properties[key]}`);
+            Logger.Debug(`- ${key} = ${configSettings.properties[key]}`);
         }
 
-        return FunctionSkuUtil.FromString(configSettings.properties.sku);
+        const result: FunctionSkuConstant = FunctionSkuUtil.FromString(configSettings.properties.sku);
+        Logger.Log(`Detected function app sku: ${FunctionSkuConstant[result]}`);
+        return result;
     }
 
     private async getFunctionappSettings(state: StateConstant, appService: AzureAppService): Promise<IAppSettings> {
@@ -113,9 +117,9 @@ export class ResourceValidator implements IOrchestratable {
             throw new AzureResourceError(state, 'Get Function App Settings', 'AzureWebJobsStorage cannot be empty');
         }
 
-        Logger.Log('Acquired app settings from function app');
+        Logger.Log('Sucessfully acquired app settings from function app!');
         for (const key in appSettings.properties) {
-            Logger.Log(`- ${key} = ${appSettings.properties[key]}`);
+            Logger.Debug(`- ${key} = ${appSettings.properties[key]}`);
         }
 
         const result: IAppSettings = {
@@ -125,10 +129,21 @@ export class ResourceValidator implements IOrchestratable {
         return result;
     }
 
+    private getFunctionappLanguage(appSettings: IAppSettings): FunctionRuntimeConstant {
+        const result: FunctionRuntimeConstant = FunctionRuntimeUtil.FromString(appSettings.FUNCTIONS_WORKER_RUNTIME);
+
+        if (result === FunctionRuntimeConstant.None) {
+            Logger.Log('Detected function app language: None (V1 function app)');
+        } else {
+            Logger.Log(`Detected function app language: ${FunctionRuntimeConstant[result]}`);
+        }
+        return result;
+    }
+
     private validateRuntimeSku(state: StateConstant, context: IActionContext) {
         // Linux Elastic Premium is not supported
         if (context.os === RuntimeStackConstant.Linux && context.sku === FunctionSkuConstant.ElasticPremium) {
-            throw new ValidationError(state, ConfigurationConstant.ParamInFunctionSku,
+            throw new ValidationError(state, 'Function Runtime',
                 "Linux ElasticPremium plan is not yet supported");
         }
     }
@@ -137,7 +152,7 @@ export class ResourceValidator implements IOrchestratable {
         // Windows Python is not supported
         if (context.os === RuntimeStackConstant.Windows) {
             if (context.language === FunctionRuntimeConstant.Python) {
-                throw new ValidationError(state, ConfigurationConstant.ParamInFunctionRuntime,
+                throw new ValidationError(state, 'Function Runtime',
                     "Python Function App on Windows is not yet supported");
             }
         }
@@ -145,12 +160,12 @@ export class ResourceValidator implements IOrchestratable {
         // Linux Java and Linux Powershell is not supported
         if (context.os === RuntimeStackConstant.Linux) {
             if (context.language === FunctionRuntimeConstant.Java) {
-                throw new ValidationError(state, ConfigurationConstant.ParamInFunctionRuntime,
+                throw new ValidationError(state, 'Function Runtime',
                     "Java Function App on Linux is not yet supported");
             }
 
             if (context.language === FunctionRuntimeConstant.Powershell) {
-                throw new ValidationError(state, ConfigurationConstant.ParamInFunctionRuntime,
+                throw new ValidationError(state, 'Function Runtime',
                     "PowerShell Function App on Windows is not yet supported");
             }
         }

@@ -1,2 +1,2 @@
 export { Logger } from './logger';
-export { AppSettingParser } from './appSettingParser';
+export { Parser } from './parser';

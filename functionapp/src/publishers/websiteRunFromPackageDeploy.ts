@@ -4,7 +4,7 @@ import { SharedKeyCredential, ServiceURL, StorageURL, ContainerURL, Aborter, IBl
 import { StateConstant } from '../constants/state';
 import { IActionContext } from '../interfaces/IActionContext';
 import { IStorageAccount } from '../interfaces/IStorageAccount';
-import { AppSettingParser } from '../utils/appSettingParser';
+import { Parser } from '../utils';
 import { ConfigurationConstant } from '../constants/configuration';
 import { ValidationError, AzureResourceError } from '../exceptions';
 
@@ -33,7 +33,7 @@ export class WebsiteRunFromPackageDeploy {
         let storageData: IStorageAccount;
         let dictionary: { [key: string]: string };
         try {
-            dictionary = AppSettingParser.getAzureWebjobsStorage(storageString);
+            dictionary = Parser.GetAzureWebjobsStorage(storageString);
         } catch (expt) {
             throw new ValidationError(state, 'AzureWebjobsStorage', 'Failed to convert by semicolon delimeter', expt);
         }

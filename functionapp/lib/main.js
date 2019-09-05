@@ -21,7 +21,6 @@ const state_1 = require("./constants/state");
 const initializer_1 = require("./handlers/initializer");
 const parameterValidator_1 = require("./handlers/parameterValidator");
 const resourceValidator_1 = require("./handlers/resourceValidator");
-const appsettingsHandler_1 = require("./handlers/appsettingsHandler");
 const contentPreparer_1 = require("./handlers/contentPreparer");
 const contentPublisher_1 = require("./handlers/contentPublisher");
 const publishValidator_1 = require("./handlers/publishValidator");
@@ -32,7 +31,6 @@ function main() {
         actionManager.register(state_1.StateConstant.Initialize, new initializer_1.Initializer());
         actionManager.register(state_1.StateConstant.ValidateParameter, new parameterValidator_1.ParameterValidator());
         actionManager.register(state_1.StateConstant.ValidateAzureResource, new resourceValidator_1.ResourceValidator());
-        actionManager.register(state_1.StateConstant.ValidateFunctionappSettings, new appsettingsHandler_1.AppsettingsHandler());
         actionManager.register(state_1.StateConstant.PreparePublishContent, new contentPreparer_1.ContentPreparer());
         actionManager.register(state_1.StateConstant.PublishContent, new contentPublisher_1.ContentPublisher());
         actionManager.register(state_1.StateConstant.ValidatePublishedContent, new publishValidator_1.PublishValidator());

@@ -3,13 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class ConfigurationConstant {
 }
 ConfigurationConstant.ParamInAppName = 'app-name';
-ConfigurationConstant.ParamInRuntimeStack = 'runtime-stack';
-ConfigurationConstant.ParamInFunctionRuntime = 'function-runtime';
 ConfigurationConstant.ParamInPackagePath = 'package';
-ConfigurationConstant.ParamInFunctionSku = 'sku';
 ConfigurationConstant.ParamOutResultName = 'app-url';
-ConfigurationConstant.DefaultFunctionSku = 'dedicated';
-ConfigurationConstant.DefaultPackagePath = '.';
 ConfigurationConstant.EnvAzureHttpUserAgent = 'AZURE_HTTP_USER_AGENT';
 ConfigurationConstant.ActionName = 'functionapp';
 ConfigurationConstant.BlobContainerName = 'github-actions-deploy';

@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const storage_blob_1 = require("@azure/storage-blob");
 const storage_blob_2 = require("@azure/storage-blob");
-const appSettingParser_1 = require("../utils/appSettingParser");
+const utils_1 = require("../utils");
 const configuration_1 = require("../constants/configuration");
 const exceptions_1 = require("../exceptions");
 class WebsiteRunFromPackageDeploy {
@@ -36,7 +36,7 @@ class WebsiteRunFromPackageDeploy {
             let storageData;
             let dictionary;
             try {
-                dictionary = appSettingParser_1.AppSettingParser.getAzureWebjobsStorage(storageString);
+                dictionary = utils_1.Parser.GetAzureWebjobsStorage(storageString);
             }
             catch (expt) {
                 throw new exceptions_1.ValidationError(state, 'AzureWebjobsStorage', 'Failed to convert by semicolon delimeter', expt);

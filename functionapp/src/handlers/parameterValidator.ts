@@ -42,7 +42,7 @@ export class ParameterValidator implements IOrchestratable {
         }
 
         if (!exist(this._packagePath)) {
-            throw new ValidationError(state, ConfigurationConstant.ParamInPackagePath, "needs to be in the project");
+            throw new ValidationError(state, ConfigurationConstant.ParamInPackagePath, "needs to exist");
         }
     }
 }

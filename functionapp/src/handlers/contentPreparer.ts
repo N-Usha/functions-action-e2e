@@ -9,6 +9,7 @@ import { ValidationError, FileIOError, AzureResourceError } from "../exceptions"
 import { PublishMethodConstant } from "../constants/publish_method";
 import { FunctionSkuConstant } from "../constants/function_sku";
 import { RuntimeStackConstant } from "../constants/runtime_stack";
+import { Logger } from '../utils';
 
 export class ContentPreparer implements IOrchestratable {
     private _packageType: PackageType;
@@ -51,9 +52,11 @@ export class ContentPreparer implements IOrchestratable {
     private async generatePublishContent(state: StateConstant, packagePath: string, packageType: PackageType): Promise<string> {
         switch (packageType) {
             case PackageType.zip:
+                Logger.Log(`Will directly deploy ${packagePath} as function app content`);
                 return packagePath;
             case PackageType.folder:
                 const tempoaryFilePath: string = generateTemporaryFolderOrZipPath(process.env.RUNNER_TEMP, false);
+                Logger.Log(`Will archive ${packagePath} into ${tempoaryFilePath} as function app content`);
                 try {
                     return await archiveFolder(packagePath, "", tempoaryFilePath) as string;
                 } catch (expt) {
@@ -67,6 +70,7 @@ export class ContentPreparer implements IOrchestratable {
     private derivePublishMethod(state: StateConstant, packageType: PackageType, osType: RuntimeStackConstant, sku: FunctionSkuConstant): PublishMethodConstant {
         // Linux Consumption sets WEBSITE_RUN_FROM_PACKAGE app settings
         if (osType === RuntimeStackConstant.Linux && sku === FunctionSkuConstant.Consumption) {
+            Logger.Log('Will use WEBSITE_RUN_FROM_PACKAGE to deploy');
             return PublishMethodConstant.WebsiteRunFromPackageDeploy;
         }
 
@@ -74,6 +78,7 @@ export class ContentPreparer implements IOrchestratable {
         switch(packageType) {
             case PackageType.zip:
             case PackageType.folder:
+                Logger.Log('Will use api/zipdeploy to deploy');
                 return PublishMethodConstant.ZipDeploy;
             default:
                 throw new ValidationError(state, "Derive Publish Method", "only accepts zip or folder");

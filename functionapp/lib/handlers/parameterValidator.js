@@ -52,7 +52,7 @@ class ParameterValidator {
             throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInPackagePath, "should not be empty");
         }
         if (!packageUtility_1.exist(this._packagePath)) {
-            throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInPackagePath, "needs to be in the project");
+            throw new exceptions_1.ValidationError(state, configuration_1.ConfigurationConstant.ParamInPackagePath, "needs to exist");
         }
     }
 }

@@ -4,8 +4,15 @@ import { IPrinter } from "../interfaces/IPrinter";
 import { IActionParameters } from "../interfaces/IActionParameters";
 import { IActionContext } from "../interfaces/IActionContext";
 import { StateConstant } from "../constants/state";
+import { Parser } from "./parser";
 
 export class Logger {
+    public static Debug(message: string) {
+        if (Parser.IsTrueLike(process.env.GITHUB_ACTION_DEBUG)) {
+            console.log(`##[debug] ${message}`);
+        }
+    }
+
     public static Log(message: string) {
         console.log(message);
     }

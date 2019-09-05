@@ -5,7 +5,6 @@ import { StateConstant } from './constants/state';
 import { Initializer } from './handlers/initializer';
 import { ParameterValidator } from './handlers/parameterValidator';
 import { ResourceValidator } from './handlers/resourceValidator';
-import { AppsettingsHandler } from './handlers/appsettingsHandler';
 import { ContentPreparer } from './handlers/contentPreparer';
 import { ContentPublisher } from './handlers/contentPublisher';
 import { PublishValidator } from './handlers/publishValidator';
@@ -17,7 +16,6 @@ async function main(): Promise<void> {
     actionManager.register(StateConstant.Initialize, new Initializer());
     actionManager.register(StateConstant.ValidateParameter, new ParameterValidator());
     actionManager.register(StateConstant.ValidateAzureResource, new ResourceValidator());
-    actionManager.register(StateConstant.ValidateFunctionappSettings, new AppsettingsHandler());
     actionManager.register(StateConstant.PreparePublishContent, new ContentPreparer());
     actionManager.register(StateConstant.PublishContent, new ContentPublisher());
     actionManager.register(StateConstant.ValidatePublishedContent, new PublishValidator());
