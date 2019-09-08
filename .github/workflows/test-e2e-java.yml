@@ -25,7 +25,7 @@ jobs:
     - name: Run Maven
       shell: pwsh
       run: |
-        pushd ./tests/java/wincon
+        pushd ./tests/java
         mvn clean package
         mvn azure-functions:package
         popd
@@ -34,7 +34,79 @@ jobs:
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-java'
-        package: './tests/java/wincon/target/azure-functions/hazeng-fa-github-win-con-java'
+        package: './tests/java/target/azure-functions/functionAppName'
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        sleep 10
+        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = ($RESPONSE -eq "OK")
+        if ($RESULT) {
+          exit 0
+        }
+        exit 1
+  win-ded-java:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Java 1.8.x
+      uses: actions/setup-java@v1
+      with:
+        java-version: '1.8.x'
+    - name: Run Maven
+      shell: pwsh
+      run: |
+        pushd ./tests/java
+        mvn clean package
+        mvn azure-functions:package
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@master
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-ded-java'
+        package: './tests/java/target/azure-functions/functionAppName'
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        sleep 10
+        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = ($RESPONSE -eq "OK")
+        if ($RESULT) {
+          exit 0
+        }
+        exit 1
+  win-pre-java:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Java 1.8.x
+      uses: actions/setup-java@v1
+      with:
+        java-version: '1.8.x'
+    - name: Run Maven
+      shell: pwsh
+      run: |
+        pushd ./tests/java
+        mvn clean package
+        mvn azure-functions:package
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@master
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-pre-java'
+        package: './tests/java/target/azure-functions/functionAppName'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
