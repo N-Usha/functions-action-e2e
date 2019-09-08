@@ -23,9 +23,12 @@ jobs:
       with:
         java-version: '1.8.x'
     - name: Run Maven
+      shell: pwsh
       run: |
+        push ./tests/java/wincon
         mvn clean package
         mvn azure-functions:package
+        popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
