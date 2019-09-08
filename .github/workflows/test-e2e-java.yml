@@ -25,7 +25,7 @@ jobs:
     - name: Run Maven
       shell: pwsh
       run: |
-        push ./tests/java/wincon
+        pushd ./tests/java/wincon
         mvn clean package
         mvn azure-functions:package
         popd
