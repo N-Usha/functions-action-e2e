@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@master
     # install dependencies, build, and test
     - name: npm install, build, and test
-      bash: pwsh
+      shell: pwsh
       run: |
         pushd tests/webapp
         npm install
