@@ -34,7 +34,7 @@ jobs:
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-java'
-        package: './tests/java/wincon/target/azure-functions/hazeng-fa-github-win-con-java.zip'
+        package: './tests/java/wincon/target/azure-functions/hazeng-fa-github-win-con-java'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
