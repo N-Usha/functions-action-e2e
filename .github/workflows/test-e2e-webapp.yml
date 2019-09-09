@@ -1,7 +1,10 @@
 # File: .github/workflows/workflow.yml
 name: Test_E2E_WebApp
 
-on: push
+on:
+  push:
+    branches:
+    - e2e-test
 
 jobs:
   build-and-deploy:
