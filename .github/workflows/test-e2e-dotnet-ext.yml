@@ -13,7 +13,7 @@ on:
     - master
 
 jobs:
-  build-and-deploy:
+  windows-dotnet-deploy:
     runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
@@ -29,7 +29,7 @@ jobs:
     - name: 'Run dotnet build'
       shell: pwsh
       run: |
-        pushd tests
+        pushd tests/dotnet_ext
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
@@ -37,6 +37,33 @@ jobs:
       id: fa
       with:
         app-name: hazeng-fa-sample-win-pre-dotnet
+        package: './output'
+  linux-dotnet-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Dotnet 2.2.300
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.300'
+    - name: 'Run dotnet build'
+      shell: bash
+      run: |
+        # If your function app project is not located in your repository's root
+        # Please consider using pushd to change your path
+        pushd tests/dotnet_ext
+        dotnet build --configuration Release --output ./output
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@master
+      id: fa
+      with:
+        app-name: hazeng-fa-sample-lin-ded-dotnet
         package: './output'
 
 # For more information on Github Actions:
