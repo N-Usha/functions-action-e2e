@@ -1,12 +1,11 @@
 {
   "bindings": [
     {
-      "name": "myBlob",
+      "name": "InputBlob",
       "type": "blobTrigger",
       "direction": "in",
       "path": "samples-workitems/{name}",
       "connection": ""
     }
-  ],
-  "scriptFile": "../dist/BlobTrigger/index.js"
+  ]
 }
