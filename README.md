@@ -1,2 +1,3 @@
-# azure-actions
-Collaboration with the Azure team to build actions for Actions V2
+### E2E Testing on Functions-Action and Functions-Container-Action
+
+Testing the functions-action and functions-container-action with Python, Powershell, Node, Java, Dotnet
