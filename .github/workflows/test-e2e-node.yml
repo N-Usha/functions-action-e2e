@@ -3,7 +3,7 @@ name: Test_E2E_Node
 on:
   push:
     branches:
-    - e2e-test
+    - master
 
 # ubuntu-latest, ubuntu-18.04, or ubuntu-16.04
 # windows-latest, windows-2019, or windows-2016
