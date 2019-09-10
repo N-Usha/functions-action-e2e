@@ -1,7 +1,6 @@
-# BlobTrigger - PowerShell
+# BlobTrigger - TypeScript
 
-The `BlobTrigger` makes it incredibly easy to react to new Blobs inside of [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/).
-This sample demonstrates a simple use case of processing data from a given Blob using PowerShell.
+The `BlobTrigger` makes it incredibly easy to react to new Blobs inside of Azure Blob Storage. This sample demonstrates a simple use case of processing data from a given Blob using TypeScript.
 
 ## How it works
 
