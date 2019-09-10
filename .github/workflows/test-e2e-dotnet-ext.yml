@@ -37,7 +37,7 @@ jobs:
       id: fa
       with:
         app-name: hazeng-fa-sample-win-pre-dotnet
-        package: './tests/dotnet_ext/output'
+        package: './output'
   linux-dotnet-deploy:
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +64,7 @@ jobs:
       id: fa
       with:
         app-name: hazeng-fa-sample-lin-ded-dotnet
-        package: './tests/dotnet_ext/output'
+        package: './output'
 
 # For more information on Github Actions:
 #   https://help.github.com/en/categories/automating-your-workflow-with-github-actions
