@@ -2,10 +2,12 @@
 # Action Requires
 # 1. Setup the AZURE_CREDENTIALS secrets in your Github Repository by following README.md
 # 2. Replace PLEASE_REPLACE_THIS_WITH_YOUR_FUNCTION_APP_NAME with your Azure function app name
-# 3. Add this yaml file to your project's .github/workflows/
-# 4. Push your local project to your Github Repository
+# 3. Replace POM_ARTIFACT_ID with the <artifactId> property in pom.xml
+# 4. Replace POM_FUNCTION_APP_NAME with the <functionAppName> property in pom.xml
+# 5. Add this yaml file to your project's .github/workflows/
+# 6. Push your local project to your Github Repository
 
-name: Linux_Python_Workflow
+name: Windows_Java_Workflow
 
 on:
   push:
@@ -14,7 +16,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: 'Checkout Github Action'
       uses: actions/checkout@master
@@ -22,27 +24,29 @@ jobs:
       uses: Azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Setup Python 3.6
-      uses: actions/setup-python@v1
+    - name: Setup Java 1.8.x
+      uses: actions/setup-java@v1
       with:
-        python-version: 3.6
-    - name: 'Run pip'
-      shell: bash
+        # If your pom.xml <maven.compiler.source> version is not in 1.8.x
+        # Please change the Java version to match the version in pom.xml <maven.compiler.source>
+        java-version: '1.8.x'
+    - name: 'Run mvn'
+      shell: pwsh
       run: |
         # If your function app project is not located in your repository's root
         # Please change your directory for dotnet build in pushd
-        pushd .
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt --target=".python_packages/lib/python3.6/site-packages"
+        pushd ./artifact
+        mvn clean package
+        mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@master
       id: fa
       with:
-        app-name: hazeng-fa-sample-lin-ded-python
+        app-name: hazeng-fa-sample-win-pre-java
         # If your function app project is not located in your repository's root
         # Please consider prefixing the project path in this package parameter
-        package: '.'
+        package: ./artifact/target/azure-functions/artifact-20190909164456725
     #- name: 'use the published functionapp url in upcoming steps'
     #  run: |
     #    echo "${{ steps.fa.outputs.app-url }}"
