@@ -1,0 +1,86 @@
+name: Test_E2E_Powershell
+
+on:
+  push:
+    branches:
+    - e2e-test
+
+# ubuntu-latest, ubuntu-18.04, or ubuntu-16.04
+# windows-latest, windows-2019, or windows-2016
+# macOS-latest or macOS-10.14
+jobs:
+  win-con-powershell:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@master
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-con-powershell'
+        package: './tests/powershell'
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        sleep 10
+        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = ($RESPONSE -eq "OK")
+        if ($RESULT) {
+          exit 0
+        }
+        exit 1
+  win-ded-powershell:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@master
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-ded-powershell'
+        package: './tests/powershell'
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        sleep 10
+        $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = ($RESPONSE -eq "OK")
+        if ($RESULT) {
+          exit 0
+        }
+        exit 1
+  win-pre-powershell:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@master
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-pre-powershell'
+        package: './tests/powershell'
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        sleep 10
+        $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = ($RESPONSE -eq "OK")
+        if ($RESULT) {
+          exit 0
+        }
+        exit 1
