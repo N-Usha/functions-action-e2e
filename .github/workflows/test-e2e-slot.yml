@@ -1,0 +1,47 @@
+name: Test_E2E_Slot
+
+on:
+  push:
+    branches:
+    - master
+
+# ubuntu-latest, ubuntu-18.04, or ubuntu-16.04
+# windows-latest, windows-2019, or windows-2016
+# macOS-latest or macOS-10.14
+jobs:
+  win-con-dotnet-staging:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: Azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Setup Dotnet 2.2.300
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.300'
+    - name: 'dotnet restore, dotnet build'
+      shell: pwsh
+      run: |
+        pushd ./tests/dotnet
+        dotnet build --configuration Release --output ./output
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@master
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-con-dotnet'
+        package: './tests/dotnet/output'
+        slot: 'staging'
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        sleep 10
+        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+        $RESULT = ($RESPONSE -eq "OK")
+        if ($RESULT) {
+          exit 0
+        }
+        exit 1
