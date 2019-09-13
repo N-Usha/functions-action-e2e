@@ -58,14 +58,14 @@ jobs:
       shell: bash
       run: |
         docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
-        docker build ./tests/node -t docker.io/rogerxman/github-action-e2e:node
-        docker push docker.io/rogerxman/github-action-e2e:node
+        docker build ./tests/node -t docker.io/rogerxman/github-action-e2e:nodecontainer
+        docker push docker.io/rogerxman/github-action-e2e:nodecontainer
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-container-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-container-node'
-        image: 'docker.io/rogerxman/github-action-e2e:node'
+        image: 'docker.io/rogerxman/github-action-e2e:nodecontainer'
         slot: 'staging'
     - name: 'Report HttpTrigger Result'
       shell: bash
