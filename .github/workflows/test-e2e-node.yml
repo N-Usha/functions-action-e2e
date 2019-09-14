@@ -39,7 +39,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 10
+        sleep 60
         $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "OK")
         if ($RESULT) {
@@ -76,7 +76,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 10
+        sleep 60
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "OK")
         if ($RESULT) {
@@ -113,7 +113,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 10
+        sleep 60
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "OK")
         if ($RESULT) {
@@ -150,7 +150,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 10
+        sleep 60
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         if [ $RESPONSE == OK ]; then
           exit 0
@@ -186,7 +186,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 10
+        sleep 60
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         if [ $RESPONSE == OK ]; then
           exit 0
@@ -216,7 +216,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 10
+        sleep 60
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         if [ $RESPONSE == OK ]; then
           exit 0

@@ -27,7 +27,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 10
+        sleep 60
         $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "OK")
         if ($RESULT) {
@@ -52,7 +52,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 10
+        sleep 60
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "OK")
         if ($RESULT) {
@@ -77,7 +77,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 10
+        sleep 60
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "OK")
         if ($RESULT) {
