@@ -30,7 +30,7 @@ jobs:
         pip install -r requirements.txt --target=".python_packages/lib/python3.6/site-packages"
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@master
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-con-python'
@@ -65,7 +65,7 @@ jobs:
         pip install -r requirements.txt --target=".python_packages/lib/python3.6/site-packages"
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@master
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-ded-python'
@@ -95,7 +95,7 @@ jobs:
         docker build ./tests/python -t docker.io/rogerxman/github-action-e2e:python
         docker push docker.io/rogerxman/github-action-e2e:python
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-container-action@master
+      uses: Azure/functions-container-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-container-python'
