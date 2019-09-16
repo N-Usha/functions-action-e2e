@@ -40,7 +40,7 @@ jobs:
       run: |
         sleep 60
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == OK ]; then
+        if [ $RESPONSE == AWESOME ]; then
           exit 0
         fi
         exit 1
@@ -75,7 +75,7 @@ jobs:
       run: |
         sleep 60
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == OK ]; then
+        if [ $RESPONSE == AWESOME ]; then
           exit 0
         fi
         exit 1
@@ -105,7 +105,7 @@ jobs:
       run: |
         sleep 60
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == OK ]; then
+        if [ $RESPONSE == AWESOME ]; then
           exit 0
         fi
         exit 1
