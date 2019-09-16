@@ -33,8 +33,8 @@ jobs:
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-dotnet'
+        slot-name: 'staging'
         package: './tests/dotnet/output'
-        slot: 'staging'
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
@@ -65,8 +65,8 @@ jobs:
       id: fa
       with:
         app-name: 'hazeng-fa-github-container-node'
+        slot-name: 'staging'
         image: 'docker.io/rogerxman/github-action-e2e:nodecontainer'
-        slot: 'staging'
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
