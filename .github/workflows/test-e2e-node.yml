@@ -31,7 +31,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-node'
@@ -68,7 +68,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-ded-node'
@@ -105,7 +105,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-node'
@@ -142,7 +142,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-con-node'
@@ -178,7 +178,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-ded-node'
@@ -208,7 +208,7 @@ jobs:
         docker build ./tests/node -t docker.io/rogerxman/github-action-e2e:node
         docker push docker.io/rogerxman/github-action-e2e:node
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-container-action@v1
+      uses: Azure/functions-container-action@master
       id: fa
       with:
         app-name: 'hazeng-fa-github-container-node'
