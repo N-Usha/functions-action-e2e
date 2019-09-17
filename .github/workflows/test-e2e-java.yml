@@ -30,7 +30,7 @@ jobs:
         mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@master
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-java'
@@ -66,7 +66,7 @@ jobs:
         mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@master
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-ded-java'
@@ -102,7 +102,7 @@ jobs:
         mvn azure-functions:package
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@master
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-java'
