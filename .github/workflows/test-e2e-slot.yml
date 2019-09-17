@@ -40,7 +40,7 @@ jobs:
       run: |
         sleep 60
         $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        $RESULT = ($RESPONSE -eq "HELLO382817")
+        $RESULT = ($RESPONSE -eq "HELLO593918")
         if ($RESULT) {
           exit 0
         }
@@ -72,7 +72,7 @@ jobs:
       run: |
         sleep 60
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == HELLO382817 ]; then
+        if [ $RESPONSE == HELLO593918 ]; then
           exit 0
         fi
         exit 1
