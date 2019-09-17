@@ -29,7 +29,7 @@ jobs:
       run: |
         sleep 60
         $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        $RESULT = ($RESPONSE -eq "AWESOME")
+        $RESULT = ($RESPONSE -eq "HELLO382817")
         if ($RESULT) {
           exit 0
         }
@@ -54,7 +54,7 @@ jobs:
       run: |
         sleep 60
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        $RESULT = ($RESPONSE -eq "AWESOME")
+        $RESULT = ($RESPONSE -eq "HELLO382817")
         if ($RESULT) {
           exit 0
         }
@@ -79,7 +79,7 @@ jobs:
       run: |
         sleep 60
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        $RESULT = ($RESPONSE -eq "AWESOME")
+        $RESULT = ($RESPONSE -eq "HELLO382817")
         if ($RESULT) {
           exit 0
         }
