@@ -37,11 +37,15 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 100
-        $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        $RESULT = ($RESPONSE -eq "SACARSTIC1938")
-        if ($RESULT) {
-          exit 0
+        $i = 0
+        while ($i -lt 10) {
+          sleep 5
+          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          $RESULT = ($RESPONSE -eq "SACARSTIC1938")
+          if ($RESULT) {
+            exit 0
+          }
+          $i = $i + 1
         }
         exit 1
   win-ded-dotnet:
@@ -72,7 +76,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 100
+        sleep 5
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "SACARSTIC1938")
         if ($RESULT) {
@@ -107,7 +111,7 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 100
+        sleep 5
         $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
         $RESULT = ($RESPONSE -eq "SACARSTIC1938")
         if ($RESULT) {
@@ -142,11 +146,15 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 100
-        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == SACARSTIC1938 ]; then
-          exit 0
-        fi
+        i="0"
+        while [ $i -lt 10 ]; do
+          sleep 5
+          RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          if [ $RESPONSE == SACARSTIC1938 ]; then
+            exit 0
+          fi
+          i=$[$i+1]
+        done
         exit 1
   lin-ded-dotnet:
     runs-on: ubuntu-latest
@@ -176,11 +184,15 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 100
-        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == SACARSTIC1938 ]; then
-          exit 0
-        fi
+        i="0"
+        while [ $i -lt 10 ]; do
+          sleep 5
+          RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          if [ $RESPONSE == SACARSTIC1938 ]; then
+            exit 0
+          fi
+          i=$[$i+1]
+        done
         exit 1
   container-dotnet:
     runs-on: ubuntu-latest
@@ -206,9 +218,13 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 100
-        RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == SACARSTIC1938 ]; then
-          exit 0
-        fi
+        i="0"
+        while [ $i -lt 10 ]; do
+          sleep 5
+          RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          if [ $RESPONSE == SACARSTIC1938 ]; then
+            exit 0
+          fi
+          i=$[$i+1]
+        done
         exit 1
