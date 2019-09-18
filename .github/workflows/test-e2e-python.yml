@@ -38,9 +38,9 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 60
+        sleep 100
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == HELLO593918 ]; then
+        if [ $RESPONSE == SACARSTIC1938 ]; then
           exit 0
         fi
         exit 1
@@ -73,9 +73,9 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 60
+        sleep 100
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == HELLO593918 ]; then
+        if [ $RESPONSE == SACARSTIC1938 ]; then
           exit 0
         fi
         exit 1
@@ -103,9 +103,9 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: bash
       run: |
-        sleep 60
+        sleep 100
         RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        if [ $RESPONSE == HELLO593918 ]; then
+        if [ $RESPONSE == SACARSTIC1938 ]; then
           exit 0
         fi
         exit 1
