@@ -5,6 +5,6 @@ import azure.functions as func
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse(
-        "SACARSTIC1938",
+        "JFUIDOH8492",
         status_code=200
     )
