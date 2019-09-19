@@ -56,11 +56,15 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 5
-        $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        $RESULT = ($RESPONSE -eq "JFUIDOH8492")
-        if ($RESULT) {
-          exit 0
+        $i = 0
+        while ($i -lt 10) {
+          sleep 5
+          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          $RESULT = ($RESPONSE -eq "JFUIDOH8492")
+          if ($RESULT) {
+            exit 0
+          }
+          $i = $i + 1
         }
         exit 1
   win-pre-powershell:
@@ -81,10 +85,14 @@ jobs:
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
-        sleep 5
-        $RESPONSE = (curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-        $RESULT = ($RESPONSE -eq "JFUIDOH8492")
-        if ($RESULT) {
-          exit 0
+        $i = 0
+        while ($i -lt 10) {
+          sleep 5
+          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          $RESULT = ($RESPONSE -eq "JFUIDOH8492")
+          if ($RESULT) {
+            exit 0
+          }
+          $i = $i + 1
         }
         exit 1
