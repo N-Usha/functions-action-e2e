@@ -5,3 +5,5 @@ Testing the functions-action and functions-container-action with Python, Powersh
 ### Test History on Azure/functions-action
 c334f1b6cf7873d6130adffd887b548368accd80
 84d8aa77d308664421d5eac844fdbc8b3cd70c09
+
+### Test after release
