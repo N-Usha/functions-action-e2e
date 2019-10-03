@@ -2,7 +2,7 @@ const http = require('http');
 
 const server = http.createServer((request, response) => {
     response.writeHead(200, {"Content-Type": "text/plain"});
-    response.end("IKRLSUIVJKUIOUKALDFJ89321");
+    response.end("UIAOLJSDKFOUI");
 });
 
 const port = process.env.PORT || 1337;
