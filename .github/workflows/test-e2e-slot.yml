@@ -29,7 +29,7 @@ jobs:
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-dotnet'
@@ -42,7 +42,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UIAOLJSDKFOUI")
+          $RESULT = ($RESPONSE -eq "UIPUGAMRUPOUBI83910")
           if ($RESULT) {
             exit 0
           }
@@ -78,7 +78,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == UIAOLJSDKFOUI ]; then
+          if [ $RESPONSE == UIPUGAMRUPOUBI83910 ]; then
             exit 0
           fi
           i=$[$i+1]

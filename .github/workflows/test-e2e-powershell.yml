@@ -19,7 +19,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-powershell'
@@ -31,7 +31,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UIAOLJSDKFOUI")
+          $RESULT = ($RESPONSE -eq "UIPUGAMRUPOUBI83910")
           if ($RESULT) {
             exit 0
           }
@@ -48,7 +48,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-ded-powershell'
@@ -60,7 +60,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UIAOLJSDKFOUI")
+          $RESULT = ($RESPONSE -eq "UIPUGAMRUPOUBI83910")
           if ($RESULT) {
             exit 0
           }
@@ -77,7 +77,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-powershell'
@@ -89,7 +89,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UIAOLJSDKFOUI")
+          $RESULT = ($RESPONSE -eq "UIPUGAMRUPOUBI83910")
           if ($RESULT) {
             exit 0
           }
