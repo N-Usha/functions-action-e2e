@@ -41,7 +41,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UIPUGAMRUPOUBI83910")
+          $RESULT = ($RESPONSE -eq "FUNNCLITTLEBEAR")
           if ($RESULT) {
             exit 0
           }
@@ -80,7 +80,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UIPUGAMRUPOUBI83910")
+          $RESULT = ($RESPONSE -eq "FUNNCLITTLEBEAR")
           if ($RESULT) {
             exit 0
           }
@@ -119,7 +119,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UIPUGAMRUPOUBI83910")
+          $RESULT = ($RESPONSE -eq "FUNNCLITTLEBEAR")
           if ($RESULT) {
             exit 0
           }
@@ -158,7 +158,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == UIPUGAMRUPOUBI83910 ]; then
+          if [ $RESPONSE == FUNNCLITTLEBEAR ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -196,7 +196,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == UIPUGAMRUPOUBI83910 ]; then
+          if [ $RESPONSE == FUNNCLITTLEBEAR ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -230,7 +230,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == UIPUGAMRUPOUBI83910 ]; then
+          if [ $RESPONSE == FUNNCLITTLEBEAR ]; then
             exit 0
           fi
           i=$[$i+1]
