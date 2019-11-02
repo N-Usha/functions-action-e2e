@@ -29,7 +29,7 @@ jobs:
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@stage
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-dotnet'
@@ -68,7 +68,7 @@ jobs:
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@stage
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-ded-dotnet'
@@ -107,7 +107,7 @@ jobs:
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@stage
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-dotnet'
@@ -146,7 +146,7 @@ jobs:
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@stage
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-con-dotnet'
@@ -184,7 +184,7 @@ jobs:
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+      uses: Azure/functions-action@stage
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-ded-dotnet'
