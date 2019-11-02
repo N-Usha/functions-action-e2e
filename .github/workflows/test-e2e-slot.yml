@@ -42,7 +42,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "SHITJOUMUVIOPMEIJ")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
           if ($RESULT) {
             exit 0
           }
@@ -78,7 +78,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]

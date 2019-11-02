@@ -41,7 +41,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "SHITJOUMUVIOPMEIJ")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
           if ($RESULT) {
             exit 0
           }
@@ -80,7 +80,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "SHITJOUMUVIOPMEIJ")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
           if ($RESULT) {
             exit 0
           }
@@ -119,7 +119,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "SHITJOUMUVIOPMEIJ")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
           if ($RESULT) {
             exit 0
           }
@@ -158,7 +158,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -196,12 +196,47 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]
         done
         exit 1
+  win-scm-dotnet:
+    runs-on: windows-latest
+    steps:
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@master
+      - name: Setup Dotnet 2.2.300
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '2.2.300'
+      - name: 'dotnet restore, dotnet build'
+        shell: bash
+        run: |
+          pushd ./tests/dotnet
+          dotnet build --configuration Release --output ./output
+          popd
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@stage
+        id: fa
+        with:
+          app-name: 'hazeng-fa-github-win-con-dotnet-scm'
+          package: './tests/dotnet/output'
+          publish-profile: ${{ secrets.WIN_CON_DOTNET_SCM }}
+      - name: 'Report HttpTrigger Result'
+        shell: bash
+        run: |
+          i="0"
+          while [ $i -lt 10 ]; do
+            sleep 5
+            RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+            if [ $RESPONSE == ASDFQWERZXCV ]; then
+              exit 0
+            fi
+            i=$[$i+1]
+          done
+          exit 1
   container-dotnet:
     runs-on: ubuntu-latest
     steps:
@@ -230,7 +265,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]

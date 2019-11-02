@@ -43,7 +43,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "SHITJOUMUVIOPMEIJ")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
           if ($RESULT) {
             exit 0
           }
@@ -84,7 +84,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "SHITJOUMUVIOPMEIJ")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
           if ($RESULT) {
             exit 0
           }
@@ -125,7 +125,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "SHITJOUMUVIOPMEIJ")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
           if ($RESULT) {
             exit 0
           }
@@ -166,7 +166,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -206,12 +206,49 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]
         done
         exit 1
+  win-scm-node:
+    runs-on: windows-latest
+    steps:
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@master
+      - name: Setup Node 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: 'npm install, npm build, npm test'
+        shell: bash
+        run: |
+          pushd ./tests/node
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+          popd
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@stage
+        id: fa
+        with:
+          app-name: 'hazeng-fa-github-win-con-node-scm'
+          package: './tests/node/output'
+          publish-profile: ${{ secrets.WIN_CON_NODE_SCM }}
+      - name: 'Report HttpTrigger Result'
+        shell: bash
+        run: |
+          i="0"
+          while [ $i -lt 10 ]; do
+            sleep 5
+            RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+            if [ $RESPONSE == ASDFQWERZXCV ]; then
+              exit 0
+            fi
+            i=$[$i+1]
+          done
+          exit 1
   container-node:
     runs-on: ubuntu-latest
     steps:
@@ -240,7 +277,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]

@@ -42,7 +42,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -81,7 +81,43 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
+            exit 0
+          fi
+          i=$[$i+1]
+        done
+        exit 1
+  lin-scm-python:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: Setup Python 3.6
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6
+    - name: 'pip install'
+      shell: bash
+      run: |
+        pushd ./tests/python
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --target=".python_packages/lib/python3.6/site-packages"
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@stage
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-lin-con-python'
+        package: './tests/python'
+        publish-profile: ${{ secrets.LIN_CON_PYTHON_SCM }}
+    - name: 'Report HttpTrigger Result'
+      shell: bash
+      run: |
+        i="0"
+        while [ $i -lt 10 ]; do
+          sleep 5
+          RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -115,7 +151,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == SHITJOUMUVIOPMEIJ ]; then
+          if [ $RESPONSE == ASDFQWERZXCV ]; then
             exit 0
           fi
           i=$[$i+1]
