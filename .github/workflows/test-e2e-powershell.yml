@@ -19,7 +19,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@stage
+      uses: Azure/functions-action@dev
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-powershell'
@@ -48,7 +48,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@stage
+      uses: Azure/functions-action@dev
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-ded-powershell'
@@ -77,7 +77,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@stage
+      uses: Azure/functions-action@dev
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-powershell'
