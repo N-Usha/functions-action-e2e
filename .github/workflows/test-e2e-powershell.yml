@@ -96,3 +96,29 @@ jobs:
           $i = $i + 1
         }
         exit 1
+  win-scm-powershell:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@dev
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-con-powershell'
+        package: './tests/powershell'
+        publish-profile: ${{ secrets.WIN_CON_POWERSHELL_SCM }}
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        $i = 0
+        while ($i -lt 10) {
+          sleep 5
+          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
+          if ($RESULT) {
+            exit 0
+          }
+          $i = $i + 1
+        }
+        exit 1

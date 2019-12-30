@@ -129,3 +129,40 @@ jobs:
           $i = $i + 1
         }
         exit 1
+  win-scm-java:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+    - name: Setup Java 1.8.x
+      uses: actions/setup-java@v1
+      with:
+        java-version: '1.8.x'
+    - name: Run Maven
+      shell: pwsh
+      run: |
+        pushd ./tests/java
+        mvn clean package
+        mvn azure-functions:package
+        popd
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@dev
+      id: fa
+      with:
+        app-name: 'hazeng-fa-github-win-pre-java'
+        package: './tests/java/target/azure-functions/functionAppName'
+        publish-profile: ${{ secrets.WIN_CON_JAVA_SCM }}
+    - name: 'Report HttpTrigger Result'
+      shell: pwsh
+      run: |
+        $i = 0
+        while ($i -lt 10) {
+          sleep 5
+          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
+          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
+          if ($RESULT) {
+            exit 0
+          }
+          $i = $i + 1
+        }
+        exit 1
