@@ -271,7 +271,7 @@ jobs:
         id: fa
         with:
           app-name: 'hazeng-fa-github-lin-con-node-scm'
-          package: './tests/node/output'
+          package: './tests/node'
           publish-profile: ${{ secrets.LIN_CON_NODE_SCM }}
       - name: 'Report HttpTrigger Result'
         shell: bash
@@ -308,7 +308,7 @@ jobs:
         id: fa
         with:
           app-name: 'hazeng-fa-github-lin-con-node-scm'
-          package: './tests/node/output'
+          package: './tests/node'
           publish-profile: ${{ secrets.WIN_DED_NODE_SCM_STAGING }}
           slot-name: staging
       - name: 'Report HttpTrigger Result'
