@@ -249,37 +249,3 @@ jobs:
             i=$[$i+1]
           done
           exit 1
-  container-node:
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Checkout Github Action'
-      uses: actions/checkout@master
-    - name: 'Login via Azure CLI'
-      uses: Azure/actions/login@master
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'Compose Customized DockerImage'
-      shell: bash
-      run: |
-        docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
-        docker build ./tests/node -t docker.io/rogerxman/github-action-e2e:node
-        docker push docker.io/rogerxman/github-action-e2e:node
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-container-action@v1
-      id: fa
-      with:
-        app-name: 'hazeng-fa-github-container-node'
-        image: "docker.io/rogerxman/github-action-e2e:node"
-    - name: 'Report HttpTrigger Result'
-      shell: bash
-      run: |
-        i="0"
-        while [ $i -lt 10 ]; do
-          sleep 5
-          RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == ASDFQWERZXCV ]; then
-            exit 0
-          fi
-          i=$[$i+1]
-        done
-        exit 1
