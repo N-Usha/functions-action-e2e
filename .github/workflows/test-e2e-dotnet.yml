@@ -41,7 +41,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
+          $RESULT = ($RESPONSE -eq "UFNMKSJDFX")
           if ($RESULT) {
             exit 0
           }
@@ -80,7 +80,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
+          $RESULT = ($RESPONSE -eq "UFNMKSJDFX")
           if ($RESULT) {
             exit 0
           }
@@ -119,7 +119,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "ASDFQWERZXCV")
+          $RESULT = ($RESPONSE -eq "UFNMKSJDFX")
           if ($RESULT) {
             exit 0
           }
@@ -158,7 +158,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == ASDFQWERZXCV ]; then
+          if [ $RESPONSE == UFNMKSJDFX ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -196,7 +196,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == ASDFQWERZXCV ]; then
+          if [ $RESPONSE == UFNMKSJDFX ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -231,7 +231,7 @@ jobs:
           while [ $i -lt 10 ]; do
             sleep 5
             RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-            if [ $RESPONSE == ASDFQWERZXCV ]; then
+            if [ $RESPONSE == UFNMKSJDFX ]; then
               exit 0
             fi
             i=$[$i+1]
@@ -266,7 +266,7 @@ jobs:
           while [ $i -lt 10 ]; do
             sleep 5
             RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-            if [ $RESPONSE == ASDFQWERZXCV ]; then
+            if [ $RESPONSE == UFNMKSJDFX ]; then
               exit 0
             fi
             i=$[$i+1]
