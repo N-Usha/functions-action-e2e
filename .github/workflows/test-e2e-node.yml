@@ -307,7 +307,7 @@ jobs:
         uses: Azure/functions-action@dev
         id: fa
         with:
-          app-name: 'hazeng-fa-github-lin-con-node-scm'
+          app-name: 'hazeng-fa-github-win-ded-node-scm'
           package: './tests/node'
           publish-profile: ${{ secrets.WIN_DED_NODE_SCM_STAGING }}
           slot-name: staging
