@@ -31,7 +31,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1.1.3
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-con-node'
@@ -43,7 +43,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UFNMKSJDFX")
+          $RESULT = ($RESPONSE -eq "JFJKDJ")
           if ($RESULT) {
             exit 0
           }
@@ -72,7 +72,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1.1.3
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-ded-node'
@@ -84,7 +84,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UFNMKSJDFX")
+          $RESULT = ($RESPONSE -eq "JFJKDJ")
           if ($RESULT) {
             exit 0
           }
@@ -113,7 +113,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1.1.3
       id: fa
       with:
         app-name: 'hazeng-fa-github-win-pre-node'
@@ -125,7 +125,7 @@ jobs:
         while ($i -lt 10) {
           sleep 5
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "UFNMKSJDFX")
+          $RESULT = ($RESPONSE -eq "JFJKDJ")
           if ($RESULT) {
             exit 0
           }
@@ -154,7 +154,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1.1.3
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-con-node'
@@ -166,7 +166,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == UFNMKSJDFX ]; then
+          if [ $RESPONSE == JFJKDJ ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -194,7 +194,7 @@ jobs:
         npm run test --if-present
         popd
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
+      uses: Azure/functions-action@v1.1.3
       id: fa
       with:
         app-name: 'hazeng-fa-github-lin-ded-node'
@@ -206,7 +206,7 @@ jobs:
         while [ $i -lt 10 ]; do
           sleep 5
           RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          if [ $RESPONSE == UFNMKSJDFX ]; then
+          if [ $RESPONSE == JFJKDJ ]; then
             exit 0
           fi
           i=$[$i+1]
@@ -230,7 +230,7 @@ jobs:
           npm run test --if-present
           popd
       - name: 'Run Azure Functions Action'
-        uses: Azure/functions-action@dev
+        uses: Azure/functions-action@v1.1.3
         id: fa
         with:
           app-name: 'hazeng-fa-github-win-con-node-scm'
@@ -243,7 +243,7 @@ jobs:
           while [ $i -lt 10 ]; do
             sleep 5
             RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-            if [ $RESPONSE == UFNMKSJDFX ]; then
+            if [ $RESPONSE == JFJKDJ ]; then
               exit 0
             fi
             i=$[$i+1]
@@ -267,7 +267,7 @@ jobs:
           npm run test --if-present
           popd
       - name: 'Run Azure Functions Action'
-        uses: Azure/functions-action@dev
+        uses: Azure/functions-action@v1.1.3
         id: fa
         with:
           app-name: 'hazeng-fa-github-lin-con-node-scm'
@@ -280,7 +280,7 @@ jobs:
           while [ $i -lt 10 ]; do
             sleep 5
             RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-            if [ $RESPONSE == UFNMKSJDFX ]; then
+            if [ $RESPONSE == JFJKDJ ]; then
               exit 0
             fi
             i=$[$i+1]
@@ -304,7 +304,7 @@ jobs:
           npm run test --if-present
           popd
       - name: 'Run Azure Functions Action'
-        uses: Azure/functions-action@dev
+        uses: Azure/functions-action@v1.1.3
         id: fa
         with:
           app-name: 'hazeng-fa-github-win-ded-node-scm'
@@ -318,7 +318,7 @@ jobs:
           while [ $i -lt 10 ]; do
             sleep 5
             RESPONSE=$(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-            if [ $RESPONSE == UFNMKSJDFX ]; then
+            if [ $RESPONSE == JFJKDJ ]; then
               exit 0
             fi
             i=$[$i+1]
