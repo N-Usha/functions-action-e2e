@@ -1,4 +1,4 @@
-name: WINDOWS_JAVA
+name: LINUX_PYTHON
 
 on:
   [push]
@@ -11,31 +11,28 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-    AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-java
-    POM_XML_DIRECTORY: 'tests/java'
-    POM_FUNCTIONAPP_NAME: functionAppName
-    JAVA_VERSION: '1.8.x'
+  AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-lin-con-python
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './tests/python'
+  PYTHON_VERSION: '3.6'
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
 
-    - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-      uses: actions/setup-java@v1
+    - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
+      uses: actions/setup-python@v1
       with:
-        java-version: ${{ env.JAVA_VERSION }}
+        python-version: ${{ env.PYTHON_VERSION }}
 
-    - name: 'Restore Project Dependencies Using Mvn'
-      shell: pwsh
+    - name: 'Resolve Project Dependencies Using Pip'
+      shell: bash
       run: |
-        # If your function app project is not located in your repository's root
-        # Please change your directory for maven build in pushd
-        pushd './${{ env.POM_XML_DIRECTORY }}'
-        mvn clean package
-        mvn azure-functions:package
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
 
     - name: 'Run Azure Functions Action'
@@ -43,8 +40,8 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: ${{ secrets.WINDOWS_JAVA }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.LINUX_PYTHON }}
 
     - name: 'Report HttpTrigger Result'
       shell: pwsh

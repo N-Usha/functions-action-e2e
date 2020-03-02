@@ -1,4 +1,4 @@
-name: WINDOWS_JAVA
+name: WINDOWS_POWERSHELL
 
 on:
   [push]
@@ -11,10 +11,8 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-    AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-java
-    POM_XML_DIRECTORY: 'tests/java'
-    POM_FUNCTIONAPP_NAME: functionAppName
-    JAVA_VERSION: '1.8.x'
+  AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-powershell
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './tests/powershell'
 
 jobs:
   build-and-deploy:
@@ -23,28 +21,13 @@ jobs:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
 
-    - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ env.JAVA_VERSION }}
-
-    - name: 'Restore Project Dependencies Using Mvn'
-      shell: pwsh
-      run: |
-        # If your function app project is not located in your repository's root
-        # Please change your directory for maven build in pushd
-        pushd './${{ env.POM_XML_DIRECTORY }}'
-        mvn clean package
-        mvn azure-functions:package
-        popd
-
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: ${{ secrets.WINDOWS_JAVA }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.WINDOWS_POWERSHELL }}
 
     - name: 'Report HttpTrigger Result'
       shell: pwsh
