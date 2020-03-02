@@ -12,7 +12,7 @@ on:
 # 2. Change these variables for your configuration:
 env:
   AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-lin-con-dotnet
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './tests/dotnet'
   DOTNET_VERSION: '2.2.402'
 
 jobs:

@@ -1,4 +1,4 @@
-name: WINDOWS_DOTNET
+name: LINUX_NODE
 
 on:
   [push]
@@ -11,27 +11,29 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-dotnet
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './tests/dotnet'
-  DOTNET_VERSION: '2.2.402'
+  AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-lin-con-node
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './tests/node'
+  NODE_VERSION: '10.x'
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
 
-    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-      uses: actions/setup-dotnet@v1
+    - name: Setup Node ${{ env.NODE_VERSION }} Environment
+      uses: actions/setup-node@v1
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        node-version: ${{ env.NODE_VERSION }}
 
-    - name: 'Resolve Project Dependencies Using Dotnet'
-      shell: pwsh
+    - name: 'Resolve Project Dependencies Using Npm'
+      shell: bash
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release --output ./output
+        npm install
+        npm run build --if-present
+        npm run test --if-present
         popd
 
     - name: 'Run Azure Functions Action'
@@ -39,8 +41,8 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.WINDOWS_DOTNET }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.LINUX_NODE }}
 
     - name: 'Report HttpTrigger Result'
       shell: pwsh
