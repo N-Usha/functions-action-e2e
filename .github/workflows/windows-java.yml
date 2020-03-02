@@ -1,4 +1,4 @@
-name: LINUX_JAVA
+name: WINDOWS_JAVA
 
 on:
   [push]
@@ -11,14 +11,14 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-lin-con-java
-  POM_XML_DIRECTORY: 'tests/java'
-  POM_FUNCTIONAPP_NAME: functionAppName
-  JAVA_VERSION: '1.8.x'
+    AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-java
+    POM_XML_DIRECTORY: 'tests/java'
+    POM_FUNCTIONAPP_NAME: functionAppName
+    JAVA_VERSION: '1.8.x'
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
@@ -29,7 +29,7 @@ jobs:
         java-version: ${{ env.JAVA_VERSION }}
 
     - name: 'Restore Project Dependencies Using Mvn'
-      shell: bash
+      shell: pwsh
       run: |
         # If your function app project is not located in your repository's root
         # Please change your directory for maven build in pushd
@@ -44,20 +44,6 @@ jobs:
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: ${{ secrets.LINUX_JAVA }}
+        publish-profile: ${{ secrets.WINDOWS_JAVA }}
 
-    - name: 'Report HttpTrigger Result'
-      shell: pwsh
-      run: |
-        $i = 0
-        while ($i -lt 10) {
-          sleep 5
-          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "JFJKDJ")
-          if ($RESULT) {
-            exit 0
-          }
-          $i = $i + 1
-        }
-        exit 1
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
