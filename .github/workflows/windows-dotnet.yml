@@ -1,4 +1,4 @@
-name: WINDOWS_JAVA
+name: WINDOWS_DOTNET
 
 on:
   [push]
@@ -11,10 +11,9 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-    AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-java
-    POM_XML_DIRECTORY: 'tests/java'
-    POM_FUNCTIONAPP_NAME: functionAppName
-    JAVA_VERSION: '1.8.x'
+  AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-dotnet
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  DOTNET_VERSION: '2.2.402'
 
 jobs:
   build-and-deploy:
@@ -23,19 +22,16 @@ jobs:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
 
-    - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-      uses: actions/setup-java@v1
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v1
       with:
-        java-version: ${{ env.JAVA_VERSION }}
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: 'Restore Project Dependencies Using Mvn'
+    - name: 'Resolve Project Dependencies Using Dotnet'
       shell: pwsh
       run: |
-        # If your function app project is not located in your repository's root
-        # Please change your directory for maven build in pushd
-        pushd './${{ env.POM_XML_DIRECTORY }}'
-        mvn clean package
-        mvn azure-functions:package
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
         popd
 
     - name: 'Run Azure Functions Action'
@@ -43,8 +39,8 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: ${{ secrets.WINDOWS_JAVA }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        publish-profile: ${{ secrets.WINDOWS_DOTNET }}
 
     - name: 'Report HttpTrigger Result'
       shell: pwsh
@@ -60,5 +56,4 @@ jobs:
           $i = $i + 1
         }
         exit 1
-
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
