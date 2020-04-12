@@ -1,4 +1,4 @@
-name: WINDOWS_NODE
+name: WINDOWS_NODE_DED
 
 on:
   [push]
@@ -19,6 +19,8 @@ jobs:
   build-and-deploy:
     runs-on: windows-latest
     steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
