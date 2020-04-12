@@ -51,7 +51,7 @@ jobs:
       run: |
         $i = 0
         while ($i -lt 10) {
-          sleep 5
+          sleep 10
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
           $RESULT = ($RESPONSE -eq "WOOEEEWOOAHAH")
           if ($RESULT) {
@@ -91,7 +91,7 @@ jobs:
       run: |
         $i = 0
         while ($i -lt 10) {
-          sleep 5
+          sleep 10
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
           $RESULT = ($RESPONSE -eq "WOOEEEWOOAHAH")
           if ($RESULT) {
@@ -131,7 +131,7 @@ jobs:
       run: |
         $i = 0
         while ($i -lt 10) {
-          sleep 5
+          sleep 10
           $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
           $RESULT = ($RESPONSE -eq "WOOEEEWOOAHAH")
           if ($RESULT) {
