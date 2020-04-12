@@ -12,8 +12,6 @@ on:
 # 2. Change these variables for your configuration:
 env:
   AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-node
-  AZURE_FUNCTIONAPP_NAME_DED: hazeng-fa-github-win-ded-node
-  AZURE_FUNCTIONAPP_NAME_PRE: hazeng-fa-github-win-pre-node
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './tests/node'
   NODE_VERSION: '10.x'
 
@@ -46,86 +44,6 @@ jobs:
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         publish-profile: ${{ secrets.WINDOWS_NODE }}
 
-    - name: 'Report HttpTrigger Result'
-      shell: pwsh
-      run: |
-        $i = 0
-        while ($i -lt 10) {
-          sleep 10
-          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "FUCHUGUOYOUJIDUO")
-          if ($RESULT) {
-            exit 0
-          }
-          $i = $i + 1
-        }
-        exit 1
-
-  build-and-deploy-ded-rbac:
-    runs-on: windows-latest
-    steps:
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.WINDOWS_NODE_DED_RBAC }}
-    - name: Setup Node 10.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - name: 'Resolve Project Dependencies Using Npm'
-      shell: pwsh
-      run: |
-        pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        npm install
-        npm run build --if-present
-        npm run test --if-present
-        popd
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
-      id: fa
-      with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME_DED }}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-    - name: 'Report HttpTrigger Result'
-      shell: pwsh
-      run: |
-        $i = 0
-        while ($i -lt 10) {
-          sleep 10
-          $RESPONSE = $(curl "${{ steps.fa.outputs.app-url }}/api/HttpTrigger")
-          $RESULT = ($RESPONSE -eq "FUCHUGUOYOUJIDUO")
-          if ($RESULT) {
-            exit 0
-          }
-          $i = $i + 1
-        }
-        exit 1
-
-  build-and-deploy-pre-rbac:
-    runs-on: windows-latest
-    steps:
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.WINDOWS_NODE_PRE_RBAC }}
-    - name: Setup Node 10.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - name: 'Resolve Project Dependencies Using Npm'
-      shell: pwsh
-      run: |
-        pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        npm install
-        npm run build --if-present
-        npm run test --if-present
-        popd
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@dev
-      id: fa
-      with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME_PRE }}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
     - name: 'Report HttpTrigger Result'
       shell: pwsh
       run: |
