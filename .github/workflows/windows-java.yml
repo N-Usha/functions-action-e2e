@@ -12,7 +12,7 @@ on:
 # 2. Change these variables for your configuration:
 env:
     AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-java
-    POM_XML_DIRECTORY: 'tests/java'
+    POM_XML_DIRECTORY: './tests/java'
     POM_FUNCTIONAPP_NAME: functionAppName
     JAVA_VERSION: '1.8.x'
 
@@ -33,7 +33,7 @@ jobs:
       run: |
         # If your function app project is not located in your repository's root
         # Please change your directory for maven build in pushd
-        pushd './${{ env.POM_XML_DIRECTORY }}'
+        pushd '${{ env.POM_XML_DIRECTORY }}'
         mvn clean package
         mvn azure-functions:package
         popd
