@@ -11,7 +11,7 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: hazeng-fa-github-win-con-dotnet
+  AZURE_FUNCTIONAPP_NAME: dotnetFunctionApp
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './tests/dotnet'
   DOTNET_VERSION: '2.2.402'
 
@@ -33,6 +33,11 @@ jobs:
         pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         dotnet build --configuration Release --output ./output
         popd
+        
+    - name: Azure Login
+      uses: Azure/login@v1.1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
@@ -40,7 +45,7 @@ jobs:
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.WINDOWS_DOTNET }}
+      #  publish-profile: ${{ secrets.WINDOWS_DOTNET }}
 
     - name: 'Report HttpTrigger Result'
       shell: pwsh
